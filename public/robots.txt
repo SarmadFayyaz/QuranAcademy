@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://quranacademy.vercel.app/sitemap.xml
