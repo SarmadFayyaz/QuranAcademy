@@ -1,8 +1,9 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { useState } from "react";
-import { Menu, X, BookOpen, Phone } from "lucide-react";
+import { Menu, X, Phone } from "lucide-react";
 
 const navLinks = [
   { href: "/", label: "Home" },
@@ -36,9 +37,13 @@ export default function Navbar() {
       {/* Main nav */}
       <nav className="max-w-7xl mx-auto flex items-center justify-between px-4 py-3">
         <Link href="/" className="flex items-center gap-3 group">
-          <div className="w-10 h-10 bg-gradient-to-br from-primary-600 to-primary-800 rounded-xl flex items-center justify-center shadow-md group-hover:shadow-lg transition-shadow">
-            <BookOpen className="text-white" size={22} />
-          </div>
+          <Image
+            src="/assets/images/logo.jpg"
+            alt="Hasnain Online Quran Academy"
+            width={44}
+            height={44}
+            className="rounded-xl shadow-md group-hover:shadow-lg transition-shadow"
+          />
           <div>
             <span className="text-xl font-bold text-primary-800 font-heading tracking-tight">
               Hasnain Online

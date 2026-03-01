@@ -1,5 +1,6 @@
 import Link from "next/link";
-import { BookOpen, Mail, Phone, MapPin } from "lucide-react";
+import Image from "next/image";
+import { Mail, Phone, MapPin } from "lucide-react";
 
 const quickLinks = [
   { href: "/", label: "Home" },
@@ -24,9 +25,13 @@ export default function Footer() {
           {/* Brand */}
           <div>
             <Link href="/" className="flex items-center gap-3 mb-4">
-              <div className="w-10 h-10 bg-gradient-to-br from-primary-500 to-primary-700 rounded-xl flex items-center justify-center">
-                <BookOpen className="text-white" size={22} />
-              </div>
+              <Image
+                src="/assets/images/logo.jpg"
+                alt="Hasnain Online Quran Academy"
+                width={44}
+                height={44}
+                className="rounded-xl"
+              />
               <div>
                 <span className="text-lg font-bold text-white font-heading">
                   Hasnain Online
