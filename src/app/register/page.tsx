@@ -23,9 +23,41 @@ const courses = [
 
 export default function RegisterPage() {
   const [submitted, setSubmitted] = useState(false);
+  const [form, setForm] = useState({
+    name: "",
+    email: "",
+    phone: "",
+    country: "",
+    course: "",
+    time: "",
+    message: "",
+  });
+
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
+  ) => {
+    setForm({ ...form, [e.target.name]: e.target.value });
+  };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+
+    const lines = [
+      "📚 *New Registration — Hasnain Online Quran Academy*",
+      "",
+      `👤 *Name:* ${form.name}`,
+      `📧 *Email:* ${form.email}`,
+      `📱 *Phone:* ${form.phone}`,
+      `🌍 *Country:* ${form.country}`,
+      `📖 *Course:* ${form.course}`,
+      form.time ? `🕐 *Preferred Time:* ${form.time}` : "",
+      form.message ? `💬 *Message:* ${form.message}` : "",
+    ]
+      .filter(Boolean)
+      .join("\n");
+
+    const waUrl = `https://wa.me/923105175338?text=${encodeURIComponent(lines)}`;
+    window.open(waUrl, "_blank");
     setSubmitted(true);
   };
 
@@ -90,6 +122,9 @@ export default function RegisterPage() {
                         <User size={18} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
                         <input
                           type="text"
+                          name="name"
+                          value={form.name}
+                          onChange={handleChange}
                           required
                           placeholder="Your full name"
                           className="w-full pl-10 pr-4 py-3 rounded-xl border border-gray-200 focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 outline-none transition text-sm"
@@ -104,6 +139,9 @@ export default function RegisterPage() {
                         <Mail size={18} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
                         <input
                           type="email"
+                          name="email"
+                          value={form.email}
+                          onChange={handleChange}
                           required
                           placeholder="your@email.com"
                           className="w-full pl-10 pr-4 py-3 rounded-xl border border-gray-200 focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 outline-none transition text-sm"
@@ -121,6 +159,9 @@ export default function RegisterPage() {
                         <Phone size={18} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
                         <input
                           type="tel"
+                          name="phone"
+                          value={form.phone}
+                          onChange={handleChange}
                           required
                           placeholder="+1 234 567 890"
                           className="w-full pl-10 pr-4 py-3 rounded-xl border border-gray-200 focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 outline-none transition text-sm"
@@ -135,6 +176,9 @@ export default function RegisterPage() {
                         <Globe size={18} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
                         <input
                           type="text"
+                          name="country"
+                          value={form.country}
+                          onChange={handleChange}
                           required
                           placeholder="Your country"
                           className="w-full pl-10 pr-4 py-3 rounded-xl border border-gray-200 focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 outline-none transition text-sm"
@@ -148,6 +192,9 @@ export default function RegisterPage() {
                       Select Course
                     </label>
                     <select
+                      name="course"
+                      value={form.course}
+                      onChange={handleChange}
                       required
                       className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 outline-none transition text-sm text-gray-700 bg-white"
                     >
@@ -165,6 +212,9 @@ export default function RegisterPage() {
                       Preferred Time
                     </label>
                     <select
+                      name="time"
+                      value={form.time}
+                      onChange={handleChange}
                       className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 outline-none transition text-sm text-gray-700 bg-white"
                     >
                       <option value="">Select preferred timing...</option>
@@ -180,6 +230,9 @@ export default function RegisterPage() {
                       Message (Optional)
                     </label>
                     <textarea
+                      name="message"
+                      value={form.message}
+                      onChange={handleChange}
                       rows={3}
                       placeholder="Any special requirements or questions..."
                       className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 outline-none transition text-sm resize-none"
