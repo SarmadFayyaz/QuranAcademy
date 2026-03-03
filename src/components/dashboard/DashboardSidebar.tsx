@@ -8,6 +8,7 @@ import {
   UserCheck,
   User,
   ClipboardList,
+  FileText,
 } from "lucide-react";
 import type { UserRole } from "@/lib/supabase/types";
 
@@ -20,6 +21,7 @@ const navByRole: Record<
     { href: "/dashboard/users", label: "Manage Users", icon: Users },
     { href: "/dashboard/assignments", label: "Assignments", icon: UserCheck },
     { href: "/dashboard/trials", label: "Free Trials", icon: ClipboardList },
+    { href: "/dashboard/blog", label: "Blog Posts", icon: FileText },
     { href: "/dashboard/profile", label: "My Profile", icon: User },
   ],
   supervisor: [
@@ -27,6 +29,7 @@ const navByRole: Record<
     { href: "/dashboard/users", label: "Manage Users", icon: Users },
     { href: "/dashboard/assignments", label: "Assignments", icon: UserCheck },
     { href: "/dashboard/trials", label: "Free Trials", icon: ClipboardList },
+    { href: "/dashboard/blog", label: "Blog Posts", icon: FileText },
     { href: "/dashboard/profile", label: "My Profile", icon: User },
   ],
   teacher: [

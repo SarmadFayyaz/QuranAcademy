@@ -4,15 +4,40 @@ import Link from "next/link";
 import Image from "next/image";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { Menu, X, Phone, UserPlus, LogIn, LogOut, LayoutDashboard } from "lucide-react";
+import { Menu, X, UserPlus, LogIn, LogOut, LayoutDashboard, Home, Info, GraduationCap, FileText, HelpCircle, ClipboardList } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
 import type { User } from "@supabase/supabase-js";
 
+const PakistanFlag = () => (
+  <svg viewBox="0 0 900 600" className="w-7 h-5 rounded-[3px] shadow-sm shrink-0 border border-gray-200">
+    <rect fill="#01411C" width="900" height="600"/>
+    <rect fill="#fff" width="225" height="600"/>
+    <circle cx="517" cy="300" r="148" fill="#fff"/>
+    <circle cx="547" cy="300" r="118" fill="#01411C"/>
+    <polygon fill="#fff" points="650,180 665,233 720,233 676,265 691,318 650,286 609,318 624,265 580,233 635,233"/>
+  </svg>
+);
+
+const USFlag = () => (
+  <svg viewBox="0 0 1235 650" className="w-7 h-5 rounded-[3px] shadow-sm shrink-0 border border-gray-200">
+    <rect fill="#B22234" width="1235" height="650"/>
+    <rect y="50" fill="#fff" width="1235" height="50"/>
+    <rect y="150" fill="#fff" width="1235" height="50"/>
+    <rect y="250" fill="#fff" width="1235" height="50"/>
+    <rect y="350" fill="#fff" width="1235" height="50"/>
+    <rect y="450" fill="#fff" width="1235" height="50"/>
+    <rect y="550" fill="#fff" width="1235" height="50"/>
+    <rect fill="#3C3B6E" width="494" height="350"/>
+  </svg>
+);
+
 const navLinks = [
-  { href: "/", label: "Home" },
-  { href: "/about", label: "About Us" },
-  { href: "/teachers", label: "Teachers" },
-  { href: "/register", label: "Register Now" },
+  { href: "/", label: "Home", icon: Home },
+  { href: "/about", label: "About Us", icon: Info },
+  { href: "/teachers", label: "Teachers", icon: GraduationCap },
+  { href: "/blog", label: "Blog", icon: FileText },
+  { href: "/help-support", label: "Help & Support", icon: HelpCircle },
+  { href: "/register", label: "Register Now", icon: ClipboardList },
 ];
 
 export default function Navbar() {
@@ -56,19 +81,18 @@ export default function Navbar() {
           {/* Center — phone & actions */}
           <div className="hidden md:flex items-center gap-6">
             <a
-              href="tel:+923105175338"
-              className="flex items-center gap-2 text-primary-600 font-semibold hover:text-primary-700 transition"
+              href="tel:+923405245553"
+              className="flex items-center gap-2.5 text-gray-800 font-semibold hover:text-primary-600 transition"
             >
-              <Phone size={16} />
-              +92 310 517 5338
+              <PakistanFlag />
+              +92 3405245553
             </a>
-            <span className="text-gray-300">|</span>
             <a
-              href="tel:+447916632814"
-              className="flex items-center gap-2 text-gray-500 text-sm hover:text-primary-600 transition"
+              href="tel:+14157256147"
+              className="flex items-center gap-2.5 text-gray-800 font-semibold hover:text-primary-600 transition"
             >
-              <Phone size={14} />
-              UK: +44 7916 632814
+              <USFlag />
+              +1 (415) 725-6147
             </a>
             <span className="text-gray-300">|</span>
             <Link
@@ -144,13 +168,14 @@ export default function Navbar() {
       {/* Nav bar — teal */}
       <nav className="bg-primary-600 text-white shadow-md">
         <div className="max-w-7xl mx-auto px-4">
-          <div className="hidden md:flex items-center gap-1 py-0">
+          <div className="hidden md:flex items-center justify-center gap-2 py-0">
             {navLinks.map((l) => (
               <Link
                 key={l.href}
                 href={l.href}
-                className="px-5 py-3.5 text-sm font-medium hover:bg-primary-700 transition-colors"
+                className="flex items-center gap-1.5 px-5 py-3.5 text-sm font-medium hover:bg-primary-700 transition-colors"
               >
+                <l.icon size={15} />
                 {l.label}
               </Link>
             ))}
@@ -204,9 +229,15 @@ export default function Navbar() {
                 Student Login
               </Link>
             )}
-            <div className="flex items-center justify-center gap-2 text-sm text-gray-500 pt-1">
-              <Phone size={14} />
-              +92 310 517 5338
+            <div className="flex items-center justify-center gap-4 text-sm pt-1">
+              <a href="tel:+923405245553" className="flex items-center gap-1.5 text-gray-700 font-medium">
+                <PakistanFlag />
+                +92 3405245553
+              </a>
+              <a href="tel:+14157256147" className="flex items-center gap-1.5 text-gray-700 font-medium">
+                <USFlag />
+                +1 (415) 725-6147
+              </a>
             </div>
           </div>
         </div>

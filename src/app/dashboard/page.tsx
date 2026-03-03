@@ -1,7 +1,7 @@
 import { redirect } from "next/navigation";
 import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
-import { Users, UserCheck, User, BookOpen, ClipboardList } from "lucide-react";
+import { Users, UserCheck, User, BookOpen, ClipboardList, FileText } from "lucide-react";
 import type { Profile } from "@/lib/supabase/types";
 
 export default async function DashboardPage() {
@@ -48,6 +48,13 @@ export default async function DashboardPage() {
         title: "Free Trials",
         desc: "View trial requests and convert to students.",
         color: "bg-green-100 text-green-600",
+      },
+      {
+        href: "/dashboard/blog",
+        icon: FileText,
+        title: "Blog Posts",
+        desc: "Create and manage blog articles.",
+        color: "bg-purple-100 text-purple-600",
       }
     );
   }

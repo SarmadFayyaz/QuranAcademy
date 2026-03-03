@@ -19,7 +19,7 @@ export default function CountryPhoneFields({
   phone,
   onChange,
   inputClass = "w-full pl-10 pr-4 py-3 rounded-xl border border-gray-200 focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 outline-none transition text-sm",
-  iconClass = "absolute left-3 top-1/2 -translate-y-1/2 text-gray-400",
+  iconClass = "absolute left-3 top-1/2 -translate-y-1/2 text-primary-400",
   required = true,
 }: CountryPhoneFieldsProps) {
   const selectedCountry = findCountryByCode(country);
@@ -63,7 +63,7 @@ function CountrySelect({
   value,
   onChange,
   inputClass = "w-full pl-10 pr-4 py-3 rounded-xl border border-gray-200 focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 outline-none transition text-sm",
-  iconClass = "absolute left-3 top-1/2 -translate-y-1/2 text-gray-400",
+  iconClass = "absolute left-3 top-1/2 -translate-y-1/2 text-primary-400",
   required = true,
 }: CountrySelectProps) {
   const [search, setSearch] = useState("");
@@ -181,7 +181,7 @@ function PhoneInput({
   onChange,
   mask,
   inputClass = "w-full pl-10 pr-4 py-3 rounded-xl border border-gray-200 focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 outline-none transition text-sm",
-  iconClass = "absolute left-3 top-1/2 -translate-y-1/2 text-gray-400",
+  iconClass = "absolute left-3 top-1/2 -translate-y-1/2 text-primary-400",
   required = true,
 }: PhoneInputProps) {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {

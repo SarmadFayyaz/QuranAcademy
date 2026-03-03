@@ -1,50 +1,50 @@
 import type { Metadata } from "next";
-import { Eye, Heart, Headphones, Lightbulb, Target, Shield, Users, ArrowRight, BookOpen, Globe, Award, Clock } from "lucide-react";
+import { Eye, Heart, GraduationCap, Target, Users, ArrowRight, BookOpen, Globe, Award, Clock, Monitor, ChevronRight, CheckCircle2 } from "lucide-react";
 import Link from "next/link";
 import { createAdminClient } from "@/lib/supabase/admin";
+import HeroContactForm from "@/components/HeroContactForm";
 
 export const metadata: Metadata = {
   title: "About Us",
   description:
-    "Learn about Hasnain Online Quran Academy — founded in 2018, serving 5,000+ students across 50+ countries with certified Quran teachers.",
+    "Learn about Hasnain Online Quran Academy — founded in 2018, serving 5,000+ students across 100+ countries with certified Quran teachers.",
   alternates: { canonical: "/about" },
 };
 
-const pillars = [
-  {
-    icon: Eye,
-    title: "Our Vision",
-    desc: "To become the world's leading online Quran academy, making authentic Islamic education accessible to every Muslim regardless of location or background.",
-  },
-  {
-    icon: Heart,
-    title: "Our Values",
-    desc: "Rooted in Islamic principles — we emphasize knowledge, patience, sincerity, and excellence in everything we do.",
-  },
-  {
-    icon: Headphones,
-    title: "Our Support",
-    desc: "A dedicated multilingual support team available around the clock to ensure smooth learning experiences for every student.",
-  },
-  {
-    icon: Lightbulb,
-    title: "Our Method",
-    desc: "Time-tested Tajweed teaching methodology combined with modern interactive technology for the best learning outcomes.",
-  },
+const whyChoose = [
+  { icon: GraduationCap, title: "Expert Tutors", desc: "Highly qualified and experienced Ijazah-certified instructors who bring years of teaching expertise to every lesson." },
+  { icon: Clock, title: "Flexible Learning", desc: "Online classes that fit your schedule, allowing you to learn at your own pace from anywhere in the world." },
+  { icon: BookOpen, title: "Comprehensive Curriculum", desc: "A wide range of courses covering various aspects of Quranic and Islamic studies for all levels." },
+  { icon: Monitor, title: "Interactive Learning", desc: "Engaging one-on-one live sessions with multimedia resources for the best learning outcomes." },
+  { icon: Users, title: "Community Support", desc: "Join a supportive community of learners and educators dedicated to your spiritual growth." },
 ];
 
-const staticTimeline = [
-  { year: "2018", title: "Founded", desc: "Started with a vision to make Quran education accessible worldwide." },
-  { year: "2019", title: "100 Students", desc: "Reached our first milestone of 100 enrolled students from 10 countries." },
-  { year: "2021", title: "Global Reach", desc: "Expanded to serve students in 30+ countries with 50+ teachers." },
-  { year: "2024", title: "5,000+ Students", desc: "" },
+const regularCourses = [
+  "Noorani Qaida Online",
+  "Quran Reading with Tajweed",
+  "Quran Memorization (Hifz)",
+  "Learn Tafsir Online",
+  "Learn Arabic Online",
+  "Islamic Studies Online",
+  "Taleem ul Islam",
+  "Online Ijazah Course",
+  "Quranic Arabic Course",
 ];
 
-const values = [
-  { icon: Target, title: "Excellence", desc: "We strive for the highest standards in Quran education and student outcomes." },
-  { icon: Shield, title: "Authenticity", desc: "Preserving traditional Islamic scholarship with Ijazah-certified instruction." },
-  { icon: Users, title: "Inclusivity", desc: "Making quality Quran education accessible and affordable for every family." },
-  { icon: Clock, title: "Flexibility", desc: "Adapting to our students' schedules with 24/7 class availability." },
+const academicCourses = [
+  "Quran Translation Course",
+  "Mathematics",
+  "English",
+  "Urdu",
+  "Science",
+  "Other Subjects (On Request)",
+];
+
+const steps = [
+  { num: "01", title: "Register & Get Started", desc: "Create your free account and join thousands of students already learning with us." },
+  { num: "02", title: "Choose Your Course", desc: "Select from our comprehensive range of Quranic, Islamic, and academic courses." },
+  { num: "03", title: "Start Interactive Learning", desc: "Begin your personalized one-on-one learning experience with a certified tutor." },
+  { num: "04", title: "Achieve Your Goals", desc: "Track your progress, complete milestones, and receive certificates upon completion." },
 ];
 
 export default async function AboutPage() {
@@ -56,12 +56,6 @@ export default async function AboutPage() {
 
   const tCount = `${teacherCount || 0}+`;
 
-  const timeline = staticTimeline.map((t) =>
-    t.year === "2024"
-      ? { ...t, desc: `Growing community of learners across 50+ countries with ${tCount} certified teachers.` }
-      : t
-  );
-
   return (
     <>
       {/* Hero */}
@@ -69,14 +63,13 @@ export default async function AboutPage() {
         <div className="absolute inset-0 pattern-overlay" />
         <div className="relative max-w-4xl mx-auto px-4 py-24 md:py-32 text-center">
           <span className="inline-block px-4 py-1.5 rounded-full bg-white/10 text-gold-300 text-sm font-medium mb-6 border border-white/10">
-            ✦ Our Story
+            About Us
           </span>
           <h1 className="text-4xl md:text-6xl font-bold font-heading mb-6">
-            About <span className="text-gold-400">Our Academy</span>
+            Welcome to <span className="text-gold-400">Hasnain Online Quran Academy</span>
           </h1>
           <p className="text-white/70 text-lg max-w-2xl mx-auto">
-            Dedicated to spreading the light of Quranic knowledge across the
-            globe through technology and tradition.
+            Dedicated to delivering high-quality Islamic education through comprehensive online courses, making Quranic and Islamic studies accessible to everyone, regardless of location.
           </p>
         </div>
         <div className="absolute bottom-0 left-0 right-0">
@@ -86,116 +79,158 @@ export default async function AboutPage() {
         </div>
       </section>
 
-      {/* Who We Are */}
+      {/* Main 2/3 + 1/3 Layout */}
       <section className="section-padding bg-white">
-        <div className="max-w-6xl mx-auto">
-          <div className="grid lg:grid-cols-2 gap-14 items-center">
+        <div className="max-w-7xl mx-auto flex flex-col lg:flex-row gap-10">
+
+          {/* ── Left Content Column (2/3) ── */}
+          <div className="lg:w-2/3 space-y-16">
+
+            {/* Mission & Vision */}
             <div>
-              <h2 className="text-3xl md:text-4xl font-bold font-heading text-gray-900 mb-5">
-                Who <span className="text-primary-600">We Are</span>
-              </h2>
-              <p className="text-gray-600 leading-relaxed mb-4">
-                Hasnain Online Quran Academy is a premier online Islamic education
-                platform serving thousands of students worldwide. Founded with a
-                passion for making authentic Quran education accessible to all, we
-                connect students with certified scholars for personalized
-                one-on-one learning.
-              </p>
-              <p className="text-gray-600 leading-relaxed mb-6">
-                Our academy combines the richness of traditional Islamic
-                scholarship with the convenience of modern technology. Whether
-                you&apos;re a beginner learning to read the Quran or an advanced
-                student pursuing Hifz, we have the right course and teacher for
-                you.
-              </p>
-              <div className="grid grid-cols-2 gap-4">
-                {[
-                  { icon: Globe, label: "50+ Countries" },
-                  { icon: Users, label: "5,000+ Students" },
-                  { icon: Award, label: `${tCount} Teachers` },
-                  { icon: BookOpen, label: "50+ Courses" },
-                ].map((s, i) => (
-                  <div key={i} className="flex items-center gap-3 p-3 rounded-xl bg-primary-50">
-                    <s.icon className="text-primary-600" size={20} />
-                    <span className="font-semibold text-gray-800 text-sm">{s.label}</span>
+              <h2 className="text-2xl md:text-3xl font-bold font-heading text-gray-900 mb-2">Our Mission <span className="text-primary-600">&amp; Vision</span></h2>
+              <p className="text-gray-500 mb-8">Guided by faith, driven by purpose.</p>
+              <div className="grid sm:grid-cols-2 gap-6">
+                <div className="fade-up p-7 rounded-2xl bg-gradient-to-br from-primary-50 to-white border border-primary-100 hover:shadow-lg transition-all duration-300">
+                  <div className="w-12 h-12 rounded-xl bg-primary-100 flex items-center justify-center mb-4">
+                    <Target className="text-primary-600" size={24} />
+                  </div>
+                  <h3 className="text-lg font-bold text-gray-900 mb-2">Our Mission</h3>
+                  <p className="text-gray-600 text-sm leading-relaxed">
+                    To spread the knowledge of Islam and the teachings of the Quran to people worldwide. We provide an interactive and engaging learning experience that fosters a deeper understanding of Islamic principles and practices through certified, one-on-one instruction.
+                  </p>
+                </div>
+                <div className="fade-up p-7 rounded-2xl bg-gradient-to-br from-gold-50 to-white border border-gold-100 hover:shadow-lg transition-all duration-300">
+                  <div className="w-12 h-12 rounded-xl bg-gold-100 flex items-center justify-center mb-4">
+                    <Eye className="text-gold-600" size={24} />
+                  </div>
+                  <h3 className="text-lg font-bold text-gray-900 mb-2">Our Vision</h3>
+                  <p className="text-gray-600 text-sm leading-relaxed">
+                    To become the leading online platform for Islamic education, recognized for our commitment to excellence and authenticity. We envision a world where every Muslim has access to quality Quranic education regardless of their location or background.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            {/* Why Choose Us */}
+            <div>
+              <h2 className="text-2xl md:text-3xl font-bold font-heading text-gray-900 mb-2">Why Choose <span className="text-primary-600">Our Academy?</span></h2>
+              <p className="text-gray-500 mb-8">What sets us apart in online Islamic education.</p>
+              <div className="space-y-4">
+                {whyChoose.map((item, i) => (
+                  <div key={i} className="fade-up flex gap-5 p-5 rounded-2xl bg-gray-50 border border-gray-100 hover:shadow-md transition-all duration-300">
+                    <div className="w-12 h-12 rounded-xl bg-primary-50 flex items-center justify-center shrink-0">
+                      <item.icon className="text-primary-600" size={24} />
+                    </div>
+                    <div>
+                      <h3 className="font-bold text-gray-900 mb-1">{item.title}</h3>
+                      <p className="text-gray-500 text-sm leading-relaxed">{item.desc}</p>
+                    </div>
                   </div>
                 ))}
               </div>
             </div>
-            <div className="relative">
-              <div className="aspect-[4/3] rounded-2xl bg-gradient-to-br from-primary-100 to-primary-200 flex items-center justify-center overflow-hidden">
-                <div className="text-center p-8">
-                  <BookOpen className="mx-auto text-primary-600 mb-4" size={64} />
-                  <p className="text-primary-700 font-heading text-2xl font-bold">
-                    &ldquo;The best among you are those who learn the Quran and teach it.&rdquo;
-                  </p>
-                  <p className="text-primary-600 mt-2 text-sm">— Prophet Muhammad (PBUH)</p>
+
+            {/* Our Courses */}
+            <div>
+              <h2 className="text-2xl md:text-3xl font-bold font-heading text-gray-900 mb-2">Our <span className="text-primary-600">Courses</span></h2>
+              <p className="text-gray-500 mb-8">We offer a variety of courses to meet your learning needs.</p>
+              <div className="grid sm:grid-cols-2 gap-6">
+                <div className="fade-up p-6 rounded-2xl bg-primary-50/50 border border-primary-100">
+                  <h3 className="text-base font-bold text-gray-900 mb-4 flex items-center gap-2">
+                    <BookOpen className="text-primary-600" size={20} />
+                    Quran &amp; Islamic Courses
+                  </h3>
+                  <ul className="space-y-2.5">
+                    {regularCourses.map((c, i) => (
+                      <li key={i} className="flex items-center gap-3 text-gray-700 text-sm">
+                        <CheckCircle2 className="text-primary-500 shrink-0" size={16} />
+                        {c}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+                <div className="fade-up p-6 rounded-2xl bg-gold-50/50 border border-gold-100">
+                  <h3 className="text-base font-bold text-gray-900 mb-4 flex items-center gap-2">
+                    <GraduationCap className="text-gold-600" size={20} />
+                    Academic Courses
+                  </h3>
+                  <ul className="space-y-2.5">
+                    {academicCourses.map((c, i) => (
+                      <li key={i} className="flex items-center gap-3 text-gray-700 text-sm">
+                        <CheckCircle2 className="text-gold-500 shrink-0" size={16} />
+                        {c}
+                      </li>
+                    ))}
+                  </ul>
                 </div>
               </div>
-              <div className="absolute -bottom-4 -right-4 w-24 h-24 bg-gold-400 rounded-2xl -z-10" />
+            </div>
+
+            {/* Our Approach */}
+            <div>
+              <h2 className="text-2xl md:text-3xl font-bold font-heading text-gray-900 mb-2">Our <span className="text-primary-600">Approach</span></h2>
+              <p className="text-gray-500 mb-8">How we deliver the best Islamic education online.</p>
+              <div className="fade-up bg-gray-50 p-7 rounded-2xl border border-gray-100">
+                <div className="w-14 h-14 rounded-full bg-primary-50 flex items-center justify-center mb-5">
+                  <Heart className="text-primary-600" size={26} />
+                </div>
+                <p className="text-gray-600 leading-relaxed mb-4">
+                  We believe in a holistic approach to Islamic education. Our courses are designed to provide a comprehensive understanding of Islamic teachings, blending traditional knowledge with modern educational methods.
+                </p>
+                <p className="text-gray-600 leading-relaxed mb-4">
+                  We emphasize the importance of understanding the context and application of Islamic principles in everyday life. Our qualified scholars ensure that each student receives personalized attention and guidance.
+                </p>
+                <p className="text-gray-500 leading-relaxed text-sm">
+                  Whether you are a beginner learning to read the Quran or an advanced student pursuing Hifz or Ijazah certification, our academy combines the richness of traditional Islamic scholarship with the convenience of modern technology to help you succeed.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          {/* ── Right Sidebar — Sticky Register Form (1/3) ── */}
+          <div className="lg:w-1/3">
+            <div className="lg:sticky lg:top-24">
+              <HeroContactForm />
             </div>
           </div>
         </div>
       </section>
 
-      {/* Pillars */}
-      <section className="section-padding bg-gray-50">
-        <div className="max-w-6xl mx-auto">
-          <h2 className="section-title">Our <span className="text-primary-600">Foundation</span></h2>
-          <p className="section-subtitle">The four pillars that drive our mission and guide our work.</p>
-          <div className="grid sm:grid-cols-2 gap-6">
-            {pillars.map((p, i) => (
-              <div key={i} className="fade-up flex gap-5 p-7 rounded-2xl bg-white border border-gray-100 hover:shadow-lg transition-all duration-300">
-                <div className="w-14 h-14 rounded-xl bg-primary-50 flex items-center justify-center shrink-0">
-                  <p.icon className="text-primary-600" size={26} />
-                </div>
-                <div>
-                  <h3 className="font-bold text-gray-900 text-lg mb-2">{p.title}</h3>
-                  <p className="text-gray-500 text-sm leading-relaxed">{p.desc}</p>
-                </div>
-              </div>
-            ))}
-          </div>
+      {/* Stats Strip */}
+      <section className="bg-primary-600 py-12">
+        <div className="max-w-6xl mx-auto px-4 grid grid-cols-2 md:grid-cols-4 gap-8 text-center text-white">
+          {[
+            { value: "5,000+", label: "Students Worldwide", icon: Users },
+            { value: "100+", label: "Countries", icon: Globe },
+            { value: tCount, label: "Certified Teachers", icon: Award },
+            { value: "50+", label: "Courses Offered", icon: BookOpen },
+          ].map((s, i) => (
+            <div key={i} className="fade-up">
+              <s.icon className="mx-auto mb-3 text-gold-300" size={30} />
+              <div className="text-3xl md:text-4xl font-bold font-heading">{s.value}</div>
+              <div className="text-white/70 text-sm mt-1">{s.label}</div>
+            </div>
+          ))}
         </div>
       </section>
 
-      {/* Timeline */}
+      {/* Steps to Learn */}
       <section className="section-padding bg-white">
-        <div className="max-w-3xl mx-auto">
-          <h2 className="section-title">Our <span className="text-primary-600">Journey</span></h2>
-          <p className="section-subtitle">Key milestones in our growth story.</p>
-          <div className="relative">
-            <div className="absolute left-8 top-0 bottom-0 w-0.5 bg-primary-100" />
-            <div className="space-y-10">
-              {timeline.map((t, i) => (
-                <div key={i} className="fade-up relative flex gap-6 items-start">
-                  <div className="w-16 h-16 rounded-full bg-primary-600 text-white font-bold text-sm flex items-center justify-center shrink-0 shadow-lg shadow-primary-600/20 z-10">
-                    {t.year}
-                  </div>
-                  <div className="pt-3">
-                    <h3 className="font-bold text-gray-900 text-lg">{t.title}</h3>
-                    <p className="text-gray-500 text-sm">{t.desc}</p>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Core Values */}
-      <section className="section-padding bg-gray-50">
         <div className="max-w-6xl mx-auto">
-          <h2 className="section-title">Core <span className="text-primary-600">Values</span></h2>
-          <p className="section-subtitle">The principles that define who we are.</p>
+          <h2 className="section-title">Steps to <span className="text-primary-600">Learn with Us</span></h2>
+          <p className="section-subtitle">Start your Quran learning journey in four simple steps.</p>
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {values.map((v, i) => (
-              <div key={i} className="fade-up text-center p-6 rounded-2xl bg-white border border-gray-100 hover:shadow-lg transition-all">
-                <div className="w-14 h-14 rounded-xl bg-gold-50 flex items-center justify-center mx-auto mb-4">
-                  <v.icon className="text-gold-600" size={26} />
+            {steps.map((s, i) => (
+              <div key={i} className="fade-up relative text-center p-6 rounded-2xl bg-white border border-gray-100 hover:shadow-lg hover:border-primary-200 transition-all duration-300 group">
+                <div className="w-14 h-14 rounded-full bg-primary-600 text-white text-lg font-bold flex items-center justify-center mx-auto mb-4 group-hover:bg-primary-700 transition-colors">
+                  {s.num}
                 </div>
-                <h3 className="font-bold text-gray-900 mb-2">{v.title}</h3>
-                <p className="text-gray-500 text-sm leading-relaxed">{v.desc}</p>
+                <h3 className="font-bold text-gray-900 mb-2">{s.title}</h3>
+                <p className="text-gray-500 text-sm leading-relaxed">{s.desc}</p>
+                {i < steps.length - 1 && (
+                  <ChevronRight className="hidden lg:block absolute -right-3 top-1/2 -translate-y-1/2 text-primary-300" size={24} />
+                )}
               </div>
             ))}
           </div>
@@ -210,7 +245,7 @@ export default async function AboutPage() {
             Join Our <span className="text-gold-400">Community</span>
           </h2>
           <p className="text-white/60 text-lg mb-8">
-            Become part of a global family of Quran learners. Start your free trial today.
+            Ready to learn from the best? Enroll now and start your journey with Hasnain Online Quran Academy!
           </p>
           <Link href="/register" className="btn-gold text-lg !px-10 !py-4">
             Register Now <ArrowRight className="ml-2" size={20} />

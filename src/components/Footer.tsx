@@ -6,6 +6,8 @@ const quickLinks = [
   { href: "/", label: "Home" },
   { href: "/about", label: "About Us" },
   { href: "/teachers", label: "Our Teachers" },
+  { href: "/blog", label: "Blog" },
+  { href: "/help-support", label: "Help & Support" },
   { href: "/register", label: "Register Now" },
 ];
 
@@ -13,8 +15,8 @@ const courses = [
   "Quran Recitation & Tajweed",
   "Quran Memorization (Hifz)",
   "Mathematics",
-  "English Language",
-  "Urdu Language",
+  "English",
+  "Urdu",
   "Other Subjects",
 ];
 
@@ -83,11 +85,11 @@ export default function Footer() {
             <ul className="space-y-3">
               <li className="flex items-start gap-3 text-sm">
                 <Phone size={16} className="text-gold-400 mt-0.5 shrink-0" />
-                +92 310 517 5338 (WhatsApp)
+                +92 3405245553 (WhatsApp)
               </li>
               <li className="flex items-start gap-3 text-sm">
                 <Phone size={16} className="text-gold-400 mt-0.5 shrink-0" />
-                +44 7916 632814 (UK)
+                +1 (415) 725-6147 (USA)
               </li>
               <li className="flex items-start gap-3 text-sm">
                 <Mail size={16} className="text-gold-400 mt-0.5 shrink-0" />

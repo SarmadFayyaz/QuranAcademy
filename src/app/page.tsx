@@ -17,6 +17,9 @@ import {
   BarChart3,
   Headphones,
   Shield,
+  Percent,
+  LayoutGrid,
+  Clock,
 } from "lucide-react";
 import HeroContactForm from "@/components/HeroContactForm";
 import { createAdminClient } from "@/lib/supabase/admin";
@@ -30,19 +33,28 @@ export const metadata: Metadata = {
 
 /* ─── Data ─── */
 const courses = [
-  { image: "/assets/images/courses/quran-recitation.svg", title: "Quran Recitation & Tajweed", desc: "Master Quran recitation with proper Tajweed rules under expert guidance.", primary: true },
-  { image: "/assets/images/courses/quran-memorization.svg", title: "Quran Memorization (Hifz)", desc: "Structured Hifz program with dedicated teachers to memorize the Holy Quran.", primary: true },
-  { image: "/assets/images/courses/mathematics.svg", title: "Mathematics", desc: "Expert tutoring in Mathematics for all levels — from basics to advanced.", primary: false },
-  { image: "/assets/images/courses/english.svg", title: "English Language", desc: "Improve your English reading, writing, and speaking skills with qualified tutors.", primary: false },
-  { image: "/assets/images/courses/urdu.svg", title: "Urdu Language", desc: "Learn Urdu reading and writing with experienced language teachers.", primary: false },
-  { image: "/assets/images/courses/other-subjects.svg", title: "Other Subjects", desc: "Additional academic subjects available on request. Contact us for details.", primary: false },
+  { image: "/assets/images/courses/noorani-qaida.svg", title: "Learn Noorani Qaida Online", desc: "Start reading the Quran correctly with basic pronunciation rules." },
+  { image: "/assets/images/courses/quran-recitation.svg", title: "Quran Reading with Tajweed", desc: "Master the rules of Tajweed for precise Quran recitation." },
+  { image: "/assets/images/courses/quran-memorization.svg", title: "Memorize Quran Online", desc: "Memorize the Quran with personalized guidance from expert tutors." },
+  { image: "/assets/images/courses/tafsir.svg", title: "Learn Tafsir Online", desc: "Gain deep insights into the meanings behind Quranic verses." },
+  { image: "/assets/images/courses/arabic.svg", title: "Learn Arabic Online", desc: "Master classical Arabic to enhance your understanding of Quranic texts." },
+  { image: "/assets/images/courses/islamic-studies.svg", title: "Learn Islamic Studies Online", desc: "Explore Islamic studies from basics to advanced topics." },
+  { image: "/assets/images/courses/taleem-ul-islam.svg", title: "Taleem ul Islam", desc: "Understand the foundational principles and practices of Islam." },
+  { image: "/assets/images/courses/quran-translation.svg", title: "Quran Translation Course", desc: "Learn to translate Quranic Arabic to understand its messages clearly." },
+  { image: "/assets/images/courses/ijazah.svg", title: "Online Ijazah Course", desc: "Earn a certification in Quranic recitation and teaching." },
+  { image: "/assets/images/courses/quranic-arabic.svg", title: "Quranic Arabic Course", desc: "Learn Quranic Arabic to understand the Quran directly with grammar." },
+  { image: "/assets/images/courses/mathematics.svg", title: "Mathematics", desc: "Expert tutoring in Mathematics for all levels — from basics to advanced." },
+  { image: "/assets/images/courses/english.svg", title: "English", desc: "Improve your English reading, writing, and speaking skills with qualified tutors." },
+  { image: "/assets/images/courses/urdu.svg", title: "Urdu", desc: "Learn Urdu reading and writing with experienced language teachers." },
+  { image: "/assets/images/courses/science.svg", title: "Science", desc: "Comprehensive science tutoring covering Physics, Chemistry, and Biology." },
+  { image: "/assets/images/courses/other-subjects.svg", title: "Other Subjects", desc: "Additional academic subjects available on request. Contact us for details." },
 ];
 
 const staticStats = [
   { value: "5,000+", label: "Students", icon: Users },
   { value: "50+", label: "Courses", icon: BookOpen },
   { value: "", label: "Teachers", icon: GraduationCap },
-  { value: "50+", label: "Countries", icon: Globe },
+  { value: "100+", label: "Countries", icon: Globe },
 ];
 
 const trustBadges = [
@@ -52,14 +64,21 @@ const trustBadges = [
 ];
 
 const whyChoose = [
-  { icon: DollarSign, title: "Affordable Fee" },
-  { icon: Languages, title: "Multilingual Tutors" },
-  { icon: User, title: "One-on-One Classes" },
-  { icon: UserPlus, title: "Substitute Teachers" },
-  { icon: CreditCard, title: "Easy Online Payments" },
-  { icon: Globe, title: "Global Reputation" },
-  { icon: BarChart3, title: "Progress Report" },
-  { icon: BookOpen, title: "Online Portal" },
+  { icon: DollarSign, title: "Affordable Fee", desc: "Budget-Friendly" },
+  { icon: Languages, title: "Multilingual Tutors", desc: "Global Language Experts" },
+  { icon: User, title: "One-on-One Classes", desc: "Focuses on Individual Attention" },
+  { icon: UserPlus, title: "Substitute Teachers", desc: "Dedicated Team of Substitute Teachers" },
+  { icon: CreditCard, title: "Easy Online Payments", desc: "One-Click Payments" },
+  { icon: Globe, title: "Global Reputation", desc: "Trusted by Students Worldwide" },
+  { icon: BarChart3, title: "Progress Report", desc: "Knowledge Assessment" },
+  { icon: BookOpen, title: "Online Portal", desc: "Student Classes Records & History" },
+];
+
+const whyChooseColors = [
+  { bg: "bg-teal-500", text: "text-teal-600", border: "border-b-teal-500" },
+  { bg: "bg-blue-500", text: "text-blue-600", border: "border-b-blue-500" },
+  { bg: "bg-amber-500", text: "text-amber-600", border: "border-b-amber-500" },
+  { bg: "bg-rose-500", text: "text-rose-600", border: "border-b-rose-500" },
 ];
 
 const teacherCategories = [
@@ -151,32 +170,36 @@ export default async function Home() {
       </section>
 
       {/* ── Our Courses ── */}
-      <section className="section-padding bg-gradient-to-b from-teal-50/50 to-white">
+      <section className="pt-10 md:pt-16 pb-20 md:pb-28 px-4 bg-gradient-to-b from-teal-50/50 to-white">
         <div className="max-w-7xl mx-auto">
           <div className="section-divider"><span className="dot" /></div>
           <h2 className="section-title">Our <span className="text-primary-600">Courses</span></h2>
-          <p className="section-subtitle">Quran is our main priority — we also offer academic subjects to support your child&apos;s overall education.</p>
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          <p className="section-subtitle">Our courses are crafted to provide a comprehensive understanding of Quranic studies. Join structured, in-depth classes taught by qualified scholars.</p>
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-5">
             {courses.map((c, i) => (
-              <div key={i} className="fade-up group rounded-2xl border border-gray-100 hover:border-primary-200 hover:shadow-xl transition-all duration-300 bg-white overflow-hidden">
-                <div className="relative">
-                  <Image
-                    src={c.image}
-                    alt={c.title}
-                    width={400}
-                    height={240}
-                    className="w-full h-48 object-cover"
-                  />
-                  <span className={`absolute top-3 right-3 px-3 py-1 text-xs font-bold rounded-full text-white shadow ${c.primary ? "bg-primary-600" : "bg-gray-500"}`}>
-                    {c.primary ? "Course" : "Subject"}
-                  </span>
+              <div key={i} className="fade-up group relative rounded-2xl border border-gray-100 hover:border-primary-300 hover:shadow-xl transition-all duration-300 bg-white overflow-hidden flex flex-col">
+                {/* Image */}
+                <div className="relative h-40 shrink-0">
+                  <Image src={c.image} alt={c.title} width={400} height={240} className="w-full h-full object-cover" />
+                  <span className="absolute top-2.5 right-2.5 px-3 py-1 text-[10px] font-bold rounded-full text-white shadow bg-primary-600">Course</span>
                 </div>
-                <div className="p-5">
-                  <h3 className="text-lg font-bold text-gray-900 mb-1.5">{c.title}</h3>
-                  <p className="text-gray-500 text-sm leading-relaxed mb-4">{c.desc}</p>
-                  <Link href="/register" className="block text-center py-2.5 rounded-lg bg-primary-600 hover:bg-primary-700 text-white text-sm font-semibold transition shadow-sm">
-                    Register
-                  </Link>
+                {/* Content */}
+                <div className="p-4 flex flex-col flex-1">
+                  <h3 className="text-sm font-bold text-gray-900 mb-1.5 leading-tight">{c.title}</h3>
+                  <p className="text-gray-500 text-xs leading-relaxed mb-3 line-clamp-2 flex-1">{c.desc}</p>
+                  <div className="flex gap-2">
+                    <span className="flex-1 text-center py-2 rounded-lg border border-gray-200 text-gray-600 text-xs font-semibold cursor-pointer">Details</span>
+                    <Link href="/register" className="flex-1 text-center py-2 rounded-lg bg-primary-600 text-white text-xs font-semibold">Register</Link>
+                  </div>
+                </div>
+                {/* Slide-up overlay */}
+                <div className="absolute inset-0 bg-gray-900/95 rounded-2xl translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-out z-10 flex flex-col p-5">
+                  <h3 className="text-white font-bold text-sm mb-2 leading-tight">{c.title}</h3>
+                  <p className="text-gray-300 text-xs leading-relaxed flex-1">{c.desc}</p>
+                  <div className="flex gap-2">
+                    <span className="flex-1 text-center py-2 rounded-lg border border-gray-500 text-white text-xs font-semibold cursor-pointer">Details</span>
+                    <Link href="/register" className="flex-1 text-center py-2 rounded-lg bg-primary-600 text-white text-xs font-semibold">Register</Link>
+                  </div>
                 </div>
               </div>
             ))}
@@ -229,16 +252,21 @@ export default async function Home() {
         <div className="max-w-5xl mx-auto">
           <div className="section-divider"><span className="dot" /></div>
           <h2 className="section-title">Why Choose <span className="text-primary-600">Us</span></h2>
-          <p className="section-subtitle">Trusted by thousands of families across 50+ countries.</p>
+          <p className="section-subtitle">Discover what makes our platform unique, with expert instructors and tailored learning experiences designed for your success.</p>
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-5">
-            {whyChoose.map((w, i) => (
-              <div key={i} className="fade-up flex flex-col items-center text-center p-5 rounded-2xl bg-white border border-gray-100 hover:shadow-lg hover:border-primary-200 transition-all">
-                <div className="w-12 h-12 rounded-xl bg-primary-50 text-primary-600 flex items-center justify-center mb-3">
-                  <w.icon size={22} />
+            {whyChoose.map((w, i) => {
+              const c = whyChooseColors[i % 4];
+              return (
+                <div key={i} className={`fade-up flex flex-col items-center text-center p-6 rounded-2xl bg-white border border-gray-100 border-b-4 ${c.border} hover:shadow-lg transition-all`}>
+                  <div className={`w-14 h-14 rounded-xl ${c.bg} text-white flex items-center justify-center mb-4`}>
+                    <w.icon size={24} />
+                  </div>
+                  <h4 className={`font-bold ${c.text} text-xs uppercase tracking-wider mb-2`}>{w.title}</h4>
+                  <div className={`w-8 h-0.5 ${c.bg} rounded-full mb-2`} />
+                  <p className="text-gray-500 text-xs">{w.desc}</p>
                 </div>
-                <h4 className="font-bold text-gray-900 text-sm">{w.title}</h4>
-              </div>
-            ))}
+              );
+            })}
           </div>
         </div>
       </section>
@@ -284,12 +312,62 @@ export default async function Home() {
         </div>
       </section>
 
-      {/* ── Pricing ── */}
+      {/* ── Fees and Pricing ── */}
       <section className="section-padding bg-white">
         <div className="max-w-4xl mx-auto">
           <div className="section-divider"><span className="dot" /></div>
-          <h2 className="section-title">Monthly <span className="text-primary-600">Fees</span></h2>
-          <p className="section-subtitle">Simple and affordable pricing. All plans include a free 3-day trial.</p>
+          <h2 className="section-title">Fees and <span className="text-primary-600">Pricing</span></h2>
+          <h3 className="text-lg md:text-xl font-semibold text-gray-800 text-center mb-3">Affordable and Flexible Pricing Plans</h3>
+          <p className="text-gray-500 text-center text-sm max-w-3xl mx-auto mb-10 leading-relaxed">
+            We offer competitive pricing for all our courses to ensure that quality Islamic education is accessible to everyone. Our flexible payment options make it easy to start your learning journey.
+          </p>
+
+          {/* Pricing highlights */}
+          <div className="grid sm:grid-cols-3 gap-5 mb-8">
+            <div className="flex items-center gap-4 p-5 rounded-xl bg-teal-50 border border-teal-100">
+              <div className="w-12 h-12 rounded-xl bg-teal-500 text-white flex items-center justify-center shrink-0">
+                <Percent size={22} />
+              </div>
+              <div>
+                <h4 className="font-bold text-teal-700 text-sm">Competitive Rates</h4>
+                <p className="text-gray-500 text-xs">Best value pricing</p>
+              </div>
+            </div>
+            <div className="flex items-center gap-4 p-5 rounded-xl bg-blue-50 border border-blue-100">
+              <div className="w-12 h-12 rounded-xl bg-blue-500 text-white flex items-center justify-center shrink-0">
+                <LayoutGrid size={22} />
+              </div>
+              <div>
+                <h4 className="font-bold text-blue-700 text-sm">Flexible Plans</h4>
+                <p className="text-gray-500 text-xs">Multiple options</p>
+              </div>
+            </div>
+            <div className="flex items-center gap-4 p-5 rounded-xl bg-amber-50 border border-amber-100">
+              <div className="w-12 h-12 rounded-xl bg-amber-500 text-white flex items-center justify-center shrink-0">
+                <Star size={22} />
+              </div>
+              <div>
+                <h4 className="font-bold text-amber-700 text-sm">Quality Education</h4>
+                <p className="text-gray-500 text-xs">Expert instructors</p>
+              </div>
+            </div>
+          </div>
+
+          {/* Limited time offer banner */}
+          <div className="flex items-center justify-between gap-4 p-5 rounded-xl bg-rose-50 border border-rose-200 mb-10">
+            <div className="flex items-center gap-4">
+              <div className="w-10 h-10 rounded-full bg-rose-500 text-white flex items-center justify-center shrink-0">
+                <Percent size={18} />
+              </div>
+              <div>
+                <h4 className="font-bold text-rose-600 text-sm">Limited Time Offer</h4>
+                <p className="text-gray-600 text-xs">Hurry up! Special discount to make your learning more affordable.</p>
+              </div>
+            </div>
+            <div className="w-10 h-10 rounded-full bg-rose-100 text-rose-500 items-center justify-center shrink-0 hidden sm:flex">
+              <Clock size={18} />
+            </div>
+          </div>
 
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
             {fees.map((f, i) => (

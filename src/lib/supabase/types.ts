@@ -35,6 +35,19 @@ export interface PaginatedResponse<T> {
   limit: number;
 }
 
+export interface BlogPost {
+  id: string;
+  title: string;
+  slug: string;
+  content: string;
+  excerpt: string;
+  featured_image: string | null;
+  author_id: string | null;
+  status: "draft" | "published";
+  created_at: string;
+  updated_at: string;
+}
+
 export interface ContactSubmission {
   id: string;
   name: string;

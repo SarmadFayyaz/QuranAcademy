@@ -70,11 +70,11 @@ export default function HeroContactForm() {
           )}
           <div className="grid sm:grid-cols-2 gap-4">
             <div className="relative">
-              <User size={18} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400" />
+              <User size={18} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-primary-400" />
               <input type="text" name="name" value={form.name} onChange={handleChange} required placeholder="Enter your name" className="w-full pl-11 pr-4 py-3.5 rounded-2xl border border-gray-200 focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 outline-none transition text-sm" />
             </div>
             <div className="relative">
-              <Mail size={18} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400" />
+              <Mail size={18} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-primary-400" />
               <input type="email" name="email" value={form.email} onChange={handleChange} required placeholder="Enter your email" className="w-full pl-11 pr-4 py-3.5 rounded-2xl border border-gray-200 focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 outline-none transition text-sm" />
             </div>
           </div>
@@ -84,11 +84,11 @@ export default function HeroContactForm() {
               phone={form.phone}
               onChange={(code, ph) => setForm({ ...form, countryCode: code, phone: ph })}
               inputClass="w-full pl-11 pr-4 py-3.5 rounded-2xl border border-gray-200 focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 outline-none transition text-sm"
-              iconClass="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400"
+              iconClass="absolute left-3.5 top-1/2 -translate-y-1/2 text-primary-400"
             />
           </div>
           <div className="relative">
-            <MessageCircle size={18} className="absolute left-3.5 top-4 text-gray-400" />
+            <MessageCircle size={18} className="absolute left-3.5 top-4 text-primary-400" />
             <textarea name="message" value={form.message} onChange={handleChange} rows={3} placeholder="Enter your message" className="w-full pl-11 pr-4 py-3.5 rounded-2xl border border-gray-200 focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 outline-none transition text-sm resize-none" />
           </div>
           <button type="submit" className="w-full py-4 bg-primary-600 hover:bg-primary-700 text-white font-bold rounded-2xl transition-all shadow-lg hover:shadow-xl text-base">

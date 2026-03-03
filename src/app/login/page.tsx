@@ -80,7 +80,7 @@ function LoginForm() {
             Email Address
           </label>
           <div className="relative">
-            <Mail size={18} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
+            <Mail size={18} className="absolute left-3 top-1/2 -translate-y-1/2 text-primary-400" />
             <input
               type="email"
               value={email}
@@ -97,7 +97,7 @@ function LoginForm() {
             Password
           </label>
           <div className="relative">
-            <Lock size={18} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
+            <Lock size={18} className="absolute left-3 top-1/2 -translate-y-1/2 text-primary-400" />
             <input
               type="password"
               value={password}
@@ -158,7 +158,7 @@ export default function LoginPage() {
       <section className="section-padding bg-white">
         <div className="max-w-md mx-auto">
           <Suspense fallback={
-            <div className="bg-white rounded-2xl shadow-xl p-8 border border-gray-100 text-center text-gray-400">
+            <div className="bg-white rounded-2xl shadow-xl p-8 border border-gray-100 text-center text-primary-400">
               Loading...
             </div>
           }>
