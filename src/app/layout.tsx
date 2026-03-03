@@ -1,26 +1,42 @@
 import type { Metadata } from "next";
-import { Playfair_Display, Inter } from "next/font/google";
+import { SITE_URL, SITE_NAME, SITE_DESCRIPTION } from "@/lib/constants";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import WhatsAppButton from "@/components/WhatsAppButton";
+import StructuredData from "@/components/StructuredData";
 import "./globals.css";
 
-const heading = Playfair_Display({
-  subsets: ["latin"],
-  variable: "--font-heading",
-  display: "swap",
-});
-
-const body = Inter({
-  subsets: ["latin"],
-  variable: "--font-body",
-  display: "swap",
-});
-
 export const metadata: Metadata = {
-  title: "Hasnain Online Quran Academy — Learn Quran Online",
-  description:
-    "Your gateway to comprehensive Islamic education. Learn Quran with Tajweed from certified teachers worldwide.",
+  metadataBase: new URL(SITE_URL),
+  title: {
+    default: `${SITE_NAME} — Learn Quran Online`,
+    template: `%s | ${SITE_NAME}`,
+  },
+  description: SITE_DESCRIPTION,
+  alternates: { canonical: "/" },
+  openGraph: {
+    type: "website",
+    locale: "en_US",
+    url: SITE_URL,
+    siteName: SITE_NAME,
+    title: `${SITE_NAME} — Learn Quran Online`,
+    description: SITE_DESCRIPTION,
+    images: [
+      {
+        url: "/assets/images/logo.jpg",
+        width: 512,
+        height: 512,
+        alt: SITE_NAME,
+      },
+    ],
+  },
+  twitter: {
+    card: "summary",
+    title: `${SITE_NAME} — Learn Quran Online`,
+    description: SITE_DESCRIPTION,
+    images: ["/assets/images/logo.jpg"],
+  },
+  robots: { index: true, follow: true },
 };
 
 export default function RootLayout({
@@ -29,10 +45,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={`${heading.variable} ${body.variable}`}>
+    <html lang="en">
       <body className="font-body">
+        <StructuredData />
         <Navbar />
-        <main className="pt-[104px]">{children}</main>
+        <main className="pt-[120px]">{children}</main>
         <Footer />
         <WhatsAppButton />
       </body>

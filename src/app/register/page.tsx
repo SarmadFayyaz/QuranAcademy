@@ -1,303 +1,268 @@
 "use client";
 
 import { useState } from "react";
-import { CheckCircle, ArrowRight, BookOpen, Clock, Users, Award, Phone, Mail, User, Globe } from "lucide-react";
+import Link from "next/link";
+import Image from "next/image";
+import {
+  CheckCircle, BookOpen, Clock, Users, Award,
+  Phone, Mail, User, Globe, MessageCircle, Star,
+} from "lucide-react";
+import { createClient } from "@/lib/supabase/client";
+import CountryPhoneFields from "@/components/CountryPhoneFields";
+import { findCountryByCode } from "@/lib/countries";
 
-const benefits = [
-  { icon: CheckCircle, text: "Free 3-Day Trial — No Payment Required" },
-  { icon: Users, text: "One-on-One Live Sessions with Certified Teachers" },
-  { icon: Clock, text: "Flexible Scheduling — 24/7 Availability" },
-  { icon: BookOpen, text: "Personalized Learning Plan for Every Student" },
-  { icon: Award, text: "Completion Certificates & Progress Reports" },
-  { icon: Globe, text: "Multilingual Teachers from Around the World" },
+const features = [
+  { icon: Users, text: "Qualified Male & Female Teachers" },
+  { icon: Clock, text: "24/7 Flexible Scheduling" },
+  { icon: BookOpen, text: "Special Classes for Kids & Adults" },
+  { icon: Award, text: "Free 3-Day Trial — No Payment Required" },
+  { icon: Star, text: "One-on-One Live Sessions" },
+  { icon: CheckCircle, text: "Personalized Learning Plan" },
 ];
 
-const courses = [
-  "Quran Recitation with Tajweed",
-  "Quran Memorization (Hifz)",
-  "Islamic Studies",
-  "Arabic Language",
-  "Quran Translation & Tafseer",
-  "Kids Quran Program",
+const testimonials = [
+  { name: "Fatima Ahmed", location: "London, UK", text: "The online classes have truly transformed my understanding of Tajweed. My teacher is incredibly patient and knowledgeable." },
+  { name: "Omar Hassan", location: "New York, USA", text: "My children love their Quran classes. The teachers are kind and make learning fun and engaging for young students." },
+  { name: "Aisha Khan", location: "Toronto, Canada", text: "Flexible scheduling was exactly what I needed. I can balance work and Quran studies perfectly now." },
+  { name: "Yusuf Ali", location: "Sydney, Australia", text: "The Hifz program is exceptional. My son has memorized 10 Juz in just one year with their structured approach." },
+  { name: "Sarah Mahmood", location: "Dubai, UAE", text: "Best online Quran academy I have found. Professional teachers and excellent customer support throughout." },
+  { name: "Ibrahim Syed", location: "Chicago, USA", text: "My daughter started as a complete beginner. Now she reads Quran fluently with proper Tajweed. Highly recommend!" },
 ];
+
+const inputClass =
+  "w-full pl-11 pr-4 py-3.5 rounded-2xl border border-gray-200 focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 outline-none transition text-sm bg-white";
+const iconClass = "absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400";
 
 export default function RegisterPage() {
   const [submitted, setSubmitted] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
   const [form, setForm] = useState({
     name: "",
     email: "",
     phone: "",
-    country: "",
-    course: "",
-    time: "",
+    countryCode: "",
     message: "",
   });
 
   const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setError("");
+    setLoading(true);
 
-    const lines = [
-      "📚 *New Registration — Hasnain Online Quran Academy*",
-      "",
-      `👤 *Name:* ${form.name}`,
-      `📧 *Email:* ${form.email}`,
-      `📱 *Phone:* ${form.phone}`,
-      `🌍 *Country:* ${form.country}`,
-      `📖 *Course:* ${form.course}`,
-      form.time ? `🕐 *Preferred Time:* ${form.time}` : "",
-      form.message ? `💬 *Message:* ${form.message}` : "",
-    ]
-      .filter(Boolean)
-      .join("\n");
+    try {
+      // Check email uniqueness for active trials
+      const checkRes = await fetch("/api/trials/check-email", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email: form.email }),
+      });
+      const checkJson = await checkRes.json();
+      if (checkJson.exists) {
+        setError("A trial request with this email already exists. Our team will contact you soon.");
+        setLoading(false);
+        return;
+      }
 
-    const waUrl = `https://wa.me/923105175338?text=${encodeURIComponent(lines)}`;
-    window.open(waUrl, "_blank");
-    setSubmitted(true);
+      // 1. Save to database
+      const countryName = findCountryByCode(form.countryCode)?.name || form.countryCode;
+      const supabase = createClient();
+      await supabase.from("contact_submissions").insert({
+        name: form.name,
+        email: form.email,
+        phone: form.phone,
+        country: countryName,
+        message: form.message || null,
+        source: "register",
+      });
+
+      // 2. Send WhatsApp notification to admin
+      await fetch("/api/whatsapp", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ ...form, country: countryName, source: "register" }),
+      });
+
+      setLoading(false);
+      setSubmitted(true);
+    } catch {
+      setError("Something went wrong. Please try again.");
+      setLoading(false);
+    }
   };
 
   return (
     <>
-      {/* Hero */}
-      <section className="relative bg-gradient-to-br from-primary-800 via-primary-900 to-primary-950 text-white overflow-hidden">
-        <div className="absolute inset-0 pattern-overlay" />
-        <div className="relative max-w-4xl mx-auto px-4 py-24 md:py-32 text-center">
-          <span className="inline-block px-4 py-1.5 rounded-full bg-white/10 text-gold-300 text-sm font-medium mb-6 border border-white/10">
-            ✦ Start Your Journey
-          </span>
-          <h1 className="text-4xl md:text-6xl font-bold font-heading mb-6">
-            Register <span className="text-gold-400">Now</span>
-          </h1>
-          <p className="text-white/70 text-lg max-w-2xl mx-auto">
-            Sign up for your free 3-day trial and begin learning Quran with our
-            certified teachers today.
-          </p>
-        </div>
-        <div className="absolute bottom-0 left-0 right-0">
-          <svg viewBox="0 0 1440 80" fill="none" className="w-full">
-            <path d="M0 30 C360 80 1080 0 1440 50 L1440 80 L0 80Z" fill="white" />
-          </svg>
-        </div>
-      </section>
-
-      {/* Registration Form + Benefits */}
-      <section className="section-padding bg-white">
-        <div className="max-w-6xl mx-auto">
-          <div className="grid lg:grid-cols-2 gap-14">
-            {/* Form */}
+      {/* ── Main Registration Section ── */}
+      <section className="bg-gradient-to-b from-teal-50/60 to-white py-10 md:py-16">
+        <div className="max-w-7xl mx-auto px-4">
+          {/* Logo + Heading — spans full width */}
+          <div className="flex items-center justify-center gap-5 mb-10">
+            <Image
+              src="/assets/images/logo.jpg"
+              alt="Hasnain Online Quran Academy"
+              width={80}
+              height={80}
+              className="rounded-full shadow-lg shrink-0"
+            />
             <div>
-              <h2 className="text-3xl font-bold font-heading text-gray-900 mb-2">
-                Get Your <span className="text-primary-700">Free Trial</span>
-              </h2>
-              <p className="text-gray-500 mb-8">
-                Fill out the form below and we&apos;ll get you started within 24 hours.
-              </p>
+              <h3 className="text-2xl font-bold text-gray-900 font-heading mb-1">
+                Hasnain Online Quran Academy
+              </h3>
+              <p className="text-gray-400 text-sm">Your Gateway to Islamic Education</p>
+              <div className="flex items-center gap-3 mt-2">
+                <a href="https://wa.me/923105175338" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 text-green-700 font-medium text-sm hover:text-green-800 transition">
+                  <Phone size={14} />
+                  +92 310 517 5338
+                </a>
+                <span className="text-gray-300">|</span>
+                <a href="tel:+447916632814" className="inline-flex items-center gap-1.5 text-gray-500 text-sm hover:text-primary-600 transition">
+                  <Phone size={14} />
+                  UK: +44 7916 632814
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <div className="grid lg:grid-cols-2 gap-10 items-start">
+            {/* ── Left: Form ── */}
+            <div>
+              {error && (
+                <div className="mb-4 p-3 rounded-xl bg-red-50 border border-red-200 text-red-600 text-sm">
+                  {error}
+                </div>
+              )}
 
               {submitted ? (
-                <div className="p-8 rounded-2xl bg-primary-50 border border-primary-100 text-center">
-                  <div className="w-16 h-16 rounded-full bg-primary-700 text-white flex items-center justify-center mx-auto mb-4">
-                    <CheckCircle size={32} />
+                <div className="p-10 rounded-2xl bg-white shadow-xl border border-gray-100 text-center">
+                  <div className="w-20 h-20 rounded-full bg-primary-100 text-primary-600 flex items-center justify-center mx-auto mb-5">
+                    <CheckCircle size={40} />
                   </div>
-                  <h3 className="text-2xl font-bold text-gray-900 mb-2">
+                  <h3 className="text-2xl font-bold text-gray-900 mb-3 font-heading">
                     Thank You!
                   </h3>
-                  <p className="text-gray-600">
-                    Your registration has been received. Our team will contact you
-                    within 24 hours to schedule your free trial class.
+                  <p className="text-gray-500 mb-6">
+                    Our team will contact you within 24 hours to schedule your free trial class.
                   </p>
+                  <Link href="/" className="btn-primary">
+                    Back to Home
+                  </Link>
                 </div>
               ) : (
-                <form onSubmit={handleSubmit} className="space-y-5">
-                  <div className="grid sm:grid-cols-2 gap-5">
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1.5">
-                        Full Name
-                      </label>
-                      <div className="relative">
-                        <User size={18} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
-                        <input
-                          type="text"
-                          name="name"
-                          value={form.name}
-                          onChange={handleChange}
-                          required
-                          placeholder="Your full name"
-                          className="w-full pl-10 pr-4 py-3 rounded-xl border border-gray-200 focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 outline-none transition text-sm"
-                        />
-                      </div>
-                    </div>
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1.5">
-                        Email Address
-                      </label>
-                      <div className="relative">
-                        <Mail size={18} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
-                        <input
-                          type="email"
-                          name="email"
-                          value={form.email}
-                          onChange={handleChange}
-                          required
-                          placeholder="your@email.com"
-                          className="w-full pl-10 pr-4 py-3 rounded-xl border border-gray-200 focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 outline-none transition text-sm"
-                        />
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="grid sm:grid-cols-2 gap-5">
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1.5">
-                        Phone / WhatsApp
-                      </label>
-                      <div className="relative">
-                        <Phone size={18} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
-                        <input
-                          type="tel"
-                          name="phone"
-                          value={form.phone}
-                          onChange={handleChange}
-                          required
-                          placeholder="+1 234 567 890"
-                          className="w-full pl-10 pr-4 py-3 rounded-xl border border-gray-200 focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 outline-none transition text-sm"
-                        />
-                      </div>
-                    </div>
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1.5">
-                        Country
-                      </label>
-                      <div className="relative">
-                        <Globe size={18} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
-                        <input
-                          type="text"
-                          name="country"
-                          value={form.country}
-                          onChange={handleChange}
-                          required
-                          placeholder="Your country"
-                          className="w-full pl-10 pr-4 py-3 rounded-xl border border-gray-200 focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 outline-none transition text-sm"
-                        />
-                      </div>
-                    </div>
-                  </div>
-
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1.5">
-                      Select Course
-                    </label>
-                    <select
-                      name="course"
-                      value={form.course}
-                      onChange={handleChange}
-                      required
-                      className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 outline-none transition text-sm text-gray-700 bg-white"
-                    >
-                      <option value="">Choose a course...</option>
-                      {courses.map((c) => (
-                        <option key={c} value={c}>
-                          {c}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
-
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1.5">
-                      Preferred Time
-                    </label>
-                    <select
-                      name="time"
-                      value={form.time}
-                      onChange={handleChange}
-                      className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 outline-none transition text-sm text-gray-700 bg-white"
-                    >
-                      <option value="">Select preferred timing...</option>
-                      <option>Morning (6 AM - 12 PM)</option>
-                      <option>Afternoon (12 PM - 5 PM)</option>
-                      <option>Evening (5 PM - 9 PM)</option>
-                      <option>Night (9 PM - 12 AM)</option>
-                    </select>
-                  </div>
-
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1.5">
-                      Message (Optional)
-                    </label>
-                    <textarea
-                      name="message"
-                      value={form.message}
-                      onChange={handleChange}
-                      rows={3}
-                      placeholder="Any special requirements or questions..."
-                      className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 outline-none transition text-sm resize-none"
-                    />
-                  </div>
-
-                  <button
-                    type="submit"
-                    className="btn-primary w-full text-lg !py-4"
-                  >
-                    Start Free Trial
-                    <ArrowRight className="ml-2" size={20} />
-                  </button>
-                  <p className="text-center text-xs text-gray-400">
-                    No credit card required. Free 3-day trial with no obligations.
+                <div className="bg-white rounded-2xl shadow-xl border border-gray-100 p-8 md:p-10">
+                  <h2 className="text-2xl md:text-3xl font-bold text-gray-900 text-center mb-2 font-heading">
+                    Free Trial Class
+                  </h2>
+                  <p className="text-gray-400 text-sm text-center mb-8">
+                    Register now and start learning within 24 hours
                   </p>
-                </form>
+
+                  <form onSubmit={handleSubmit} className="space-y-4">
+                    {/* Name + Email */}
+                    <div className="grid sm:grid-cols-2 gap-4">
+                      <div className="relative">
+                        <User size={18} className={iconClass} />
+                        <input type="text" name="name" value={form.name} onChange={handleChange} required placeholder="Enter your name" className={inputClass} />
+                      </div>
+                      <div className="relative">
+                        <Mail size={18} className={iconClass} />
+                        <input type="email" name="email" value={form.email} onChange={handleChange} required placeholder="Enter your email" className={inputClass} />
+                      </div>
+                    </div>
+
+                    {/* Country + Phone */}
+                    <div className="grid sm:grid-cols-2 gap-4">
+                      <CountryPhoneFields
+                        country={form.countryCode}
+                        phone={form.phone}
+                        onChange={(code, ph) => setForm({ ...form, countryCode: code, phone: ph })}
+                        inputClass={inputClass}
+                        iconClass={iconClass}
+                      />
+                    </div>
+
+                    {/* Message */}
+                    <div className="relative">
+                      <MessageCircle size={18} className="absolute left-3.5 top-4 text-gray-400" />
+                      <textarea name="message" value={form.message} onChange={handleChange} rows={3} placeholder="Enter your message" className="w-full pl-11 pr-4 py-3.5 rounded-2xl border border-gray-200 focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 outline-none transition text-sm resize-none bg-white" />
+                    </div>
+
+                    <button type="submit" disabled={loading} className="w-full py-4 bg-primary-600 hover:bg-primary-700 text-white font-bold rounded-2xl transition-all shadow-lg hover:shadow-xl text-base disabled:opacity-50">
+                      {loading ? "Sending..." : "Send Message"}
+                    </button>
+                  </form>
+                </div>
               )}
             </div>
 
-            {/* Benefits sidebar */}
-            <div>
-              <div className="sticky top-32">
-                <div className="p-8 rounded-2xl bg-gradient-to-br from-primary-800 to-primary-950 text-white">
-                  <h3 className="text-2xl font-bold font-heading mb-6">
-                    What You&apos;ll <span className="text-gold-400">Get</span>
-                  </h3>
-                  <ul className="space-y-4">
-                    {benefits.map((b, i) => (
-                      <li key={i} className="flex items-start gap-3">
-                        <b.icon size={20} className="text-gold-400 mt-0.5 shrink-0" />
-                        <span className="text-white/80 text-sm">{b.text}</span>
-                      </li>
-                    ))}
-                  </ul>
-                  <div className="mt-8 pt-6 border-t border-white/10">
-                    <p className="text-white/50 text-sm mb-3">Have questions?</p>
-                    <a
-                      href="https://wa.me/923105175338"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex items-center gap-2 text-gold-400 hover:text-gold-300 font-medium text-sm transition"
-                    >
-                      <Phone size={16} />
-                      Chat on WhatsApp
-                    </a>
-                  </div>
+            {/* ── Right: Promotional Panel ── */}
+            <div className="hidden lg:block">
+              <div className="sticky top-32 space-y-6">
+                {/* Feature Highlights */}
+                <div className="bg-white rounded-2xl shadow-lg border border-gray-100 p-6 space-y-0">
+                  {features.map((f, i) => (
+                    <div key={i} className={`flex items-center gap-3 py-3.5 ${i < features.length - 1 ? "border-b border-gray-100" : ""}`}>
+                      <div className="w-10 h-10 rounded-xl bg-primary-50 text-primary-600 flex items-center justify-center shrink-0">
+                        <f.icon size={20} />
+                      </div>
+                      <span className="text-gray-700 font-medium text-sm">{f.text}</span>
+                    </div>
+                  ))}
                 </div>
 
-                {/* Trust badge */}
-                <div className="mt-6 p-5 rounded-2xl bg-gray-50 border border-gray-100 text-center">
-                  <div className="flex justify-center gap-1 mb-2">
-                    {[1, 2, 3, 4, 5].map((s) => (
-                      <span key={s} className="text-gold-400 text-lg">★</span>
-                    ))}
-                  </div>
-                  <p className="text-sm text-gray-600 font-medium">
-                    Trusted by 5,000+ students worldwide
-                  </p>
-                  <p className="text-xs text-gray-400 mt-1">
-                    Rated 4.9/5 by our student community
-                  </p>
-                </div>
               </div>
             </div>
+          </div>
+
+          {/* Trust badge — spans full width */}
+          <div className="mt-10 p-5 rounded-2xl bg-primary-600 text-white text-center">
+            <div className="flex justify-center gap-1 mb-2">
+              {[1, 2, 3, 4, 5].map((s) => (
+                <span key={s} className="text-gold-400 text-lg">★</span>
+              ))}
+            </div>
+            <p className="text-sm font-medium">
+              Trusted by 5,000+ students worldwide
+            </p>
+            <p className="text-xs text-white/60 mt-1">
+              Rated 4.9/5 by our student community
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* ── Student Testimonials ── */}
+      <section className="section-padding bg-gray-50">
+        <div className="max-w-7xl mx-auto">
+          <h2 className="text-2xl md:text-3xl font-bold text-center text-gray-900 font-heading mb-2">
+            What Our <span className="text-primary-600">Students Say</span>
+          </h2>
+          <p className="text-gray-400 text-sm text-center mb-10">
+            Hear from families who have experienced our classes firsthand
+          </p>
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {testimonials.map((t, i) => (
+              <div key={i} className="p-6 rounded-2xl bg-white border border-gray-100 hover:shadow-lg transition-all">
+                <div className="flex gap-1 mb-3">
+                  {[1, 2, 3, 4, 5].map((s) => (
+                    <Star key={s} size={14} className="fill-gold-400 text-gold-400" />
+                  ))}
+                </div>
+                <p className="text-gray-600 text-sm leading-relaxed mb-4 italic">
+                  &ldquo;{t.text}&rdquo;
+                </p>
+                <div>
+                  <div className="font-bold text-gray-900 text-sm">{t.name}</div>
+                  <div className="text-xs text-gray-400">{t.location}</div>
+                </div>
+              </div>
+            ))}
           </div>
         </div>
       </section>

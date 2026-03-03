@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 240">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#f0fdfa"/>
+      <stop offset="100%" style="stop-color:#ccfbf1"/>
+    </linearGradient>
+  </defs>
+  <rect width="400" height="240" fill="url(#bg)"/>
+  <circle cx="200" cy="100" r="55" fill="#0d9488" opacity="0.12"/>
+  <circle cx="200" cy="100" r="40" fill="#0d9488" opacity="0.18"/>
+  <!-- Brain/head icon for memorization -->
+  <g transform="translate(200,95)" fill="none" stroke="#0d9488" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="0" cy="-2" r="20"/>
+    <path d="M-8 -12 C-8 -18 0 -20 0 -14"/>
+    <path d="M0 -14 C0 -20 8 -18 8 -12"/>
+    <path d="M-12 -4 C-16 -4 -16 4 -12 4"/>
+    <path d="M12 -4 C16 -4 16 4 12 4"/>
+    <path d="M-6 6 C-6 12 6 12 6 6"/>
+    <line x1="0" y1="-8" x2="0" y2="6"/>
+    <line x1="-8" y1="0" x2="8" y2="0"/>
+  </g>
+  <!-- Star sparkles for memorization -->
+  <g fill="#0d9488" opacity="0.4">
+    <circle cx="166" cy="72" r="2.5"/>
+    <circle cx="234" cy="72" r="2.5"/>
+    <circle cx="160" cy="110" r="2"/>
+    <circle cx="240" cy="110" r="2"/>
+  </g>
+  <text x="200" y="165" text-anchor="middle" font-family="system-ui,sans-serif" font-size="15" font-weight="700" fill="#134e4a">Quran Memorization</text>
+  <text x="200" y="185" text-anchor="middle" font-family="system-ui,sans-serif" font-size="12" fill="#0d9488">Hifz Program</text>
+</svg>

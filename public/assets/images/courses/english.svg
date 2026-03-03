@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 240">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#faf5ff"/>
+      <stop offset="100%" style="stop-color:#f3e8ff"/>
+    </linearGradient>
+  </defs>
+  <rect width="400" height="240" fill="url(#bg)"/>
+  <circle cx="200" cy="100" r="55" fill="#8b5cf6" opacity="0.1"/>
+  <circle cx="200" cy="100" r="40" fill="#8b5cf6" opacity="0.15"/>
+  <!-- ABC Letters -->
+  <g font-family="system-ui,sans-serif" font-weight="700" fill="#8b5cf6">
+    <text x="175" y="105" font-size="28" opacity="0.8">A</text>
+    <text x="193" y="108" font-size="22" opacity="0.6">B</text>
+    <text x="210" y="105" font-size="28" opacity="0.8">C</text>
+  </g>
+  <!-- Pen icon -->
+  <g transform="translate(200,80) rotate(-30)" fill="none" stroke="#8b5cf6" stroke-width="2" stroke-linecap="round" opacity="0.4">
+    <line x1="25" y1="-15" x2="35" y2="-25"/>
+    <line x1="25" y1="-15" x2="22" y2="-8"/>
+    <line x1="35" y1="-25" x2="22" y2="-8"/>
+  </g>
+  <!-- Underline decoration -->
+  <line x1="175" y1="112" x2="228" y2="112" stroke="#8b5cf6" stroke-width="2" opacity="0.3"/>
+  <text x="200" y="165" text-anchor="middle" font-family="system-ui,sans-serif" font-size="15" font-weight="700" fill="#3b1f6e">English Language</text>
+  <text x="200" y="185" text-anchor="middle" font-family="system-ui,sans-serif" font-size="12" fill="#8b5cf6">Reading, Writing &amp; Speaking</text>
+</svg>
