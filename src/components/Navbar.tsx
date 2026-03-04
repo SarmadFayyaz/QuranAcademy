@@ -18,16 +18,14 @@ const PakistanFlag = () => (
   </svg>
 );
 
-const USFlag = () => (
-  <svg viewBox="0 0 1235 650" className="w-7 h-5 rounded-[3px] shadow-sm shrink-0 border border-gray-200">
-    <rect fill="#B22234" width="1235" height="650"/>
-    <rect y="50" fill="#fff" width="1235" height="50"/>
-    <rect y="150" fill="#fff" width="1235" height="50"/>
-    <rect y="250" fill="#fff" width="1235" height="50"/>
-    <rect y="350" fill="#fff" width="1235" height="50"/>
-    <rect y="450" fill="#fff" width="1235" height="50"/>
-    <rect y="550" fill="#fff" width="1235" height="50"/>
-    <rect fill="#3C3B6E" width="494" height="350"/>
+const UKFlag = () => (
+  <svg viewBox="0 0 60 30" className="w-7 h-5 rounded-[3px] shadow-sm shrink-0 border border-gray-200">
+    <rect fill="#012169" width="60" height="30"/>
+    <path d="M0,0 L60,30 M60,0 L0,30" stroke="#fff" strokeWidth="6"/>
+    <path d="M0,0 L60,30 M60,0 L0,30" stroke="#C8102E" strokeWidth="4" clipPath="url(#t)"/>
+    <clipPath id="t"><path d="M30,0 L30,15 L0,0 Z M30,30 L30,15 L60,30 Z M0,30 L30,15 L0,0 Z M60,0 L30,15 L60,30 Z" /></clipPath>
+    <path d="M30,0 V30 M0,15 H60" stroke="#fff" strokeWidth="10"/>
+    <path d="M30,0 V30 M0,15 H60" stroke="#C8102E" strokeWidth="6"/>
   </svg>
 );
 
@@ -81,18 +79,22 @@ export default function Navbar() {
           {/* Center — phone & actions */}
           <div className="hidden md:flex items-center gap-6">
             <a
-              href="tel:+923405245553"
+              href="https://wa.me/923105175338"
+              target="_blank"
+              rel="noopener noreferrer"
               className="flex items-center gap-2.5 text-gray-800 font-semibold hover:text-primary-600 transition"
             >
               <PakistanFlag />
-              +92 3405245553
+              +92 310 5175338
             </a>
             <a
-              href="tel:+14157256147"
+              href="https://wa.me/447916632814"
+              target="_blank"
+              rel="noopener noreferrer"
               className="flex items-center gap-2.5 text-gray-800 font-semibold hover:text-primary-600 transition"
             >
-              <USFlag />
-              +1 (415) 725-6147
+              <UKFlag />
+              +44 7916 632814
             </a>
             <span className="text-gray-300">|</span>
             <Link
@@ -230,13 +232,13 @@ export default function Navbar() {
               </Link>
             )}
             <div className="flex items-center justify-center gap-4 text-sm pt-1">
-              <a href="tel:+923405245553" className="flex items-center gap-1.5 text-gray-700 font-medium">
+              <a href="https://wa.me/923105175338" target="_blank" rel="noopener noreferrer" className="flex items-center gap-1.5 text-gray-700 font-medium">
                 <PakistanFlag />
-                +92 3405245553
+                +92 310 5175338
               </a>
-              <a href="tel:+14157256147" className="flex items-center gap-1.5 text-gray-700 font-medium">
-                <USFlag />
-                +1 (415) 725-6147
+              <a href="https://wa.me/447916632814" target="_blank" rel="noopener noreferrer" className="flex items-center gap-1.5 text-gray-700 font-medium">
+                <UKFlag />
+                +44 7916 632814
               </a>
             </div>
           </div>

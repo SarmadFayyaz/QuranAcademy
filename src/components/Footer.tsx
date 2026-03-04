@@ -84,12 +84,16 @@ export default function Footer() {
             <h4 className="text-white font-semibold mb-4">Contact Us</h4>
             <ul className="space-y-3">
               <li className="flex items-start gap-3 text-sm">
-                <Phone size={16} className="text-gold-400 mt-0.5 shrink-0" />
-                +92 3405245553 (WhatsApp)
+                <a href="https://wa.me/923105175338" target="_blank" rel="noopener noreferrer" className="flex items-start gap-3 hover:text-gold-400 transition-colors">
+                  <Phone size={16} className="text-gold-400 mt-0.5 shrink-0" />
+                  +92 310 5175338 (WhatsApp)
+                </a>
               </li>
               <li className="flex items-start gap-3 text-sm">
-                <Phone size={16} className="text-gold-400 mt-0.5 shrink-0" />
-                +1 (415) 725-6147 (USA)
+                <a href="https://wa.me/447916632814" target="_blank" rel="noopener noreferrer" className="flex items-start gap-3 hover:text-gold-400 transition-colors">
+                  <Phone size={16} className="text-gold-400 mt-0.5 shrink-0" />
+                  +44 7916 632814 (UK WhatsApp)
+                </a>
               </li>
               <li className="flex items-start gap-3 text-sm">
                 <Mail size={16} className="text-gold-400 mt-0.5 shrink-0" />

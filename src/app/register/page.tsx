@@ -117,14 +117,14 @@ export default function RegisterPage() {
               </h3>
               <p className="text-gray-400 text-sm">Your Gateway to Islamic Education</p>
               <div className="flex items-center gap-3 mt-2">
-                <a href="https://wa.me/923405245553" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 text-green-700 font-medium text-sm hover:text-green-800 transition">
+                <a href="https://wa.me/923105175338" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 text-green-700 font-medium text-sm hover:text-green-800 transition">
                   <Phone size={14} />
-                  +92 3405245553
+                  +92 310 5175338
                 </a>
                 <span className="text-gray-300">|</span>
-                <a href="tel:+14157256147" className="inline-flex items-center gap-1.5 text-gray-500 text-sm hover:text-primary-600 transition">
+                <a href="https://wa.me/447916632814" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 text-green-700 font-medium text-sm hover:text-primary-600 transition">
                   <Phone size={14} />
-                  USA: +1 (415) 725-6147
+                  UK: +44 7916 632814
                 </a>
               </div>
             </div>
