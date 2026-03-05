@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { Eye, Heart, GraduationCap, Target, Users, ArrowRight, BookOpen, Globe, Award, Clock, Monitor, ChevronRight, CheckCircle2 } from "lucide-react";
 import Link from "next/link";
-import { createAdminClient } from "@/lib/supabase/admin";
 import HeroContactForm from "@/components/HeroContactForm";
 
 export const metadata: Metadata = {
@@ -9,6 +8,12 @@ export const metadata: Metadata = {
   description:
     "Learn about Hasnain Online Quran Academy — founded in 2018, serving 5,000+ students across 100+ countries with certified Quran teachers.",
   alternates: { canonical: "/about" },
+  openGraph: {
+    title: "About Hasnain Online Quran Academy",
+    description: "Founded in 2018, serving 5,000+ students across 100+ countries with certified Quran teachers.",
+    url: "/about",
+    type: "website",
+  },
 };
 
 const whyChoose = [
@@ -47,25 +52,21 @@ const steps = [
   { num: "04", title: "Achieve Your Goals", desc: "Track your progress, complete milestones, and receive certificates upon completion." },
 ];
 
-export default async function AboutPage() {
-  const admin = createAdminClient();
-  const { count: teacherCount } = await admin
-    .from("profiles")
-    .select("id", { count: "exact", head: true })
-    .eq("is_public", true);
-
-  const tCount = `${teacherCount || 0}+`;
+export default function AboutPage() {
+  const tCount = "100+";
 
   return (
     <>
       {/* Hero */}
       <section className="relative bg-gradient-to-br from-primary-600 via-primary-700 to-primary-800 text-white overflow-hidden">
         <div className="absolute inset-0 pattern-overlay" />
-        <div className="relative max-w-4xl mx-auto px-4 py-24 md:py-32 text-center">
+        <div className="hero-blob w-[500px] h-[500px] bg-primary-400 -top-48 -right-48 opacity-15" />
+        <div className="hero-blob w-[400px] h-[400px] bg-gold-400 -bottom-40 -left-40 opacity-10" />
+        <div className="relative max-w-4xl mx-auto px-4 sm:px-6 py-24 md:py-32 text-center">
           <span className="inline-block px-4 py-1.5 rounded-full bg-white/10 text-gold-300 text-sm font-medium mb-6 border border-white/10">
             About Us
           </span>
-          <h1 className="text-4xl md:text-6xl font-bold font-heading mb-6">
+          <h1 className="font-heading mb-6">
             Welcome to <span className="text-gold-400">Hasnain Online Quran Academy</span>
           </h1>
           <p className="text-white/70 text-lg max-w-2xl mx-auto">
@@ -81,30 +82,30 @@ export default async function AboutPage() {
 
       {/* Main 2/3 + 1/3 Layout */}
       <section className="section-padding bg-white">
-        <div className="max-w-7xl mx-auto flex flex-col lg:flex-row gap-10">
+        <div className="section-container flex flex-col lg:flex-row gap-10">
 
           {/* ── Left Content Column (2/3) ── */}
           <div className="lg:w-2/3 space-y-16">
 
             {/* Mission & Vision */}
             <div>
-              <h2 className="text-2xl md:text-3xl font-bold font-heading text-gray-900 mb-2">Our Mission <span className="text-primary-600">&amp; Vision</span></h2>
+              <h2 className="font-heading text-gray-900 mb-2">Our Mission <span className="text-primary-600">&amp; Vision</span></h2>
               <p className="text-gray-500 mb-8">Guided by faith, driven by purpose.</p>
               <div className="grid sm:grid-cols-2 gap-6">
-                <div className="fade-up p-7 rounded-2xl bg-gradient-to-br from-primary-50 to-white border border-primary-100 hover:shadow-lg transition-all duration-300">
+                <div className="fade-up p-7 rounded-2xl bg-gradient-to-br from-primary-50 to-white border border-primary-100 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 ease-out">
                   <div className="w-12 h-12 rounded-xl bg-primary-100 flex items-center justify-center mb-4">
                     <Target className="text-primary-600" size={24} />
                   </div>
-                  <h3 className="text-lg font-bold text-gray-900 mb-2">Our Mission</h3>
+                  <p className="text-lg font-bold text-gray-900 mb-2">Our Mission</p>
                   <p className="text-gray-600 text-sm leading-relaxed">
                     To spread the knowledge of Islam and the teachings of the Quran to people worldwide. We provide an interactive and engaging learning experience that fosters a deeper understanding of Islamic principles and practices through certified, one-on-one instruction.
                   </p>
                 </div>
-                <div className="fade-up p-7 rounded-2xl bg-gradient-to-br from-gold-50 to-white border border-gold-100 hover:shadow-lg transition-all duration-300">
+                <div className="fade-up p-7 rounded-2xl bg-gradient-to-br from-gold-50 to-white border border-gold-100 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 ease-out">
                   <div className="w-12 h-12 rounded-xl bg-gold-100 flex items-center justify-center mb-4">
                     <Eye className="text-gold-600" size={24} />
                   </div>
-                  <h3 className="text-lg font-bold text-gray-900 mb-2">Our Vision</h3>
+                  <p className="text-lg font-bold text-gray-900 mb-2">Our Vision</p>
                   <p className="text-gray-600 text-sm leading-relaxed">
                     To become the leading online platform for Islamic education, recognized for our commitment to excellence and authenticity. We envision a world where every Muslim has access to quality Quranic education regardless of their location or background.
                   </p>
@@ -114,16 +115,16 @@ export default async function AboutPage() {
 
             {/* Why Choose Us */}
             <div>
-              <h2 className="text-2xl md:text-3xl font-bold font-heading text-gray-900 mb-2">Why Choose <span className="text-primary-600">Our Academy?</span></h2>
+              <h2 className="font-heading text-gray-900 mb-2">Why Choose <span className="text-primary-600">Our Academy?</span></h2>
               <p className="text-gray-500 mb-8">What sets us apart in online Islamic education.</p>
               <div className="space-y-4">
                 {whyChoose.map((item, i) => (
-                  <div key={i} className="fade-up flex gap-5 p-5 rounded-2xl bg-gray-50 border border-gray-100 hover:shadow-md transition-all duration-300">
+                  <div key={i} className="fade-up flex gap-5 p-5 rounded-2xl bg-gray-50 border border-gray-100 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 ease-out">
                     <div className="w-12 h-12 rounded-xl bg-primary-50 flex items-center justify-center shrink-0">
                       <item.icon className="text-primary-600" size={24} />
                     </div>
                     <div>
-                      <h3 className="font-bold text-gray-900 mb-1">{item.title}</h3>
+                      <p className="font-bold text-gray-900 mb-1">{item.title}</p>
                       <p className="text-gray-500 text-sm leading-relaxed">{item.desc}</p>
                     </div>
                   </div>
@@ -133,14 +134,14 @@ export default async function AboutPage() {
 
             {/* Our Courses */}
             <div>
-              <h2 className="text-2xl md:text-3xl font-bold font-heading text-gray-900 mb-2">Our <span className="text-primary-600">Courses</span></h2>
+              <h2 className="font-heading text-gray-900 mb-2">Our <span className="text-primary-600">Courses</span></h2>
               <p className="text-gray-500 mb-8">We offer a variety of courses to meet your learning needs.</p>
               <div className="grid sm:grid-cols-2 gap-6">
                 <div className="fade-up p-6 rounded-2xl bg-primary-50/50 border border-primary-100">
-                  <h3 className="text-base font-bold text-gray-900 mb-4 flex items-center gap-2">
+                  <p className="text-base font-bold text-gray-900 mb-4 flex items-center gap-2">
                     <BookOpen className="text-primary-600" size={20} />
                     Quran &amp; Islamic Courses
-                  </h3>
+                  </p>
                   <ul className="space-y-2.5">
                     {regularCourses.map((c, i) => (
                       <li key={i} className="flex items-center gap-3 text-gray-700 text-sm">
@@ -151,10 +152,10 @@ export default async function AboutPage() {
                   </ul>
                 </div>
                 <div className="fade-up p-6 rounded-2xl bg-gold-50/50 border border-gold-100">
-                  <h3 className="text-base font-bold text-gray-900 mb-4 flex items-center gap-2">
+                  <p className="text-base font-bold text-gray-900 mb-4 flex items-center gap-2">
                     <GraduationCap className="text-gold-600" size={20} />
                     Academic Courses
-                  </h3>
+                  </p>
                   <ul className="space-y-2.5">
                     {academicCourses.map((c, i) => (
                       <li key={i} className="flex items-center gap-3 text-gray-700 text-sm">
@@ -169,7 +170,7 @@ export default async function AboutPage() {
 
             {/* Our Approach */}
             <div>
-              <h2 className="text-2xl md:text-3xl font-bold font-heading text-gray-900 mb-2">Our <span className="text-primary-600">Approach</span></h2>
+              <h2 className="font-heading text-gray-900 mb-2">Our <span className="text-primary-600">Approach</span></h2>
               <p className="text-gray-500 mb-8">How we deliver the best Islamic education online.</p>
               <div className="fade-up bg-gray-50 p-7 rounded-2xl border border-gray-100">
                 <div className="w-14 h-14 rounded-full bg-primary-50 flex items-center justify-center mb-5">
@@ -198,8 +199,10 @@ export default async function AboutPage() {
       </section>
 
       {/* Stats Strip */}
-      <section className="bg-primary-600 py-12">
-        <div className="max-w-6xl mx-auto px-4 grid grid-cols-2 md:grid-cols-4 gap-8 text-center text-white">
+      <section className="relative bg-gradient-to-r from-primary-600 to-primary-800 py-12 overflow-hidden">
+        <div className="absolute inset-0 pattern-overlay" />
+        <div className="hero-blob w-[400px] h-[400px] bg-primary-400 -top-40 -left-40 opacity-10" />
+        <div className="relative section-container px-4 sm:px-6 grid grid-cols-2 md:grid-cols-4 gap-8 text-center text-white">
           {[
             { value: "5,000+", label: "Students Worldwide", icon: Users },
             { value: "100+", label: "Countries", icon: Globe },
@@ -217,16 +220,16 @@ export default async function AboutPage() {
 
       {/* Steps to Learn */}
       <section className="section-padding bg-white">
-        <div className="max-w-6xl mx-auto">
+        <div className="section-container">
           <h2 className="section-title">Steps to <span className="text-primary-600">Learn with Us</span></h2>
           <p className="section-subtitle">Start your Quran learning journey in four simple steps.</p>
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {steps.map((s, i) => (
-              <div key={i} className="fade-up relative text-center p-6 rounded-2xl bg-white border border-gray-100 hover:shadow-lg hover:border-primary-200 transition-all duration-300 group">
-                <div className="w-14 h-14 rounded-full bg-primary-600 text-white text-lg font-bold flex items-center justify-center mx-auto mb-4 group-hover:bg-primary-700 transition-colors">
+              <div key={i} className="fade-up relative text-center p-6 rounded-2xl bg-white border border-gray-100 shadow-sm hover:shadow-md hover:-translate-y-0.5 hover:border-primary-200 transition-all duration-200 ease-out group">
+                <div className="w-14 h-14 rounded-full bg-primary-600 text-white text-lg font-bold flex items-center justify-center mx-auto mb-4 group-hover:bg-primary-700 transition-colors duration-150">
                   {s.num}
                 </div>
-                <h3 className="font-bold text-gray-900 mb-2">{s.title}</h3>
+                <p className="font-bold text-gray-900 mb-2">{s.title}</p>
                 <p className="text-gray-500 text-sm leading-relaxed">{s.desc}</p>
                 {i < steps.length - 1 && (
                   <ChevronRight className="hidden lg:block absolute -right-3 top-1/2 -translate-y-1/2 text-primary-300" size={24} />
@@ -238,13 +241,15 @@ export default async function AboutPage() {
       </section>
 
       {/* CTA */}
-      <section className="relative py-20 bg-gradient-to-r from-primary-600 to-primary-800 text-white overflow-hidden">
+      <section className="relative py-24 bg-gradient-to-br from-primary-600 via-primary-700 to-primary-800 text-white overflow-hidden">
         <div className="absolute inset-0 pattern-overlay" />
-        <div className="relative max-w-3xl mx-auto px-4 text-center">
-          <h2 className="text-3xl md:text-5xl font-bold font-heading mb-5">
+        <div className="hero-blob w-[500px] h-[500px] bg-primary-400 -top-48 -right-48 opacity-15" />
+        <div className="hero-blob w-[400px] h-[400px] bg-gold-400 -bottom-40 -left-40 opacity-10" />
+        <div className="relative max-w-3xl mx-auto px-4 sm:px-6 text-center">
+          <h2 className="text-3xl md:text-5xl font-bold font-heading mb-6">
             Join Our <span className="text-gold-400">Community</span>
           </h2>
-          <p className="text-white/60 text-lg mb-8">
+          <p className="text-white/70 text-lg mb-8">
             Ready to learn from the best? Enroll now and start your journey with Hasnain Online Quran Academy!
           </p>
           <Link href="/register" className="btn-gold text-lg !px-10 !py-4">

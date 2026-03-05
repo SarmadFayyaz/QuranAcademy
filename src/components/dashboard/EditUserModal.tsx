@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { X, User, BookOpen, FileText, Eye } from "lucide-react";
+import { X, User, BookOpen, FileText, Eye, AlertTriangle } from "lucide-react";
 import { useToast } from "./Toast";
 import CountryPhoneFields from "@/components/CountryPhoneFields";
 import { findCountryByName, findCountryByCode } from "@/lib/countries";
@@ -24,6 +24,7 @@ export default function EditUserModal({
   const [loading, setLoading] = useState(false);
   const [form, setForm] = useState({
     full_name: "",
+    role: "" as "student" | "teacher" | "manager" | "supervisor" | "",
     phone: "",
     countryCode: "",
     teacher_type: "" as "" | "quran" | "subject",
@@ -37,6 +38,7 @@ export default function EditUserModal({
       const country = user.country ? findCountryByName(user.country) : null;
       setForm({
         full_name: user.full_name || "",
+        role: user.role,
         phone: user.phone || "",
         countryCode: country?.code || "",
         teacher_type: user.teacher_type || "",
@@ -49,7 +51,16 @@ export default function EditUserModal({
 
   if (!isOpen || !user) return null;
 
-  const isTeacherLike = ["teacher", "manager", "supervisor"].includes(user.role);
+  const isTeacherLike = ["teacher", "manager", "supervisor"].includes(form.role);
+  const roleChanged = form.role !== user.role;
+  const roleLevel: Record<string, number> = { student: 0, teacher: 1, manager: 2, supervisor: 3 };
+  const isPromotion = roleChanged && roleLevel[form.role] > roleLevel[user.role];
+
+  const roleWarning = isPromotion
+    ? form.role === "manager"
+      ? `This will give "${form.full_name || user.full_name}" full manager access including creating users, changing roles, and managing all data.`
+      : `This will promote "${form.full_name || user.full_name}" from ${user.role} to teacher, allowing them to be assigned students and appear on the Teachers page.`
+    : null;
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -59,6 +70,7 @@ export default function EditUserModal({
 
     const body: Record<string, unknown> = {
       full_name: form.full_name,
+      role: form.role,
       phone: form.phone || null,
       country: countryName || null,
     };
@@ -93,11 +105,11 @@ export default function EditUserModal({
     "w-full pl-10 pr-4 py-3 rounded-xl border border-gray-200 focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 outline-none transition text-sm";
 
   return (
-    <div className="fixed inset-0 z-[60] flex items-center justify-center p-4">
+    <div role="dialog" aria-modal="true" aria-labelledby="modal-title" className="fixed inset-0 z-[60] flex items-center justify-center p-4" onKeyDown={(e) => { if (e.key === "Escape") onClose(); }}>
       <div className="absolute inset-0 bg-black/50" onClick={onClose} />
       <div className="relative bg-white rounded-2xl shadow-2xl w-full max-w-md max-h-[90vh] overflow-y-auto">
         <div className="flex items-center justify-between p-6 border-b border-gray-100">
-          <h2 className="text-xl font-bold text-gray-900 font-heading">
+          <h2 id="modal-title" className="text-xl font-bold text-gray-900 font-heading">
             Edit User
           </h2>
           <button
@@ -129,14 +141,28 @@ export default function EditUserModal({
             </div>
           </div>
 
-          {/* Role (display only) */}
+          {/* Role */}
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1.5">
               Role
             </label>
-            <div className="px-4 py-3 rounded-xl border border-gray-200 bg-gray-50 text-sm text-gray-600 capitalize">
-              {user.role}
-            </div>
+            <select
+              value={form.role}
+              onChange={(e) =>
+                setForm({ ...form, role: e.target.value as "student" | "teacher" | "manager" | "supervisor" })
+              }
+              className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 outline-none transition text-sm"
+            >
+              <option value="student">Student</option>
+              <option value="teacher">Teacher</option>
+              <option value="manager">Manager</option>
+            </select>
+            {roleWarning && (
+              <div className="mt-2 flex items-start gap-2 p-3 rounded-lg bg-amber-50 border border-amber-200 text-amber-800 text-sm">
+                <AlertTriangle size={16} className="shrink-0 mt-0.5" />
+                <span>{roleWarning}</span>
+              </div>
+            )}
           </div>
 
           {/* Country & Phone */}

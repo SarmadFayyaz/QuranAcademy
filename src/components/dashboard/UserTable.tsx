@@ -46,7 +46,8 @@ export default function UserTable({
 
   useEffect(() => {
     fetchUsers();
-  }, [fetchUsers, onRefreshKey]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [page, roleFilter, onRefreshKey]);
 
   const handleDelete = async (id: string, name: string | null) => {
     if (!confirm(`Delete user "${name || "unnamed"}"? This cannot be undone.`))

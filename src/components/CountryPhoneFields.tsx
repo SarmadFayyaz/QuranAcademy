@@ -1,9 +1,14 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useMemo } from "react";
 import { Phone, Globe, ChevronDown } from "lucide-react";
 import { countries, findCountryByCode, applyPhoneMask, getDialDigits } from "@/lib/countries";
 import type { Country } from "@/lib/countries";
+
+/** Convert ISO 3166-1 alpha-2 code to flag emoji (e.g. "US" → 🇺🇸) */
+function countryFlag(code: string) {
+  return [...code.toUpperCase()].map((c) => String.fromCodePoint(0x1f1e6 + c.charCodeAt(0) - 65)).join("");
+}
 
 interface CountryPhoneFieldsProps {
   country: string; // country code e.g. "PK"
@@ -73,13 +78,13 @@ function CountrySelect({
 
   const selected = findCountryByCode(value);
 
-  const filtered = search
-    ? countries.filter(
-        (c) =>
-          c.name.toLowerCase().includes(search.toLowerCase()) ||
-          c.dial.includes(search)
-      )
-    : countries;
+  const filtered = useMemo(() => {
+    if (!search) return countries;
+    const lower = search.toLowerCase();
+    return countries.filter(
+      (c) => c.name.toLowerCase().includes(lower) || c.dial.includes(search)
+    );
+  }, [search]);
 
   useEffect(() => {
     const handleClick = (e: MouseEvent) => {
@@ -100,7 +105,11 @@ function CountrySelect({
 
   return (
     <div className="relative" ref={ref}>
-      <Globe size={18} className={iconClass} />
+      {selected ? (
+        <span className={`${iconClass} text-base leading-none`}>{countryFlag(selected.code)}</span>
+      ) : (
+        <Globe size={18} className={iconClass} />
+      )}
       <input
         ref={inputRef}
         type="text"
@@ -142,7 +151,7 @@ function CountrySelect({
                     : "text-gray-700"
                 }`}
               >
-                <span>{c.name}</span>
+                <span>{countryFlag(c.code)} {c.name}</span>
                 <span className="text-gray-400 text-xs">{c.dial}</span>
               </button>
             ))

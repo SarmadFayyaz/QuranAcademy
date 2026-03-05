@@ -55,7 +55,7 @@ export async function PATCH(
     .from("profiles")
     .update(updates)
     .eq("id", id)
-    .select()
+    .select("id, full_name, email, role, phone, country, teacher_type, subjects, bio, is_public")
     .single();
 
   if (error) {

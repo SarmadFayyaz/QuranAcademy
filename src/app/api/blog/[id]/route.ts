@@ -26,7 +26,7 @@ export async function GET(
   if (!manager) return NextResponse.json({ error: "Forbidden" }, { status: 403 });
 
   const admin = createAdminClient();
-  const { data, error } = await admin.from("blog_posts").select("*").eq("id", id).single();
+  const { data, error } = await admin.from("blog_posts").select("id, title, slug, content, excerpt, featured_image, author_id, status, created_at, updated_at").eq("id", id).single();
   if (error || !data) return NextResponse.json({ error: "Not found" }, { status: 404 });
   return NextResponse.json({ post: data });
 }
@@ -53,7 +53,7 @@ export async function PATCH(
   updates.updated_at = new Date().toISOString();
 
   const admin = createAdminClient();
-  const { data, error } = await admin.from("blog_posts").update(updates).eq("id", id).select().single();
+  const { data, error } = await admin.from("blog_posts").update(updates).eq("id", id).select("id, title, slug, content, excerpt, featured_image, status, created_at, updated_at").single();
   if (error) {
     if (error.code === "23505") {
       return NextResponse.json({ error: "A post with this slug already exists" }, { status: 409 });

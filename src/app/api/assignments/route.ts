@@ -123,7 +123,7 @@ export async function POST(request: Request) {
   const { data, error } = await supabase
     .from("teacher_students")
     .insert({ teacher_id, student_id })
-    .select()
+    .select("id, teacher_id, student_id, assigned_at")
     .single();
 
   if (error) {

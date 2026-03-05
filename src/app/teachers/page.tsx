@@ -8,6 +8,12 @@ export const metadata: Metadata = {
   description:
     "Meet Ijazah-certified Quran scholars at Hasnain Online Quran Academy. Male and female teachers with university education and 5+ years experience.",
   alternates: { canonical: "/teachers" },
+  openGraph: {
+    title: "Our Teachers — Hasnain Online Quran Academy",
+    description: "Meet Ijazah-certified Quran scholars with university education and 5+ years teaching experience.",
+    url: "/teachers",
+    type: "website",
+  },
 };
 
 const qualifications = [
@@ -73,11 +79,13 @@ export default async function TeachersPage() {
       {/* Hero */}
       <section className="relative bg-gradient-to-br from-primary-600 via-primary-700 to-primary-800 text-white overflow-hidden">
         <div className="absolute inset-0 pattern-overlay" />
-        <div className="relative max-w-4xl mx-auto px-4 py-24 md:py-32 text-center">
+        <div className="hero-blob w-[500px] h-[500px] bg-primary-400 -top-48 -right-48 opacity-15" />
+        <div className="hero-blob w-[400px] h-[400px] bg-gold-400 -bottom-40 -left-40 opacity-10" />
+        <div className="relative max-w-4xl mx-auto px-4 sm:px-6 py-24 md:py-32 text-center">
           <span className="inline-block px-4 py-1.5 rounded-full bg-white/10 text-gold-300 text-sm font-medium mb-6 border border-white/10">
-            ✦ Meet Our Scholars
+            Meet Our Scholars
           </span>
-          <h1 className="text-4xl md:text-6xl font-bold font-heading mb-6">
+          <h1 className="font-heading mb-6">
             Our <span className="text-gold-400">Teachers</span>
           </h1>
           <p className="text-white/70 text-lg max-w-2xl mx-auto">
@@ -94,16 +102,16 @@ export default async function TeachersPage() {
 
       {/* Qualifications */}
       <section className="section-padding bg-white">
-        <div className="max-w-6xl mx-auto">
+        <div className="section-container">
           <h2 className="section-title">Teacher <span className="text-primary-600">Qualifications</span></h2>
           <p className="section-subtitle">Every teacher meets our rigorous selection criteria.</p>
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
             {qualifications.map((q, i) => (
-              <div key={i} className="fade-up text-center p-6 rounded-2xl border border-gray-100 hover:shadow-lg transition-all">
+              <div key={i} className="fade-up text-center p-6 rounded-2xl border border-gray-100 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 ease-out">
                 <div className="w-14 h-14 rounded-xl bg-primary-50 flex items-center justify-center mx-auto mb-4">
                   <q.icon className="text-primary-600" size={26} />
                 </div>
-                <h3 className="font-bold text-gray-900 mb-2">{q.title}</h3>
+                <p className="font-bold text-gray-900 mb-2">{q.title}</p>
                 <p className="text-gray-500 text-sm leading-relaxed">{q.desc}</p>
               </div>
             ))}
@@ -111,20 +119,22 @@ export default async function TeachersPage() {
         </div>
       </section>
 
+      <div className="section-line" />
+
       {/* Teacher Categories */}
-      <section className="section-padding bg-gray-50">
-        <div className="max-w-6xl mx-auto">
+      <section className="section-padding bg-gray-50/80">
+        <div className="section-container">
           <h2 className="section-title">Teacher <span className="text-primary-600">Categories</span></h2>
           <p className="section-subtitle">Choose the teaching style that suits you best.</p>
           <div className="grid lg:grid-cols-3 gap-6">
             {teacherCategories.map((cat, i) => (
-              <div key={i} className="fade-up bg-white rounded-2xl p-8 border border-gray-100 hover:shadow-xl transition-all duration-300">
+              <div key={i} className="fade-up bg-white rounded-2xl p-8 border border-gray-100 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 ease-out">
                 <div className="flex items-center gap-4 mb-5">
                   <div className="w-14 h-14 rounded-xl bg-primary-50 flex items-center justify-center">
                     <cat.icon className="text-primary-600" size={26} />
                   </div>
                   <div>
-                    <h3 className="font-bold text-gray-900 text-lg">{cat.title}</h3>
+                    <p className="font-bold text-gray-900 text-lg">{cat.title}</p>
                   </div>
                 </div>
                 <p className="text-gray-500 text-sm leading-relaxed mb-5">{cat.desc}</p>
@@ -142,22 +152,24 @@ export default async function TeachersPage() {
         </div>
       </section>
 
+      <div className="section-line" />
+
       {/* Quran Teachers */}
       {quranTeachers.length > 0 && (
         <section className="section-padding bg-white">
-          <div className="max-w-6xl mx-auto">
+          <div className="section-container">
             <h2 className="section-title">Quran <span className="text-primary-600">Teachers</span></h2>
             <p className="section-subtitle">Our dedicated Quran teachers who guide students through their learning journey.</p>
-            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-5">
+            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4">
               {quranTeachers.map((t) => {
                 const highlight = t.role === "manager" || t.role === "supervisor";
                 const displayRole = t.role === "teacher" ? "Quran Teacher" : t.role.charAt(0).toUpperCase() + t.role.slice(1);
                 return (
-                  <div key={t.id} className={`fade-up p-5 rounded-2xl border hover:shadow-lg transition-all duration-300 text-center ${highlight ? "bg-primary-50 border-primary-200" : "bg-white border-gray-100"}`}>
+                  <div key={t.id} className={`fade-up p-5 rounded-2xl border shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 ease-out text-center ${highlight ? "bg-primary-50 border-primary-200" : "bg-white border-gray-100"}`}>
                     <div className={`w-14 h-14 rounded-full flex items-center justify-center text-white text-lg font-bold mb-3 mx-auto shadow-md ${highlight ? "bg-gradient-to-br from-gold-500 to-gold-700" : "bg-gradient-to-br from-primary-500 to-primary-700"}`}>
                       {(t.full_name || "?")[0]}
                     </div>
-                    <h3 className="font-bold text-gray-900 text-sm">{t.full_name || "—"}</h3>
+                    <p className="font-bold text-gray-900 text-sm">{t.full_name || "—"}</p>
                     <p className={`text-xs font-medium ${highlight ? "text-gold-600" : "text-primary-600"}`}>{displayRole}</p>
                     {t.bio && <p className="text-xs text-gray-400 mt-1 line-clamp-2">{t.bio}</p>}
                   </div>
@@ -170,39 +182,44 @@ export default async function TeachersPage() {
 
       {/* Subject Teachers */}
       {subjectTeachers.length > 0 && (
-        <section className="section-padding bg-gray-50">
-          <div className="max-w-5xl mx-auto">
-            <h2 className="section-title">Subject <span className="text-primary-600">Teachers</span></h2>
-            <p className="section-subtitle">Our academic subject teachers for Mathematics, English, Urdu and other subjects.</p>
-            <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
-              {subjectTeachers.map((t) => {
-                const isSupervisor = t.role === "manager" || t.role === "supervisor";
-                const displayRole = t.role === "teacher" ? "Subject Teacher" : t.role.charAt(0).toUpperCase() + t.role.slice(1);
-                return (
-                  <div key={t.id} className={`fade-up p-6 rounded-2xl border hover:shadow-lg transition-all duration-300 text-center ${isSupervisor ? "bg-primary-50 border-primary-200" : "bg-white border-gray-100"}`}>
-                    <div className={`w-16 h-16 rounded-full flex items-center justify-center text-white text-xl font-bold mb-4 mx-auto shadow-md ${isSupervisor ? "bg-gradient-to-br from-gold-500 to-gold-700" : "bg-gradient-to-br from-blue-500 to-blue-700"}`}>
-                      {(t.full_name || "?")[0]}
+        <>
+          <div className="section-line" />
+          <section className="section-padding bg-gray-50/80">
+            <div className="max-w-5xl mx-auto px-4 sm:px-6">
+              <h2 className="section-title">Subject <span className="text-primary-600">Teachers</span></h2>
+              <p className="section-subtitle">Our academic subject teachers for Mathematics, English, Urdu and other subjects.</p>
+              <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                {subjectTeachers.map((t) => {
+                  const isSupervisor = t.role === "manager" || t.role === "supervisor";
+                  const displayRole = t.role === "teacher" ? "Subject Teacher" : t.role.charAt(0).toUpperCase() + t.role.slice(1);
+                  return (
+                    <div key={t.id} className={`fade-up p-6 rounded-2xl border shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 ease-out text-center ${isSupervisor ? "bg-primary-50 border-primary-200" : "bg-white border-gray-100"}`}>
+                      <div className={`w-16 h-16 rounded-full flex items-center justify-center text-white text-xl font-bold mb-4 mx-auto shadow-md ${isSupervisor ? "bg-gradient-to-br from-gold-500 to-gold-700" : "bg-gradient-to-br from-blue-500 to-blue-700"}`}>
+                        {(t.full_name || "?")[0]}
+                      </div>
+                      <p className="font-bold text-gray-900 text-base">{t.full_name || "—"}</p>
+                      <p className={`text-sm font-medium mb-1 ${isSupervisor ? "text-gold-600" : "text-primary-600"}`}>{displayRole}</p>
+                      {t.subjects && <span className="text-xs text-gray-400">{t.subjects}</span>}
+                      {t.bio && <p className="text-xs text-gray-400 mt-1 line-clamp-2">{t.bio}</p>}
                     </div>
-                    <h3 className="font-bold text-gray-900 text-base">{t.full_name || "—"}</h3>
-                    <p className={`text-sm font-medium mb-1 ${isSupervisor ? "text-gold-600" : "text-primary-600"}`}>{displayRole}</p>
-                    {t.subjects && <span className="text-xs text-gray-400">{t.subjects}</span>}
-                    {t.bio && <p className="text-xs text-gray-400 mt-1 line-clamp-2">{t.bio}</p>}
-                  </div>
-                );
-              })}
+                  );
+                })}
+              </div>
             </div>
-          </div>
-        </section>
+          </section>
+        </>
       )}
 
       {/* CTA */}
-      <section className="relative py-20 bg-gradient-to-r from-primary-600 to-primary-800 text-white overflow-hidden">
+      <section className="relative py-24 bg-gradient-to-br from-primary-600 via-primary-700 to-primary-800 text-white overflow-hidden">
         <div className="absolute inset-0 pattern-overlay" />
-        <div className="relative max-w-3xl mx-auto px-4 text-center">
-          <h2 className="text-3xl md:text-5xl font-bold font-heading mb-5">
+        <div className="hero-blob w-[500px] h-[500px] bg-primary-400 -top-48 -right-48 opacity-15" />
+        <div className="hero-blob w-[400px] h-[400px] bg-gold-400 -bottom-40 -left-40 opacity-10" />
+        <div className="relative max-w-3xl mx-auto px-4 sm:px-6 text-center">
+          <h2 className="text-3xl md:text-5xl font-bold font-heading mb-6">
             Learn from the <span className="text-gold-400">Best</span>
           </h2>
-          <p className="text-white/60 text-lg mb-8">
+          <p className="text-white/70 text-lg mb-8">
             Start your free trial today and meet your dedicated teacher.
           </p>
           <Link href="/register" className="btn-gold text-lg !px-10 !py-4">

@@ -20,9 +20,12 @@ import {
   Percent,
   LayoutGrid,
   Clock,
+  Target,
+  Play,
 } from "lucide-react";
 import HeroContactForm from "@/components/HeroContactForm";
-import { createAdminClient } from "@/lib/supabase/admin";
+import { SITE_URL, SITE_NAME } from "@/lib/constants";
+import { courses } from "@/lib/courses";
 
 export const metadata: Metadata = {
   title: "Learn Quran Online with Certified Teachers",
@@ -32,29 +35,34 @@ export const metadata: Metadata = {
 };
 
 /* ─── Data ─── */
-const courses = [
-  { image: "/assets/images/courses/noorani-qaida.svg", title: "Learn Noorani Qaida Online", desc: "Start reading the Quran correctly with basic pronunciation rules." },
-  { image: "/assets/images/courses/quran-recitation.svg", title: "Quran Reading with Tajweed", desc: "Master the rules of Tajweed for precise Quran recitation." },
-  { image: "/assets/images/courses/quran-memorization.svg", title: "Memorize Quran Online", desc: "Memorize the Quran with personalized guidance from expert tutors." },
-  { image: "/assets/images/courses/tafsir.svg", title: "Learn Tafsir Online", desc: "Gain deep insights into the meanings behind Quranic verses." },
-  { image: "/assets/images/courses/arabic.svg", title: "Learn Arabic Online", desc: "Master classical Arabic to enhance your understanding of Quranic texts." },
-  { image: "/assets/images/courses/islamic-studies.svg", title: "Learn Islamic Studies Online", desc: "Explore Islamic studies from basics to advanced topics." },
-  { image: "/assets/images/courses/taleem-ul-islam.svg", title: "Taleem ul Islam", desc: "Understand the foundational principles and practices of Islam." },
-  { image: "/assets/images/courses/quran-translation.svg", title: "Quran Translation Course", desc: "Learn to translate Quranic Arabic to understand its messages clearly." },
-  { image: "/assets/images/courses/ijazah.svg", title: "Online Ijazah Course", desc: "Earn a certification in Quranic recitation and teaching." },
-  { image: "/assets/images/courses/quranic-arabic.svg", title: "Quranic Arabic Course", desc: "Learn Quranic Arabic to understand the Quran directly with grammar." },
-  { image: "/assets/images/courses/mathematics.svg", title: "Mathematics", desc: "Expert tutoring in Mathematics for all levels — from basics to advanced." },
-  { image: "/assets/images/courses/english.svg", title: "English", desc: "Improve your English reading, writing, and speaking skills with qualified tutors." },
-  { image: "/assets/images/courses/urdu.svg", title: "Urdu", desc: "Learn Urdu reading and writing with experienced language teachers." },
-  { image: "/assets/images/courses/science.svg", title: "Science", desc: "Comprehensive science tutoring covering Physics, Chemistry, and Biology." },
-  { image: "/assets/images/courses/other-subjects.svg", title: "Other Subjects", desc: "Additional academic subjects available on request. Contact us for details." },
+const staticStats = [
+  { value: "5,000+", label: "Students", icon: Users, color: "bg-teal-500" },
+  { value: "50+", label: "Courses", icon: BookOpen, color: "bg-blue-500" },
+  { value: "100+", label: "Teachers", icon: GraduationCap, color: "bg-amber-500" },
+  { value: "100+", label: "Countries", icon: Globe, color: "bg-rose-500" },
 ];
 
-const staticStats = [
-  { value: "5,000+", label: "Students", icon: Users },
-  { value: "50+", label: "Courses", icon: BookOpen },
-  { value: "", label: "Teachers", icon: GraduationCap },
-  { value: "100+", label: "Countries", icon: Globe },
+const visionCards = [
+  {
+    label: "VISION", badge: "Excellence", icon: GraduationCap,
+    gradient: "from-teal-500 to-emerald-400", iconBg: "bg-teal-700", titleColor: "text-teal-600", lineColor: "bg-teal-500",
+    desc: "To become the world's leading online Quran academy, making authentic Islamic education accessible to every Muslim globally through innovative teaching methods and qualified scholars.",
+  },
+  {
+    label: "VALUES", badge: "Quality", icon: Star,
+    gradient: "from-amber-500 to-yellow-400", iconBg: "bg-amber-700", titleColor: "text-amber-600", lineColor: "bg-amber-500",
+    desc: "Rooted in Islamic principles of knowledge, patience, and excellence. We maintain the highest standards of Quranic education while fostering respect, integrity, and spiritual growth in every student.",
+  },
+  {
+    label: "SUPPORT", badge: "24/7", icon: Headphones,
+    gradient: "from-blue-500 to-sky-400", iconBg: "bg-blue-700", titleColor: "text-blue-600", lineColor: "bg-blue-500",
+    desc: "Dedicated multilingual support team available around the clock. From technical assistance to learning guidance, we ensure every student receives personalized attention and continuous encouragement.",
+  },
+  {
+    label: "METHOD", badge: "Proven", icon: Target,
+    gradient: "from-rose-500 to-pink-500", iconBg: "bg-rose-700", titleColor: "text-rose-600", lineColor: "bg-rose-500",
+    desc: "Time-tested Tajweed principles combined with modern interactive technology. Personalized learning paths, one-on-one sessions, and progress tracking ensure effective Quran memorization and recitation.",
+  },
 ];
 
 const trustBadges = [
@@ -105,41 +113,80 @@ const testimonials = [
 ];
 
 const steps = [
-  { step: "01", title: "Register & Get Started", desc: "Sign up for your free trial in under a minute." },
-  { step: "02", title: "Choose Your Course", desc: "Select from our range of Quran and Islamic courses." },
-  { step: "03", title: "Start Interactive Learning", desc: "Begin one-on-one sessions with your dedicated teacher." },
-  { step: "04", title: "Achieve Certification", desc: "Complete your course and receive your certificate." },
+  {
+    step: 1, title: "Register & Get Started", icon: UserPlus,
+    iconBg: "bg-teal-100 text-teal-600", badgeBg: "bg-green-500", titleColor: "text-teal-600", lineColor: "bg-teal-500",
+    desc: "Create your account and join thousands of students beginning their sacred Quran learning journey with our expert tutors.",
+  },
+  {
+    step: 2, title: "Choose Your Course", icon: BookOpen,
+    iconBg: "bg-blue-100 text-blue-600", badgeBg: "bg-blue-500", titleColor: "text-blue-600", lineColor: "bg-blue-500",
+    desc: "Select from our comprehensive range of Quran courses tailored for beginners to advanced learners with flexible schedules.",
+  },
+  {
+    step: 3, title: "Start Interactive Learning", icon: Play,
+    iconBg: "bg-amber-100 text-amber-600", badgeBg: "bg-amber-500", titleColor: "text-amber-600", lineColor: "bg-amber-500",
+    desc: "Begin your personalized Quran learning experience with one-on-one sessions, interactive tools, and progress tracking.",
+  },
+  {
+    step: 4, title: "Achieve Certification", icon: Target,
+    iconBg: "bg-rose-100 text-rose-600", badgeBg: "bg-rose-500", titleColor: "text-rose-600", lineColor: "bg-rose-500",
+    desc: "Complete your course and receive an official certificate recognizing your Quran learning achievement and dedication.",
+  },
 ];
 
-export default async function Home() {
-  const admin = createAdminClient();
-  const { count: teacherCount } = await admin
-    .from("profiles")
-    .select("id", { count: "exact", head: true })
-    .eq("is_public", true);
-
-  const stats = staticStats.map((s) =>
-    s.label === "Teachers" ? { ...s, value: `${teacherCount || 0}+` } : s
-  );
+export default function Home() {
+  const courseSchema = {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    name: "Online Quran & Islamic Courses",
+    itemListElement: courses.slice(0, 10).map((c, i) => ({
+      "@type": "ListItem",
+      position: i + 1,
+      item: {
+        "@type": "Course",
+        name: c.title,
+        description: c.desc,
+        provider: {
+          "@type": "EducationalOrganization",
+          name: SITE_NAME,
+          url: SITE_URL,
+        },
+        offers: {
+          "@type": "Offer",
+          category: "Paid",
+          priceCurrency: "USD",
+          price: "40",
+        },
+      },
+    })),
+  };
 
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(courseSchema) }}
+      />
       {/* ── Hero — split layout ── */}
-      <section className="bg-gradient-to-b from-white to-teal-50/40 py-12 md:py-20">
-        <div className="max-w-7xl mx-auto px-4">
+      <section className="relative bg-gradient-to-b from-white via-teal-50/30 to-teal-50/50 py-16 md:py-24 overflow-hidden">
+        {/* Blurred color blobs for depth */}
+        <div className="hero-blob w-[500px] h-[500px] bg-primary-300 -top-40 -left-40" />
+        <div className="hero-blob w-[400px] h-[400px] bg-gold-300 -bottom-32 -right-32 opacity-10" />
+        <div className="relative section-container px-4 sm:px-6">
           <div className="grid lg:grid-cols-2 gap-12 items-start">
             <div className="pt-4">
-              <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold font-heading text-gray-900 leading-tight mb-2">
+              <h1 className="text-gray-900 font-heading mb-3">
                 Welcome to <span className="text-primary-600">Hasnain Online</span> Quran Academy
               </h1>
               <div className="w-16 h-1 bg-primary-600 rounded-full mb-6" />
-              <h2 className="text-xl md:text-2xl text-gray-700 font-medium mb-5">
+              <p className="text-xl md:text-2xl font-medium text-gray-700 mb-6">
                 Your Gateway to Comprehensive Islamic Education
-              </h2>
+              </p>
               <p className="text-gray-500 leading-relaxed mb-8 max-w-lg">
                 Hasnain Online Quran Academy offers high-quality Islamic education globally, making Quran and Islamic studies accessible, convenient, and effective through our online courses.
               </p>
-              <Link href="/register" className="btn-primary text-lg !px-9 !py-4">
+              <Link href="/register" className="btn-primary text-lg !px-10 !py-4">
                 Get Free Trial
               </Link>
             </div>
@@ -147,20 +194,16 @@ export default async function Home() {
             {/* Free Trial Form */}
             <HeroContactForm />
           </div>
-        </div>
-      </section>
 
-      {/* ── Trust Badges ── */}
-      <section className="py-8 bg-white">
-        <div className="max-w-5xl mx-auto px-4">
-          <div className="grid sm:grid-cols-3 gap-5">
+          {/* Trust Badges */}
+          <div className="grid sm:grid-cols-3 gap-4 mt-12">
             {trustBadges.map((b, i) => (
-              <div key={i} className="flex items-center gap-4 p-5 rounded-xl bg-gray-50 border border-gray-100">
+              <div key={i} className="flex items-center gap-4 p-5 rounded-xl bg-white/80 border border-gray-100 shadow-sm">
                 <div className={`w-12 h-12 rounded-xl ${b.color} flex items-center justify-center shrink-0`}>
                   <b.icon size={22} />
                 </div>
                 <div>
-                  <h4 className="font-bold text-primary-600 text-sm">{b.title}</h4>
+                  <p className="font-semibold text-primary-600 text-sm">{b.title}</p>
                   <p className="text-gray-500 text-xs">{b.desc}</p>
                 </div>
               </div>
@@ -169,35 +212,37 @@ export default async function Home() {
         </div>
       </section>
 
+      <div className="section-line" />
+
       {/* ── Our Courses ── */}
-      <section className="pt-10 md:pt-16 pb-20 md:pb-28 px-4 bg-gradient-to-b from-teal-50/50 to-white">
-        <div className="max-w-7xl mx-auto">
-          <div className="section-divider"><span className="dot" /></div>
-          <h2 className="section-title">Our <span className="text-primary-600">Courses</span></h2>
-          <p className="section-subtitle">Our courses are crafted to provide a comprehensive understanding of Quranic studies. Join structured, in-depth classes taught by qualified scholars.</p>
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-5">
+      <section className="pt-16 md:pt-24 pb-20 md:pb-28 px-4 sm:px-6 bg-gradient-to-b from-teal-50/40 to-white">
+        <div className="section-container">
+          <h2 className="text-3xl md:text-4xl font-bold font-heading text-center text-gray-900 mb-3">Our Courses</h2>
+          <div className="w-16 h-1 bg-primary-600 rounded-full mx-auto mb-6" />
+          <p className="text-gray-500 text-center max-w-3xl mx-auto mb-12 leading-relaxed">Our courses are crafted to provide a comprehensive understanding of Quranic studies. Join structured, in-depth classes taught by qualified scholars.</p>
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4">
             {courses.map((c, i) => (
-              <div key={i} className="fade-up group relative rounded-2xl border border-gray-100 hover:border-primary-300 hover:shadow-xl transition-all duration-300 bg-white overflow-hidden flex flex-col">
+              <div key={i} className="fade-up group relative rounded-2xl border border-gray-100 hover:border-primary-200 hover:shadow-md transition-all duration-200 ease-out bg-white overflow-hidden flex flex-col">
                 {/* Image */}
                 <div className="relative h-40 shrink-0">
                   <Image src={c.image} alt={c.title} width={400} height={240} className="w-full h-full object-cover" />
-                  <span className="absolute top-2.5 right-2.5 px-3 py-1 text-[10px] font-bold rounded-full text-white shadow bg-primary-600">Course</span>
+                  <span className="absolute top-2.5 right-2.5 px-3 py-1 text-[10px] font-bold rounded-full text-white shadow-sm bg-primary-600">Course</span>
                 </div>
                 {/* Content */}
                 <div className="p-4 flex flex-col flex-1">
-                  <h3 className="text-sm font-bold text-gray-900 mb-1.5 leading-tight">{c.title}</h3>
+                  <p className="text-sm font-bold text-gray-900 mb-1.5 leading-tight">{c.title}</p>
                   <p className="text-gray-500 text-xs leading-relaxed mb-3 line-clamp-2 flex-1">{c.desc}</p>
                   <div className="flex gap-2">
-                    <span className="flex-1 text-center py-2 rounded-lg border border-gray-200 text-gray-600 text-xs font-semibold cursor-pointer">Details</span>
-                    <Link href="/register" className="flex-1 text-center py-2 rounded-lg bg-primary-600 text-white text-xs font-semibold">Register</Link>
+                    <span className="flex-1 text-center py-2 rounded-lg border border-gray-200 text-gray-600 text-xs font-medium cursor-pointer hover:bg-gray-50 transition-colors duration-150">Details</span>
+                    <Link href="/register" className="flex-1 text-center py-2 rounded-lg bg-primary-600 text-white text-xs font-semibold hover:bg-primary-700 transition-colors duration-150">Register</Link>
                   </div>
                 </div>
                 {/* Slide-up overlay */}
-                <div className="absolute inset-0 bg-gray-900/95 rounded-2xl translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-out z-10 flex flex-col p-5">
-                  <h3 className="text-white font-bold text-sm mb-2 leading-tight">{c.title}</h3>
+                <div className="absolute inset-0 bg-gray-900/95 rounded-2xl translate-y-full group-hover:translate-y-0 transition-transform duration-250 ease-out z-10 flex flex-col p-5">
+                  <p className="text-sm text-white font-bold mb-2 leading-tight">{c.title}</p>
                   <p className="text-gray-300 text-xs leading-relaxed flex-1">{c.desc}</p>
                   <div className="flex gap-2">
-                    <span className="flex-1 text-center py-2 rounded-lg border border-gray-500 text-white text-xs font-semibold cursor-pointer">Details</span>
+                    <span className="flex-1 text-center py-2 rounded-lg border border-gray-500 text-white text-xs font-medium cursor-pointer">Details</span>
                     <Link href="/register" className="flex-1 text-center py-2 rounded-lg bg-primary-600 text-white text-xs font-semibold">Register</Link>
                   </div>
                 </div>
@@ -207,61 +252,71 @@ export default async function Home() {
         </div>
       </section>
 
-      {/* ── Who We Are + Stats ── */}
-      <section className="section-padding bg-gray-50">
-        <div className="max-w-6xl mx-auto">
-          <div className="section-divider"><span className="dot" /></div>
-          <h2 className="section-title">Who <span className="text-primary-600">We Are</span></h2>
+      <div className="section-line" />
+
+      {/* ── Who We Are ── */}
+      <section className="section-padding bg-gray-50/80">
+        <div className="section-container">
+          <h2 className="text-3xl md:text-4xl font-bold font-heading text-center text-gray-900 mb-3">Who We Are</h2>
+          <div className="w-16 h-1 bg-primary-600 rounded-full mx-auto mb-6" />
+          <p className="text-lg font-semibold text-gray-800 text-center mb-3">Your Trusted Online Quran Academy</p>
           <p className="text-gray-500 text-center max-w-3xl mx-auto mb-12 leading-relaxed">
-            Hasnain Online Quran Academy bridges traditional Islamic scholarship with modern technology, serving thousands of students worldwide with personalized one-on-one Quran education.
+            Established to bridge traditional Islamic education with modern technology, serving students worldwide with certified Quranic scholars and comprehensive curriculum designed for all skill levels.
           </p>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-            {stats.map((s, i) => (
-              <div key={i} className="fade-up bg-white rounded-2xl p-6 text-center border border-gray-100 shadow-sm hover:shadow-lg transition-all">
-                <s.icon className="mx-auto mb-3 text-primary-600" size={28} />
+
+          {/* Stats */}
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-12">
+            {staticStats.map((s, i) => (
+              <div key={i} className="fade-up bg-white rounded-2xl p-6 text-center border border-gray-100 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 ease-out">
+                <div className={`w-12 h-12 rounded-full ${s.color} text-white flex items-center justify-center mx-auto mb-3`}>
+                  <s.icon size={22} />
+                </div>
                 <div className="text-3xl md:text-4xl font-bold font-heading text-gray-900 mb-1">{s.value}</div>
-                <div className="text-gray-400 text-sm font-medium">{s.label}</div>
+                <div className="text-gray-400 text-sm">{s.label}</div>
+              </div>
+            ))}
+          </div>
+
+          {/* Vision / Values / Support / Method */}
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
+            {visionCards.map((card, i) => (
+              <div key={i} className="fade-up rounded-2xl border border-gray-100 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 ease-out bg-white overflow-hidden flex flex-col">
+                {/* Gradient header */}
+                <div className={`relative bg-gradient-to-r ${card.gradient} px-5 py-6`}>
+                  <div className={`w-12 h-12 rounded-xl ${card.iconBg} text-white flex items-center justify-center`}>
+                    <card.icon size={22} />
+                  </div>
+                  <span className="absolute top-4 right-4 px-3 py-1 bg-white/20 text-white text-xs font-semibold rounded-full backdrop-blur-sm">{card.badge}</span>
+                </div>
+                {/* Content */}
+                <div className="p-5 flex flex-col flex-1">
+                  <p className={`font-bold ${card.titleColor} text-sm uppercase tracking-wider mb-3`}>{card.label}</p>
+                  <p className="text-gray-500 text-xs leading-relaxed flex-1">{card.desc}</p>
+                  <div className={`w-16 h-1 ${card.lineColor} rounded-full mt-4`} />
+                </div>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* ── Vision / Values / Support / Method ── */}
-      <section className="section-padding bg-white">
-        <div className="max-w-6xl mx-auto">
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {[
-              { label: "VISION", title: "Leading Academy", desc: "To become the world's leading online Quran academy with innovative teaching methods." },
-              { label: "VALUES", title: "Islamic Principles", desc: "Rooted in knowledge, patience, sincerity, and excellence in everything we do." },
-              { label: "SUPPORT", title: "24/7 Available", desc: "Dedicated multilingual support team available around the clock for every student." },
-              { label: "METHOD", title: "Modern & Traditional", desc: "Time-tested Tajweed principles combined with modern interactive technology." },
-            ].map((item, i) => (
-              <div key={i} className="fade-up p-6 rounded-2xl border border-gray-100 hover:shadow-lg transition-all bg-gradient-to-b from-white to-gray-50">
-                <span className="inline-block px-3 py-1 bg-primary-100 text-primary-700 text-xs font-bold rounded-full mb-3 tracking-wider">{item.label}</span>
-                <h3 className="font-bold text-gray-900 text-lg mb-2">{item.title}</h3>
-                <p className="text-gray-500 text-sm leading-relaxed">{item.desc}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+      <div className="section-line" />
 
       {/* ── Why Choose Us ── */}
-      <section className="section-padding bg-gray-50">
-        <div className="max-w-5xl mx-auto">
-          <div className="section-divider"><span className="dot" /></div>
-          <h2 className="section-title">Why Choose <span className="text-primary-600">Us</span></h2>
-          <p className="section-subtitle">Discover what makes our platform unique, with expert instructors and tailored learning experiences designed for your success.</p>
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-5">
+      <section className="section-padding bg-gray-50/80">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6">
+          <h2 className="text-3xl md:text-4xl font-bold font-heading text-center text-gray-900 mb-3">Why Choose Us</h2>
+          <div className="w-16 h-1 bg-primary-600 rounded-full mx-auto mb-6" />
+          <p className="text-gray-500 text-center max-w-3xl mx-auto mb-12 leading-relaxed">Discover what makes our platform unique, with expert instructors and tailored learning experiences designed for your success.</p>
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
             {whyChoose.map((w, i) => {
               const c = whyChooseColors[i % 4];
               return (
-                <div key={i} className={`fade-up flex flex-col items-center text-center p-6 rounded-2xl bg-white border border-gray-100 border-b-4 ${c.border} hover:shadow-lg transition-all`}>
+                <div key={i} className={`fade-up flex flex-col items-center text-center p-6 rounded-2xl bg-white border border-gray-100 border-b-4 ${c.border} shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 ease-out`}>
                   <div className={`w-14 h-14 rounded-xl ${c.bg} text-white flex items-center justify-center mb-4`}>
                     <w.icon size={24} />
                   </div>
-                  <h4 className={`font-bold ${c.text} text-xs uppercase tracking-wider mb-2`}>{w.title}</h4>
+                  <p className={`font-semibold ${c.text} text-xs uppercase tracking-wider mb-2`}>{w.title}</p>
                   <div className={`w-8 h-0.5 ${c.bg} rounded-full mb-2`} />
                   <p className="text-gray-500 text-xs">{w.desc}</p>
                 </div>
@@ -271,21 +326,23 @@ export default async function Home() {
         </div>
       </section>
 
+      <div className="section-line" />
+
       {/* ── Teachers ── */}
       <section className="section-padding bg-white">
-        <div className="max-w-6xl mx-auto">
-          <div className="section-divider"><span className="dot" /></div>
-          <h2 className="section-title">Our <span className="text-primary-600">Teachers</span></h2>
-          <p className="section-subtitle">Choose the teaching style that suits you best.</p>
+        <div className="section-container">
+          <h2 className="text-3xl md:text-4xl font-bold font-heading text-center text-gray-900 mb-3">Our Teachers</h2>
+          <div className="w-16 h-1 bg-primary-600 rounded-full mx-auto mb-6" />
+          <p className="text-gray-500 text-center max-w-3xl mx-auto mb-12 leading-relaxed">Choose the teaching style that suits you best.</p>
           <div className="grid md:grid-cols-3 gap-6">
             {teacherCategories.map((cat, i) => (
-              <div key={i} className="fade-up p-7 rounded-2xl border border-gray-100 hover:shadow-xl transition-all bg-white text-center">
+              <div key={i} className="fade-up p-8 rounded-2xl border border-gray-100 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 ease-out bg-white text-center">
                 <div className="w-16 h-16 rounded-full bg-primary-100 text-primary-600 flex items-center justify-center mx-auto mb-4">
                   <Users size={28} />
                 </div>
-                <h3 className="font-bold text-gray-900 text-lg mb-2">{cat.title}</h3>
+                <p className="text-lg font-bold text-gray-900 mb-2">{cat.title}</p>
                 <p className="text-gray-500 text-sm leading-relaxed mb-4">{cat.desc}</p>
-                <Link href="/teachers" className="text-primary-600 hover:text-primary-700 text-sm font-semibold inline-flex items-center gap-1 transition">
+                <Link href="/teachers" className="text-primary-600 hover:text-primary-700 text-sm font-semibold inline-flex items-center gap-1 transition-colors duration-150">
                   Learn More <ArrowRight size={14} />
                 </Link>
               </div>
@@ -294,42 +351,57 @@ export default async function Home() {
         </div>
       </section>
 
+      <div className="section-line" />
+
       {/* ── How It Works ── */}
-      <section className="section-padding bg-gray-50">
-        <div className="max-w-5xl mx-auto">
-          <div className="section-divider"><span className="dot" /></div>
-          <h2 className="section-title">How It <span className="text-primary-600">Works</span></h2>
-          <p className="section-subtitle">Get started in four simple steps.</p>
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
+      <section className="section-padding bg-gray-50/80">
+        <div className="section-container px-4 sm:px-6">
+          <h2 className="text-3xl md:text-4xl font-bold font-heading text-center text-gray-900 mb-3">Steps to Learn Quran with Us</h2>
+          <div className="w-16 h-1 bg-primary-600 rounded-full mx-auto mb-6" />
+          <p className="text-gray-500 text-center max-w-3xl mx-auto mb-12 leading-relaxed">
+            Learn the Quran online with the world&apos;s best Male/Female Quran tutors through our comprehensive step-by-step approach
+          </p>
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
             {steps.map((s, i) => (
-              <div key={i} className="fade-up text-center">
-                <div className="w-16 h-16 rounded-full bg-primary-600 text-white text-xl font-bold flex items-center justify-center mx-auto mb-4 shadow-lg shadow-primary-600/30">{s.step}</div>
-                <h3 className="font-bold text-gray-900 text-base mb-2">{s.title}</h3>
-                <p className="text-gray-500 text-sm">{s.desc}</p>
+              <div key={i} className="fade-up relative rounded-2xl border border-gray-100 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 ease-out bg-white overflow-visible pt-6 px-5 pb-0 flex flex-col text-center items-center">
+                {/* Step badge */}
+                <span className={`absolute -top-3 -right-3 w-8 h-8 ${s.badgeBg} text-white text-sm font-bold rounded-full flex items-center justify-center shadow-sm`}>{s.step}</span>
+                {/* Icon */}
+                <div className={`w-12 h-12 rounded-xl ${s.iconBg} flex items-center justify-center mb-5`}>
+                  <s.icon size={22} />
+                </div>
+                {/* Title */}
+                <p className={`font-bold ${s.titleColor} text-sm mb-1`}>{s.title}</p>
+                <div className={`w-10 h-0.5 ${s.lineColor} rounded-full mb-3`} />
+                {/* Desc */}
+                <p className="text-gray-500 text-xs leading-relaxed flex-1 mb-5">{s.desc}</p>
+                <div className={`w-full h-1 ${s.lineColor} rounded-b-2xl mt-auto`} />
               </div>
             ))}
           </div>
         </div>
       </section>
 
+      <div className="section-line" />
+
       {/* ── Fees and Pricing ── */}
       <section className="section-padding bg-white">
-        <div className="max-w-4xl mx-auto">
-          <div className="section-divider"><span className="dot" /></div>
-          <h2 className="section-title">Fees and <span className="text-primary-600">Pricing</span></h2>
-          <h3 className="text-lg md:text-xl font-semibold text-gray-800 text-center mb-3">Affordable and Flexible Pricing Plans</h3>
+        <div className="max-w-4xl mx-auto px-4 sm:px-6">
+          <h2 className="text-3xl md:text-4xl font-bold font-heading text-center text-gray-900 mb-3">Fees and Pricing</h2>
+          <div className="w-16 h-1 bg-primary-600 rounded-full mx-auto mb-6" />
+          <p className="text-lg font-semibold text-gray-800 text-center mb-3">Affordable and Flexible Pricing Plans</p>
           <p className="text-gray-500 text-center text-sm max-w-3xl mx-auto mb-10 leading-relaxed">
             We offer competitive pricing for all our courses to ensure that quality Islamic education is accessible to everyone. Our flexible payment options make it easy to start your learning journey.
           </p>
 
           {/* Pricing highlights */}
-          <div className="grid sm:grid-cols-3 gap-5 mb-8">
+          <div className="grid sm:grid-cols-3 gap-4 mb-8">
             <div className="flex items-center gap-4 p-5 rounded-xl bg-teal-50 border border-teal-100">
               <div className="w-12 h-12 rounded-xl bg-teal-500 text-white flex items-center justify-center shrink-0">
                 <Percent size={22} />
               </div>
               <div>
-                <h4 className="font-bold text-teal-700 text-sm">Competitive Rates</h4>
+                <p className="font-semibold text-teal-700 text-sm">Competitive Rates</p>
                 <p className="text-gray-500 text-xs">Best value pricing</p>
               </div>
             </div>
@@ -338,7 +410,7 @@ export default async function Home() {
                 <LayoutGrid size={22} />
               </div>
               <div>
-                <h4 className="font-bold text-blue-700 text-sm">Flexible Plans</h4>
+                <p className="font-semibold text-blue-700 text-sm">Flexible Plans</p>
                 <p className="text-gray-500 text-xs">Multiple options</p>
               </div>
             </div>
@@ -347,7 +419,7 @@ export default async function Home() {
                 <Star size={22} />
               </div>
               <div>
-                <h4 className="font-bold text-amber-700 text-sm">Quality Education</h4>
+                <p className="font-semibold text-amber-700 text-sm">Quality Education</p>
                 <p className="text-gray-500 text-xs">Expert instructors</p>
               </div>
             </div>
@@ -360,7 +432,7 @@ export default async function Home() {
                 <Percent size={18} />
               </div>
               <div>
-                <h4 className="font-bold text-rose-600 text-sm">Limited Time Offer</h4>
+                <p className="font-semibold text-rose-600 text-sm">Limited Time Offer</p>
                 <p className="text-gray-600 text-xs">Hurry up! Special discount to make your learning more affordable.</p>
               </div>
             </div>
@@ -369,11 +441,11 @@ export default async function Home() {
             </div>
           </div>
 
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {fees.map((f, i) => (
-              <div key={i} className="fade-up rounded-2xl border border-gray-100 hover:border-primary-200 hover:shadow-lg transition-all bg-white p-6 text-center">
+              <div key={i} className="fade-up rounded-2xl border border-gray-100 shadow-sm hover:shadow-md hover:-translate-y-0.5 hover:border-primary-200 transition-all duration-200 ease-out bg-white p-6 text-center">
                 <span className="text-4xl mb-3 block">{f.flag}</span>
-                <h3 className="font-bold text-gray-900 text-lg mb-1">{f.country}</h3>
+                <p className="text-lg font-bold text-gray-900 mb-1">{f.country}</p>
                 <div className="text-4xl font-bold text-primary-600 mb-1">{f.price}</div>
                 <p className="text-gray-400 text-sm">per month</p>
               </div>
@@ -383,7 +455,7 @@ export default async function Home() {
           <div className="mt-8 p-6 rounded-2xl bg-primary-50 border border-primary-100">
             <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
               <div>
-                <h4 className="font-bold text-gray-900 mb-1">What&apos;s Included</h4>
+                <p className="font-bold text-gray-900 mb-1">What&apos;s Included</p>
                 <div className="flex flex-wrap gap-x-5 gap-y-1.5 text-sm text-gray-600">
                   {["One-on-One Live Sessions", "Qualified Teachers", "Flexible Scheduling", "Progress Reports", "24/7 Support"].map((f) => (
                     <span key={f} className="flex items-center gap-1.5">
@@ -401,15 +473,17 @@ export default async function Home() {
         </div>
       </section>
 
+      <div className="section-line" />
+
       {/* ── Testimonials ── */}
-      <section className="section-padding bg-gray-50">
-        <div className="max-w-7xl mx-auto">
-          <div className="section-divider"><span className="dot" /></div>
-          <h2 className="section-title">What Our <span className="text-primary-600">Students Say</span></h2>
-          <p className="section-subtitle">Hear from families who have experienced our classes firsthand.</p>
+      <section className="section-padding bg-gray-50/80">
+        <div className="section-container px-4 sm:px-6">
+          <h2 className="text-3xl md:text-4xl font-bold font-heading text-center text-gray-900 mb-3">What Our Students Say</h2>
+          <div className="w-16 h-1 bg-primary-600 rounded-full mx-auto mb-6" />
+          <p className="text-gray-500 text-center max-w-3xl mx-auto mb-12 leading-relaxed">Hear from families who have experienced our classes firsthand.</p>
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {testimonials.map((t, i) => (
-              <div key={i} className="fade-up p-7 rounded-2xl bg-white border border-gray-100 hover:shadow-lg transition-all duration-300">
+              <div key={i} className="fade-up p-7 rounded-2xl bg-white border border-gray-100 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 ease-out">
                 <div className="flex gap-1 mb-4">
                   {Array.from({ length: t.rating }).map((_, j) => (
                     <Star key={j} size={16} className="fill-gold-400 text-gold-400" />
@@ -417,8 +491,8 @@ export default async function Home() {
                 </div>
                 <p className="text-gray-600 leading-relaxed mb-5 text-sm italic">&ldquo;{t.text}&rdquo;</p>
                 <div>
-                  <div className="font-bold text-gray-900 text-sm">{t.name}</div>
-                  <div className="text-xs text-gray-400">{t.location}</div>
+                  <p className="font-bold text-gray-900 text-sm">{t.name}</p>
+                  <p className="text-xs text-gray-400">{t.location}</p>
                 </div>
               </div>
             ))}
@@ -427,12 +501,15 @@ export default async function Home() {
       </section>
 
       {/* ── CTA ── */}
-      <section className="relative py-20 bg-primary-600 text-white overflow-hidden">
+      <section className="relative py-24 bg-gradient-to-br from-primary-600 via-primary-700 to-primary-800 text-white overflow-hidden">
         <div className="absolute inset-0 pattern-overlay" />
-        <div className="relative max-w-3xl mx-auto px-4 text-center">
-          <h2 className="text-3xl md:text-5xl font-bold font-heading mb-5">Begin Your Quran Journey Today</h2>
-          <p className="text-white/60 text-lg mb-8 max-w-xl mx-auto">Sign up for a free 3-day trial and experience the quality of our teaching firsthand. No commitment required.</p>
-          <Link href="/register" className="inline-flex items-center justify-center px-10 py-4 bg-white text-primary-600 font-bold rounded-lg hover:bg-gray-100 transition-all shadow-lg hover:shadow-xl hover:-translate-y-0.5 text-lg">
+        <div className="hero-blob w-[600px] h-[600px] bg-primary-400 -top-64 -right-64 opacity-15" />
+        <div className="hero-blob w-[400px] h-[400px] bg-gold-400 -bottom-48 -left-48 opacity-10" />
+        <div className="relative max-w-3xl mx-auto px-4 sm:px-6 text-center">
+          <h2 className="text-3xl md:text-4xl font-bold font-heading mb-3">Begin Your Quran Journey Today</h2>
+          <div className="w-16 h-1 bg-white/40 rounded-full mx-auto mb-6" />
+          <p className="text-white/70 text-lg mb-8 max-w-xl mx-auto">Sign up for a free 3-day trial and experience the quality of our teaching firsthand. No commitment required.</p>
+          <Link href="/register" className="inline-flex items-center justify-center px-10 py-4 bg-white text-primary-700 font-bold rounded-xl hover:bg-gray-50 hover:scale-[1.02] active:scale-[0.98] transition-all duration-200 ease-out shadow-md hover:shadow-lg text-lg">
             Register Now — It&apos;s Free <ArrowRight className="ml-2" size={20} />
           </Link>
         </div>

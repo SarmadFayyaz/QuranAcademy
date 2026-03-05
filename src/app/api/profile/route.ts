@@ -24,7 +24,7 @@ export async function PATCH(request: Request) {
     .from("profiles")
     .update({ full_name: full_name.trim() })
     .eq("id", user.id)
-    .select()
+    .select("id, full_name, email, role")
     .single();
 
   if (error) {

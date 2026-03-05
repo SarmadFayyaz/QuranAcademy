@@ -81,7 +81,7 @@ export async function POST(request: Request) {
     featured_image: featured_image || null,
     author_id: user.id,
     status: status || "draft",
-  }).select().single();
+  }).select("id, title, slug, excerpt, featured_image, status, created_at, updated_at").single();
 
   if (error) {
     if (error.code === "23505") {

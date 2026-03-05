@@ -5,10 +5,20 @@ import Image from "next/image";
 import { ArrowLeft, ArrowRight, Calendar } from "lucide-react";
 import { createAdminClient } from "@/lib/supabase/admin";
 import HeroContactForm from "@/components/HeroContactForm";
-import { SITE_URL } from "@/lib/constants";
+import { SITE_URL, SITE_NAME } from "@/lib/constants";
 import type { BlogPost } from "@/lib/supabase/types";
 
 type Props = { params: Promise<{ slug: string }> };
+
+export async function generateStaticParams() {
+  const admin = createAdminClient();
+  const { data: posts } = await admin
+    .from("blog_posts")
+    .select("slug")
+    .eq("status", "published");
+
+  return (posts || []).map((post) => ({ slug: post.slug }));
+}
 
 async function getPost(slug: string) {
   const admin = createAdminClient();
@@ -46,12 +56,47 @@ export default async function BlogPostPage({ params }: Props) {
 
   const paragraphs = post.content.split(/\n\n+/).filter(Boolean);
 
+  const articleSchema = {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    headline: post.title,
+    description: post.excerpt,
+    datePublished: post.created_at,
+    dateModified: post.updated_at,
+    ...(post.featured_image && { image: post.featured_image }),
+    publisher: {
+      "@type": "EducationalOrganization",
+      name: SITE_NAME,
+      logo: { "@type": "ImageObject", url: `${SITE_URL}/assets/images/logo.png` },
+    },
+  };
+
+  const breadcrumbSchema = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Home", item: SITE_URL },
+      { "@type": "ListItem", position: 2, name: "Blog", item: `${SITE_URL}/blog` },
+      { "@type": "ListItem", position: 3, name: post.title, item: `${SITE_URL}/blog/${post.slug}` },
+    ],
+  };
+
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+      />
       {/* Hero */}
       <section className="relative bg-gradient-to-br from-primary-600 via-primary-700 to-primary-800 text-white overflow-hidden">
         <div className="absolute inset-0 pattern-overlay" />
-        <div className="relative max-w-4xl mx-auto px-4 py-24 md:py-32 text-center">
+        <div className="hero-blob w-[500px] h-[500px] bg-primary-400 -top-48 -right-48 opacity-15" />
+        <div className="hero-blob w-[400px] h-[400px] bg-gold-400 -bottom-40 -left-40 opacity-10" />
+        <div className="relative max-w-4xl mx-auto px-4 sm:px-6 py-24 md:py-32 text-center">
           <div className="flex items-center justify-center gap-2 text-white/50 text-sm mb-6">
             <Calendar size={16} />
             {new Date(post.created_at).toLocaleDateString("en-US", {
@@ -60,7 +105,7 @@ export default async function BlogPostPage({ params }: Props) {
               day: "numeric",
             })}
           </div>
-          <h1 className="text-3xl md:text-5xl font-bold font-heading mb-6">
+          <h1 className="font-heading mb-6">
             {post.title}
           </h1>
           <p className="text-white/70 text-lg max-w-2xl mx-auto">
@@ -76,12 +121,12 @@ export default async function BlogPostPage({ params }: Props) {
 
       {/* Main 2/3 + 1/3 Layout */}
       <section className="section-padding bg-white">
-        <div className="max-w-7xl mx-auto flex flex-col lg:flex-row gap-10">
+        <div className="section-container flex flex-col lg:flex-row gap-10">
           {/* Content */}
           <div className="lg:w-2/3">
             <Link
               href="/blog"
-              className="inline-flex items-center gap-2 text-primary-600 text-sm font-semibold mb-8 hover:gap-3 transition-all"
+              className="inline-flex items-center gap-2 text-primary-600 text-sm font-semibold mb-8 hover:gap-3 transition-all duration-200"
             >
               <ArrowLeft size={16} />
               Back to Blog
@@ -110,7 +155,7 @@ export default async function BlogPostPage({ params }: Props) {
             <div className="mt-12 pt-8 border-t border-gray-100">
               <Link
                 href="/blog"
-                className="inline-flex items-center gap-2 text-primary-600 font-semibold hover:gap-3 transition-all"
+                className="inline-flex items-center gap-2 text-primary-600 font-semibold hover:gap-3 transition-all duration-200"
               >
                 <ArrowLeft size={16} />
                 Back to All Articles
@@ -128,13 +173,15 @@ export default async function BlogPostPage({ params }: Props) {
       </section>
 
       {/* CTA */}
-      <section className="relative py-20 bg-gradient-to-r from-primary-600 to-primary-800 text-white overflow-hidden">
+      <section className="relative py-24 bg-gradient-to-br from-primary-600 via-primary-700 to-primary-800 text-white overflow-hidden">
         <div className="absolute inset-0 pattern-overlay" />
-        <div className="relative max-w-3xl mx-auto px-4 text-center">
-          <h2 className="text-3xl md:text-5xl font-bold font-heading mb-5">
+        <div className="hero-blob w-[500px] h-[500px] bg-primary-400 -top-48 -right-48 opacity-15" />
+        <div className="hero-blob w-[400px] h-[400px] bg-gold-400 -bottom-40 -left-40 opacity-10" />
+        <div className="relative max-w-3xl mx-auto px-4 sm:px-6 text-center">
+          <h2 className="text-3xl md:text-5xl font-bold font-heading mb-6">
             Start Your <span className="text-gold-400">Quran Journey</span>
           </h2>
-          <p className="text-white/60 text-lg mb-8">
+          <p className="text-white/70 text-lg mb-8">
             Join thousands of students learning Quran online with certified teachers.
           </p>
           <Link href="/register" className="btn-gold text-lg !px-10 !py-4">
