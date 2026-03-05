@@ -70,13 +70,18 @@ export default function Navbar() {
         <div className="max-w-7xl mx-auto flex items-center justify-between py-3">
           {/* Logo */}
           <Link href="/" className="flex items-center gap-3">
-            <Image
-              src="/assets/images/logo.png"
-              alt="Hasnain Online Quran Academy"
-              width={80}
-              height={80}
-              className="w-[88px] h-[72px] object-contain"
-            />
+            <div className="flex flex-col items-center">
+              <Image
+                src="/assets/images/logo.png"
+                alt="Hasnain Online Quran Academy"
+                width={96}
+                height={96}
+                className="w-[100px] h-[82px] object-contain"
+              />
+              <span className="text-[9px] text-primary-700 font-semibold -mt-1 tracking-wide">
+                Run by Dr. Farhat Hashmi Students
+              </span>
+            </div>
           </Link>
 
           {/* Center — phone & actions */}

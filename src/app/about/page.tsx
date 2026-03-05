@@ -80,6 +80,24 @@ export default function AboutPage() {
         </div>
       </section>
 
+      {/* About Introduction */}
+      <section className="section-padding bg-gray-50/80">
+        <div className="section-container px-4 sm:px-6">
+          <h2 className="font-heading text-gray-900 mb-2 text-center">Who <span className="text-primary-600">We Are</span></h2>
+          <div className="w-16 h-1 bg-primary-600 rounded-full mx-auto mb-8" />
+          <div className="max-w-4xl mx-auto space-y-5 text-gray-600 leading-relaxed">
+            <p>
+              Hasnain Online Quran Institute is an online Quran academy that provides high-quality Quranic education to students of all ages and backgrounds. This institute is run by students of <span className="font-semibold text-gray-900">Alhuda Dr. Farhat Hashmi</span>, who are committed to upholding the principles of Islam while providing accessible and convenient Quranic education. Our institute aims to provide a supportive learning environment where students can enhance their spiritual growth and strengthen their moral character through the study of the Quran.
+            </p>
+            <p>
+              At Hasnain Online Quran Academy, we believe that every individual should have the opportunity to learn the Quran, regardless of their location or circumstances. That&apos;s why we offer a range of Quranic courses taught by certified teachers who follow Islamic principles. Our mission is to promote Quranic education and make it accessible to everyone. This is an Online Quran Academy run by <span className="font-semibold text-gray-900">Alhuda Dr. Farhat Hashmi Students</span>, and we are dedicated to providing our students with the tools and knowledge they need to connect with the Quran and enhance their spiritual journey.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <div className="section-line" />
+
       {/* Main 2/3 + 1/3 Layout */}
       <section className="section-padding bg-white">
         <div className="section-container flex flex-col lg:flex-row gap-10">

@@ -26,6 +26,7 @@ import {
   Award,
 } from "lucide-react";
 import HeroContactForm from "@/components/HeroContactForm";
+import VideoCard from "@/components/VideoCard";
 import { SITE_URL, SITE_NAME } from "@/lib/constants";
 import { courses } from "@/lib/courses";
 
@@ -110,7 +111,7 @@ const fees = [
   { country: "United States", flag: "🇺🇸", price: "$40", currency: "USD" },
   { country: "Canada", flag: "🇨🇦", price: "$50", currency: "CAD" },
   { country: "Australia", flag: "🇦🇺", price: "$60", currency: "AUD" },
-  { country: "New Zealand", flag: "🇳🇿", price: "$50", currency: "NZD" },
+  { country: "New Zealand", flag: "🇳🇿", price: "$60", currency: "NZD" },
   { country: "United Kingdom", flag: "🇬🇧", price: "£30", currency: "GBP" },
 ];
 
@@ -486,16 +487,20 @@ export default function Home() {
             </div>
           </div>
 
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4">
             {fees.map((f, i) => (
-              <div key={i} className="fade-up rounded-2xl border border-gray-100 shadow-sm hover:shadow-md hover:-translate-y-0.5 hover:border-primary-200 transition-all duration-200 ease-out bg-white p-6 text-center">
-                <span className="text-3xl mb-2 block">{f.flag}</span>
-                <p className="text-base font-bold text-gray-900 mb-1">{f.country}</p>
-                <div className="text-3xl font-bold text-primary-600 mb-1">{f.price}</div>
+              <div key={i} className="fade-up rounded-2xl border border-gray-100 shadow-sm hover:shadow-md hover:-translate-y-0.5 hover:border-primary-200 transition-all duration-200 ease-out bg-white p-5 text-center">
+                <span className="text-2xl mb-1.5 block">{f.flag}</span>
+                <p className="text-sm font-bold text-gray-900 mb-0.5">{f.country}</p>
+                <div className="text-2xl font-bold text-primary-600 mb-0.5">{f.price}</div>
                 <p className="text-gray-400 text-xs">per month</p>
               </div>
             ))}
           </div>
+
+          <p className="text-center text-xs text-gray-500 mt-4">
+            * These fees are for Quran &amp; Islamic courses only.
+          </p>
 
           <div className="mt-8 p-6 rounded-2xl bg-primary-50 border border-primary-100">
             <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
@@ -514,6 +519,31 @@ export default function Home() {
                 Start Free Trial
               </Link>
             </div>
+          </div>
+        </div>
+      </section>
+
+      <div className="section-line" />
+
+      {/* ── Sample Classes ── */}
+      <section className="section-padding bg-white">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6">
+          <h2 className="text-2xl md:text-3xl font-bold font-heading text-center text-gray-900 mb-3">Sample Classes</h2>
+          <div className="w-16 h-1 bg-primary-600 rounded-full mx-auto mb-5" />
+          <p className="text-gray-500 text-sm text-center max-w-3xl mx-auto mb-10 leading-relaxed">
+            Watch sample recordings from our live classes to see how our teachers engage with students.
+          </p>
+          <div className="grid sm:grid-cols-2 gap-6">
+            <VideoCard
+              src="/assets/videos/Quran_Class.mp4"
+              title="Quran Class"
+              description="A sample session of our Quran recitation and Tajweed class with a certified instructor."
+            />
+            <VideoCard
+              src="/assets/videos/Math_class.mp4"
+              title="Mathematics Class"
+              description="A sample session of our interactive Mathematics class for students."
+            />
           </div>
         </div>
       </section>

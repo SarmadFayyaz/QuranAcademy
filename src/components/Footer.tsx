@@ -21,13 +21,18 @@ export default function Footer() {
           {/* Brand */}
           <div>
             <Link href="/" className="flex items-center gap-3 mb-4">
-              <Image
-                src="/assets/images/logo.png"
-                alt="Hasnain Online Quran Academy"
-                width={96}
-                height={96}
-                className="w-[140px] h-[110px] object-contain bg-white rounded-lg p-2"
-              />
+              <div className="flex flex-col items-center">
+                <Image
+                  src="/assets/images/logo.png"
+                  alt="Hasnain Online Quran Academy"
+                  width={112}
+                  height={112}
+                  className="w-[150px] h-[120px] object-contain bg-white rounded-lg p-2"
+                />
+                <span className="text-[9px] text-gold-400 font-semibold mt-1 tracking-wide">
+                  Run by Dr. Farhat Hashmi Students
+                </span>
+              </div>
               <div>
                 <span className="text-lg font-bold text-white font-heading">
                   Hasnain

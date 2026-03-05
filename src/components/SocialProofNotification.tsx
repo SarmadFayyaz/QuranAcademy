@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import { BookOpen, MapPin } from "lucide-react";
 
 const firstNames = [
@@ -11,11 +11,13 @@ const firstNames = [
 ];
 
 const locations = [
+  "New York, USA", "Houston, USA", "Chicago, USA", "Los Angeles, USA",
   "London, UK", "Birmingham, UK", "Manchester, UK", "Bradford, UK",
-  "Karachi, PK", "Lahore, PK", "Islamabad, PK", "Rawalpindi, PK",
-  "Dubai, UAE", "Toronto, CA", "New York, US", "Sydney, AU",
-  "Houston, US", "Chicago, US", "Glasgow, UK", "Leeds, UK",
-  "Riyadh, SA", "Jeddah, SA", "Doha, QA", "Kuwait City, KW",
+  "Toronto, Canada", "Vancouver, Canada", "Montreal, Canada",
+  "Sydney, Australia", "Melbourne, Australia",
+  "Riyadh, Saudi Arabia", "Jeddah, Saudi Arabia", "Makkah, Saudi Arabia",
+  "Dubai, UAE", "Abu Dhabi, UAE", "Sharjah, UAE",
+  "Doha, Qatar",
 ];
 
 const courseNames = [
@@ -29,36 +31,46 @@ function pick<T>(arr: T[]): T {
   return arr[Math.floor(Math.random() * arr.length)];
 }
 
-function randomDelay() {
-  return 60000 + Math.random() * 240000; // 1-5 minutes
-}
-
 export default function SocialProofNotification() {
   const [visible, setVisible] = useState(false);
   const [name, setName] = useState("");
   const [location, setLocation] = useState("");
   const [course, setCourse] = useState("");
+  const timerRef = useRef<ReturnType<typeof setTimeout>>(null);
 
-  const showNotification = useCallback(() => {
-    setName(pick(firstNames));
-    setLocation(pick(locations));
-    setCourse(pick(courseNames));
-    setVisible(true);
-
-    setTimeout(() => setVisible(false), 4500);
+  const scheduleNext = useCallback(() => {
+    // 15–60 seconds for subsequent notifications
+    const delay = 15000 + Math.random() * 45000;
+    timerRef.current = setTimeout(() => {
+      setName(pick(firstNames));
+      setLocation(pick(locations));
+      setCourse(pick(courseNames));
+      setVisible(true);
+      setTimeout(() => {
+        setVisible(false);
+        scheduleNext();
+      }, 4000);
+    }, delay);
   }, []);
 
   useEffect(() => {
-    // Initial delay before first notification
-    const initialTimeout = setTimeout(showNotification, Math.random() * 60000);
-
-    const interval = setInterval(showNotification, randomDelay() + 4500);
+    // First notification: 0–15 seconds
+    const initialDelay = Math.random() * 15000;
+    timerRef.current = setTimeout(() => {
+      setName(pick(firstNames));
+      setLocation(pick(locations));
+      setCourse(pick(courseNames));
+      setVisible(true);
+      setTimeout(() => {
+        setVisible(false);
+        scheduleNext();
+      }, 4000);
+    }, initialDelay);
 
     return () => {
-      clearTimeout(initialTimeout);
-      clearInterval(interval);
+      if (timerRef.current) clearTimeout(timerRef.current);
     };
-  }, [showNotification]);
+  }, [scheduleNext]);
 
   return (
     <div
