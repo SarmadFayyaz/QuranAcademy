@@ -136,7 +136,7 @@ export default function LoginPage() {
       {/* Hero */}
       <section className="relative bg-gradient-to-br from-primary-600 via-primary-700 to-primary-800 text-white overflow-hidden">
         <div className="absolute inset-0 pattern-overlay" />
-        <div className="relative max-w-4xl mx-auto px-4 py-24 md:py-32 text-center">
+        <div className="relative max-w-4xl mx-auto px-4 py-16 md:py-20 text-center">
           <span className="inline-block px-4 py-1.5 rounded-full bg-white/10 text-gold-300 text-sm font-medium mb-6 border border-white/10">
             Welcome Back
           </span>

@@ -16,7 +16,7 @@ async function requireManager(supabase: Awaited<ReturnType<typeof createClient>>
     .eq("id", user.id)
     .single<Pick<Profile, "role">>();
 
-  if (!profile || !["manager", "supervisor"].includes(profile.role)) return null;
+  if (!profile || profile.role !== "manager") return null;
 
   return user;
 }

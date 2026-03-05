@@ -4,6 +4,7 @@ import { SITE_URL, SITE_NAME, SITE_DESCRIPTION } from "@/lib/constants";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import WhatsAppButton from "@/components/WhatsAppButton";
+import SocialProofNotification from "@/components/SocialProofNotification";
 import StructuredData from "@/components/StructuredData";
 import "./globals.css";
 
@@ -59,6 +60,7 @@ export default function RootLayout({
         <main className="pt-[120px]">{children}</main>
         <Footer />
         <WhatsAppButton />
+        <SocialProofNotification />
       </body>
     </html>
   );

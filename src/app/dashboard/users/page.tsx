@@ -5,13 +5,16 @@ import { UserPlus } from "lucide-react";
 import UserTable from "@/components/dashboard/UserTable";
 import CreateUserModal from "@/components/dashboard/CreateUserModal";
 import EditUserModal from "@/components/dashboard/EditUserModal";
-import type { Profile } from "@/lib/supabase/types";
+import ManagerChangePasswordModal from "@/components/dashboard/ManagerChangePasswordModal";
+import type { Profile, UserRole } from "@/lib/supabase/types";
 
 export default function ManageUsersPage() {
   const [showCreate, setShowCreate] = useState(false);
   const [editingUser, setEditingUser] = useState<Profile | null>(null);
+  const [passwordUser, setPasswordUser] = useState<Profile | null>(null);
   const [refreshKey, setRefreshKey] = useState(0);
   const [roleFilter, setRoleFilter] = useState("");
+  const [callerRole, setCallerRole] = useState<UserRole>("manager");
 
   return (
     <div className="space-y-6">
@@ -34,8 +37,8 @@ export default function ManageUsersPage() {
       </div>
 
       {/* Role Filter */}
-      <div className="flex gap-2">
-        {["", "student", "teacher", "manager"].map((r) => (
+      <div className="flex gap-2 flex-wrap">
+        {["", "student", "teacher", "supervisor", "manager"].map((r) => (
           <button
             key={r}
             onClick={() => setRoleFilter(r)}
@@ -55,12 +58,15 @@ export default function ManageUsersPage() {
         showActions
         onRefreshKey={refreshKey}
         onEdit={(user) => setEditingUser(user)}
+        onChangePassword={(user) => setPasswordUser(user)}
+        onCallerRole={setCallerRole}
       />
 
       <CreateUserModal
         isOpen={showCreate}
         onClose={() => setShowCreate(false)}
         onCreated={() => setRefreshKey((k) => k + 1)}
+        callerRole={callerRole}
       />
 
       <EditUserModal
@@ -68,6 +74,13 @@ export default function ManageUsersPage() {
         onClose={() => setEditingUser(null)}
         onUpdated={() => setRefreshKey((k) => k + 1)}
         user={editingUser}
+        callerRole={callerRole}
+      />
+
+      <ManagerChangePasswordModal
+        isOpen={!!passwordUser}
+        onClose={() => setPasswordUser(null)}
+        user={passwordUser}
       />
     </div>
   );

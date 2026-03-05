@@ -1,17 +1,18 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { X, User, BookOpen, FileText, Eye, AlertTriangle } from "lucide-react";
+import { X, User, Mail, BookOpen, FileText, Eye, AlertTriangle } from "lucide-react";
 import { useToast } from "./Toast";
 import CountryPhoneFields from "@/components/CountryPhoneFields";
 import { findCountryByName, findCountryByCode } from "@/lib/countries";
-import type { Profile } from "@/lib/supabase/types";
+import type { Profile, UserRole } from "@/lib/supabase/types";
 
 interface EditUserModalProps {
   isOpen: boolean;
   onClose: () => void;
   onUpdated: () => void;
   user: Profile | null;
+  callerRole?: UserRole;
 }
 
 export default function EditUserModal({
@@ -19,12 +20,14 @@ export default function EditUserModal({
   onClose,
   onUpdated,
   user,
+  callerRole = "manager",
 }: EditUserModalProps) {
   const toast = useToast();
   const [loading, setLoading] = useState(false);
   const [form, setForm] = useState({
     full_name: "",
-    role: "" as "student" | "teacher" | "manager" | "supervisor" | "",
+    email: "",
+    role: "" as UserRole | "",
     phone: "",
     countryCode: "",
     teacher_type: "" as "" | "quran" | "subject",
@@ -38,6 +41,7 @@ export default function EditUserModal({
       const country = user.country ? findCountryByName(user.country) : null;
       setForm({
         full_name: user.full_name || "",
+        email: user.email || "",
         role: user.role,
         phone: user.phone || "",
         countryCode: country?.code || "",
@@ -53,12 +57,34 @@ export default function EditUserModal({
 
   const isTeacherLike = ["teacher", "manager", "supervisor"].includes(form.role);
   const roleChanged = form.role !== user.role;
-  const roleLevel: Record<string, number> = { student: 0, teacher: 1, manager: 2, supervisor: 3 };
+  const roleLevel: Record<string, number> = { student: 0, teacher: 1, supervisor: 2, manager: 3 };
   const isPromotion = roleChanged && roleLevel[form.role] > roleLevel[user.role];
+
+  // Supervisors can only change roles between student and teacher
+  // Managers can change to any role
+  const canChangeRole =
+    callerRole === "manager" ||
+    (callerRole === "supervisor" && ["student", "teacher"].includes(user.role));
+
+  // Role options based on caller's role
+  const roleOptions =
+    callerRole === "manager"
+      ? [
+          { value: "student", label: "Student" },
+          { value: "teacher", label: "Teacher" },
+          { value: "supervisor", label: "Supervisor" },
+          { value: "manager", label: "Manager" },
+        ]
+      : [
+          { value: "student", label: "Student" },
+          { value: "teacher", label: "Teacher" },
+        ];
 
   const roleWarning = isPromotion
     ? form.role === "manager"
       ? `This will give "${form.full_name || user.full_name}" full manager access including creating users, changing roles, and managing all data.`
+      : form.role === "supervisor"
+      ? `This will promote "${form.full_name || user.full_name}" to supervisor, allowing them to manage teachers and students.`
       : `This will promote "${form.full_name || user.full_name}" from ${user.role} to teacher, allowing them to be assigned students and appear on the Teachers page.`
     : null;
 
@@ -70,10 +96,15 @@ export default function EditUserModal({
 
     const body: Record<string, unknown> = {
       full_name: form.full_name,
-      role: form.role,
+      email: form.email,
       phone: form.phone || null,
       country: countryName || null,
     };
+
+    // Only send role if it changed and caller can change it
+    if (roleChanged && canChangeRole) {
+      body.role = form.role;
+    }
 
     if (isTeacherLike) {
       body.teacher_type = form.teacher_type || null;
@@ -141,22 +172,50 @@ export default function EditUserModal({
             </div>
           </div>
 
+          {/* Email */}
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1.5">
+              Email
+            </label>
+            <div className="relative">
+              <Mail
+                size={18}
+                className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"
+              />
+              <input
+                type="email"
+                value={form.email}
+                onChange={(e) => setForm({ ...form, email: e.target.value })}
+                required
+                className={inputClass}
+              />
+            </div>
+          </div>
+
           {/* Role */}
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1.5">
               Role
             </label>
-            <select
-              value={form.role}
-              onChange={(e) =>
-                setForm({ ...form, role: e.target.value as "student" | "teacher" | "manager" | "supervisor" })
-              }
-              className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 outline-none transition text-sm"
-            >
-              <option value="student">Student</option>
-              <option value="teacher">Teacher</option>
-              <option value="manager">Manager</option>
-            </select>
+            {canChangeRole ? (
+              <select
+                value={form.role}
+                onChange={(e) =>
+                  setForm({ ...form, role: e.target.value as UserRole })
+                }
+                className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 outline-none transition text-sm"
+              >
+                {roleOptions.map((opt) => (
+                  <option key={opt.value} value={opt.value}>
+                    {opt.label}
+                  </option>
+                ))}
+              </select>
+            ) : (
+              <div className="w-full px-4 py-3 rounded-xl border border-gray-200 bg-gray-50 text-sm text-gray-600 capitalize">
+                {user.role}
+              </div>
+            )}
             {roleWarning && (
               <div className="mt-2 flex items-start gap-2 p-3 rounded-lg bg-amber-50 border border-amber-200 text-amber-800 text-sm">
                 <AlertTriangle size={16} className="shrink-0 mt-0.5" />

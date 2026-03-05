@@ -292,13 +292,13 @@ DROP POLICY IF EXISTS "Published posts visible to all" ON blog_posts;
 CREATE POLICY "Published posts visible to all" ON blog_posts
   FOR SELECT USING (status = 'published');
 
--- Managers can manage all posts
+-- Only managers can manage all posts
 DROP POLICY IF EXISTS "Managers can manage posts" ON blog_posts;
 CREATE POLICY "Managers can manage posts" ON blog_posts
   FOR ALL USING (
     EXISTS (
       SELECT 1 FROM profiles
-      WHERE id = auth.uid() AND role IN ('manager', 'supervisor')
+      WHERE id = auth.uid() AND role = 'manager'
     )
   );
 
@@ -309,13 +309,13 @@ DROP POLICY IF EXISTS "Anyone can submit contact form" ON contact_submissions;
 CREATE POLICY "Anyone can submit contact form" ON contact_submissions
   FOR INSERT WITH CHECK (true);
 
--- Managers can view and update submissions
+-- Only managers can view and update submissions
 DROP POLICY IF EXISTS "Managers can manage submissions" ON contact_submissions;
 CREATE POLICY "Managers can manage submissions" ON contact_submissions
   FOR ALL USING (
     EXISTS (
       SELECT 1 FROM profiles
-      WHERE id = auth.uid() AND role IN ('manager', 'supervisor')
+      WHERE id = auth.uid() AND role = 'manager'
     )
   );
 
@@ -335,7 +335,9 @@ CREATE OR REPLACE FUNCTION get_dashboard_stats()
 RETURNS JSON AS $$
   SELECT json_build_object(
     'total_students', (SELECT count(*) FROM profiles WHERE role = 'student'),
-    'total_teachers', (SELECT count(*) FROM profiles WHERE role IN ('teacher', 'manager', 'supervisor')),
+    'total_teachers', (SELECT count(*) FROM profiles WHERE role = 'teacher'),
+    'total_supervisors', (SELECT count(*) FROM profiles WHERE role = 'supervisor'),
+    'total_managers', (SELECT count(*) FROM profiles WHERE role = 'manager'),
     'total_assignments', (SELECT count(*) FROM teacher_students),
     'new_trials', (SELECT count(*) FROM contact_submissions WHERE status = 'new'),
     'published_posts', (SELECT count(*) FROM blog_posts WHERE status = 'published')
@@ -378,7 +380,7 @@ CREATE POLICY "Managers can upload blog images" ON storage.objects
     bucket_id = 'blog-images'
     AND EXISTS (
       SELECT 1 FROM profiles
-      WHERE id = auth.uid() AND role IN ('manager', 'supervisor')
+      WHERE id = auth.uid() AND role = 'manager'
     )
   );
 

@@ -21,12 +21,14 @@ export default async function DashboardPage() {
     .single<Pick<Profile, "role" | "full_name" | "country">>();
 
   const role = profile?.role || "student";
-  const isManager = role === "manager" || role === "supervisor";
+  const isManager = role === "manager";
+  const isSupervisor = role === "supervisor";
   const isTeacher = role === "teacher";
 
   const cards = [];
 
-  if (isManager) {
+  // Both managers and supervisors can manage users and assignments
+  if (isManager || isSupervisor) {
     cards.push(
       {
         href: "/dashboard/users",
@@ -41,7 +43,13 @@ export default async function DashboardPage() {
         title: "Assignments",
         desc: "Assign students to teachers.",
         color: "bg-gold-100 text-gold-600",
-      },
+      }
+    );
+  }
+
+  // Only managers can access trials and blog
+  if (isManager) {
+    cards.push(
       {
         href: "/dashboard/trials",
         icon: ClipboardList,
@@ -86,6 +94,8 @@ export default async function DashboardPage() {
         <p className="text-gray-500 text-sm mt-1">
           {isManager
             ? "Manage your academy from here."
+            : isSupervisor
+            ? "Manage teachers and students."
             : isTeacher
             ? "View your students and manage your profile."
             : "Access your learning profile."}

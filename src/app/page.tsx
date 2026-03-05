@@ -22,6 +22,8 @@ import {
   Clock,
   Target,
   Play,
+  Heart,
+  Award,
 } from "lucide-react";
 import HeroContactForm from "@/components/HeroContactForm";
 import { SITE_URL, SITE_NAME } from "@/lib/constants";
@@ -65,10 +67,19 @@ const visionCards = [
   },
 ];
 
+const services = [
+  { icon: BookOpen, title: "Quran Recitation", desc: "Learn proper Tajweed and beautiful recitation with certified instructors.", iconBg: "bg-primary-600" },
+  { icon: Users, title: "Islamic Studies", desc: "Comprehensive Islamic education covering Fiqh, Hadith, and history.", iconBg: "bg-orange-500" },
+  { icon: Clock, title: "Flexible Timing", desc: "Morning, evening, or weekend classes that fit your schedule.", iconBg: "bg-blue-500" },
+  { icon: GraduationCap, title: "Certified Teachers", desc: "Learn from qualified scholars with years of experience.", iconBg: "bg-purple-500" },
+  { icon: Heart, title: "Character Building", desc: "Develop Islamic character and moral values alongside learning.", iconBg: "bg-rose-500" },
+  { icon: Award, title: "Excellence Program", desc: "Advanced courses for deeper understanding of Islamic sciences.", iconBg: "bg-teal-500" },
+];
+
 const trustBadges = [
-  { icon: Headphones, title: "24/7 Support", desc: "Writers and Support available around the clock", color: "bg-teal-50 text-primary-600" },
-  { icon: Shield, title: "Safe Service", desc: "Privacy and Confidentiality Guarantee", color: "bg-orange-50 text-orange-500" },
-  { icon: Star, title: "Quality Score", desc: "4.72 Average Quality Score", color: "bg-blue-50 text-blue-500" },
+  { icon: Headphones, title: "24/7 Support", desc: "Writers and Support available around the clock", iconBg: "bg-primary-600", titleColor: "text-primary-600", borderColor: "border-primary-100" },
+  { icon: Shield, title: "Safe Service", desc: "Privacy and Confidentiality Guarantee", iconBg: "bg-orange-500", titleColor: "text-orange-500", borderColor: "border-orange-100" },
+  { icon: Star, title: "Quality Score", desc: "4.72 Average Quality Score", iconBg: "bg-blue-500", titleColor: "text-blue-500", borderColor: "border-blue-100" },
 ];
 
 const whyChoose = [
@@ -169,7 +180,7 @@ export default function Home() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(courseSchema) }}
       />
       {/* ── Hero — split layout ── */}
-      <section className="relative bg-gradient-to-b from-white via-teal-50/30 to-teal-50/50 py-16 md:py-24 overflow-hidden">
+      <section className="relative bg-gradient-to-b from-white via-teal-50/30 to-teal-50/50 py-12 md:py-16 overflow-hidden">
         {/* Blurred color blobs for depth */}
         <div className="hero-blob w-[500px] h-[500px] bg-primary-300 -top-40 -left-40" />
         <div className="hero-blob w-[400px] h-[400px] bg-gold-300 -bottom-32 -right-32 opacity-10" />
@@ -180,13 +191,13 @@ export default function Home() {
                 Welcome to <span className="text-primary-600">Hasnain Online</span> Quran Academy
               </h1>
               <div className="w-16 h-1 bg-primary-600 rounded-full mb-6" />
-              <p className="text-xl md:text-2xl font-medium text-gray-700 mb-6">
+              <p className="text-lg md:text-xl font-medium text-gray-700 mb-5">
                 Your Gateway to Comprehensive Islamic Education
               </p>
-              <p className="text-gray-500 leading-relaxed mb-8 max-w-lg">
+              <p className="text-gray-500 text-sm leading-relaxed mb-7 max-w-lg">
                 Hasnain Online Quran Academy offers high-quality Islamic education globally, making Quran and Islamic studies accessible, convenient, and effective through our online courses.
               </p>
-              <Link href="/register" className="btn-primary text-lg !px-10 !py-4">
+              <Link href="/register" className="btn-primary !px-8 !py-3.5">
                 Get Free Trial
               </Link>
             </div>
@@ -198,13 +209,13 @@ export default function Home() {
           {/* Trust Badges */}
           <div className="grid sm:grid-cols-3 gap-4 mt-12">
             {trustBadges.map((b, i) => (
-              <div key={i} className="flex items-center gap-4 p-5 rounded-xl bg-white/80 border border-gray-100 shadow-sm">
-                <div className={`w-12 h-12 rounded-xl ${b.color} flex items-center justify-center shrink-0`}>
-                  <b.icon size={22} />
+              <div key={i} className={`flex items-center gap-3.5 p-5 rounded-2xl bg-white border ${b.borderColor} shadow-sm hover:shadow-md transition-shadow`}>
+                <div className={`w-12 h-12 rounded-xl ${b.iconBg} flex items-center justify-center shrink-0`}>
+                  <b.icon size={20} className="text-white" />
                 </div>
                 <div>
-                  <p className="font-semibold text-primary-600 text-sm">{b.title}</p>
-                  <p className="text-gray-500 text-xs">{b.desc}</p>
+                  <p className={`font-bold ${b.titleColor} text-sm`}>{b.title}</p>
+                  <p className="text-gray-500 text-xs mt-0.5">{b.desc}</p>
                 </div>
               </div>
             ))}
@@ -214,12 +225,46 @@ export default function Home() {
 
       <div className="section-line" />
 
-      {/* ── Our Courses ── */}
-      <section className="pt-16 md:pt-24 pb-20 md:pb-28 px-4 sm:px-6 bg-gradient-to-b from-teal-50/40 to-white">
+      {/* ── Our Services ── */}
+      <section className="section-padding bg-gradient-to-br from-emerald-50/60 via-teal-50/40 to-emerald-50/30">
         <div className="section-container">
-          <h2 className="text-3xl md:text-4xl font-bold font-heading text-center text-gray-900 mb-3">Our Courses</h2>
-          <div className="w-16 h-1 bg-primary-600 rounded-full mx-auto mb-6" />
-          <p className="text-gray-500 text-center max-w-3xl mx-auto mb-12 leading-relaxed">Our courses are crafted to provide a comprehensive understanding of Quranic studies. Join structured, in-depth classes taught by qualified scholars.</p>
+          <div className="section-divider">
+            <span className="dot" />
+          </div>
+          <h2 className="text-2xl md:text-3xl font-bold font-heading text-center text-gray-900 mb-3 italic">Our Services</h2>
+          <p className="text-gray-600 text-sm text-center max-w-2xl mx-auto mb-10 leading-relaxed">
+            Comprehensive Islamic education at <span className="font-bold text-gray-900">Hasnain Online Quran Academy</span> – nurturing spiritual growth and academic excellence.
+          </p>
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5 max-w-5xl mx-auto">
+            {services.map((s, i) => (
+              <div key={i} className="fade-up flex items-start gap-4 p-6 rounded-2xl bg-white/80 border border-gray-100/80 shadow-sm hover:shadow-md transition-all duration-200">
+                <div className={`w-12 h-12 rounded-xl ${s.iconBg} text-white flex items-center justify-center shrink-0`}>
+                  <s.icon size={22} />
+                </div>
+                <div>
+                  <p className="font-bold text-gray-900 text-sm mb-1">{s.title}</p>
+                  <p className="text-gray-500 text-xs leading-relaxed">{s.desc}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+          <div className="text-center mt-10">
+            <Link href="/courses" className="btn-primary !px-8 !py-3 !rounded-full">
+              Explore All Services <ArrowRight className="ml-1.5" size={16} />
+            </Link>
+            <p className="text-gray-400 text-xs mt-3 italic">Begin your Islamic learning journey today</p>
+          </div>
+        </div>
+      </section>
+
+      <div className="section-line" />
+
+      {/* ── Our Courses ── */}
+      <section className="pt-12 md:pt-16 pb-14 md:pb-20 px-4 sm:px-6 bg-gradient-to-b from-teal-50/40 to-white">
+        <div className="section-container">
+          <h2 className="text-2xl md:text-3xl font-bold font-heading text-center text-gray-900 mb-3">Our Courses</h2>
+          <div className="w-16 h-1 bg-primary-600 rounded-full mx-auto mb-5" />
+          <p className="text-gray-500 text-sm text-center max-w-3xl mx-auto mb-10 leading-relaxed">Our courses are crafted to provide a comprehensive understanding of Quranic studies. Join structured, in-depth classes taught by qualified scholars.</p>
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4">
             {courses.map((c, i) => (
               <div key={i} className="fade-up group relative rounded-2xl border border-gray-100 hover:border-primary-200 hover:shadow-md transition-all duration-200 ease-out bg-white overflow-hidden flex flex-col">
@@ -257,10 +302,10 @@ export default function Home() {
       {/* ── Who We Are ── */}
       <section className="section-padding bg-gray-50/80">
         <div className="section-container">
-          <h2 className="text-3xl md:text-4xl font-bold font-heading text-center text-gray-900 mb-3">Who We Are</h2>
-          <div className="w-16 h-1 bg-primary-600 rounded-full mx-auto mb-6" />
-          <p className="text-lg font-semibold text-gray-800 text-center mb-3">Your Trusted Online Quran Academy</p>
-          <p className="text-gray-500 text-center max-w-3xl mx-auto mb-12 leading-relaxed">
+          <h2 className="text-2xl md:text-3xl font-bold font-heading text-center text-gray-900 mb-3">Who We Are</h2>
+          <div className="w-16 h-1 bg-primary-600 rounded-full mx-auto mb-5" />
+          <p className="text-base font-semibold text-gray-800 text-center mb-2">Your Trusted Online Quran Academy</p>
+          <p className="text-gray-500 text-sm text-center max-w-3xl mx-auto mb-10 leading-relaxed">
             Established to bridge traditional Islamic education with modern technology, serving students worldwide with certified Quranic scholars and comprehensive curriculum designed for all skill levels.
           </p>
 
@@ -268,11 +313,11 @@ export default function Home() {
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-12">
             {staticStats.map((s, i) => (
               <div key={i} className="fade-up bg-white rounded-2xl p-6 text-center border border-gray-100 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 ease-out">
-                <div className={`w-12 h-12 rounded-full ${s.color} text-white flex items-center justify-center mx-auto mb-3`}>
-                  <s.icon size={22} />
+                <div className={`w-11 h-11 rounded-full ${s.color} text-white flex items-center justify-center mx-auto mb-3`}>
+                  <s.icon size={20} />
                 </div>
-                <div className="text-3xl md:text-4xl font-bold font-heading text-gray-900 mb-1">{s.value}</div>
-                <div className="text-gray-400 text-sm">{s.label}</div>
+                <div className="text-2xl md:text-3xl font-bold font-heading text-gray-900 mb-1">{s.value}</div>
+                <div className="text-gray-400 text-xs">{s.label}</div>
               </div>
             ))}
           </div>
@@ -283,8 +328,8 @@ export default function Home() {
               <div key={i} className="fade-up rounded-2xl border border-gray-100 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 ease-out bg-white overflow-hidden flex flex-col">
                 {/* Gradient header */}
                 <div className={`relative bg-gradient-to-r ${card.gradient} px-5 py-6`}>
-                  <div className={`w-12 h-12 rounded-xl ${card.iconBg} text-white flex items-center justify-center`}>
-                    <card.icon size={22} />
+                  <div className={`w-11 h-11 rounded-xl ${card.iconBg} text-white flex items-center justify-center`}>
+                    <card.icon size={20} />
                   </div>
                   <span className="absolute top-4 right-4 px-3 py-1 bg-white/20 text-white text-xs font-semibold rounded-full backdrop-blur-sm">{card.badge}</span>
                 </div>
@@ -305,18 +350,18 @@ export default function Home() {
       {/* ── Why Choose Us ── */}
       <section className="section-padding bg-gray-50/80">
         <div className="max-w-5xl mx-auto px-4 sm:px-6">
-          <h2 className="text-3xl md:text-4xl font-bold font-heading text-center text-gray-900 mb-3">Why Choose Us</h2>
-          <div className="w-16 h-1 bg-primary-600 rounded-full mx-auto mb-6" />
-          <p className="text-gray-500 text-center max-w-3xl mx-auto mb-12 leading-relaxed">Discover what makes our platform unique, with expert instructors and tailored learning experiences designed for your success.</p>
+          <h2 className="text-2xl md:text-3xl font-bold font-heading text-center text-gray-900 mb-3">Why Choose Us</h2>
+          <div className="w-16 h-1 bg-primary-600 rounded-full mx-auto mb-5" />
+          <p className="text-gray-500 text-sm text-center max-w-3xl mx-auto mb-10 leading-relaxed">Discover what makes our platform unique, with expert instructors and tailored learning experiences designed for your success.</p>
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
             {whyChoose.map((w, i) => {
               const c = whyChooseColors[i % 4];
               return (
                 <div key={i} className={`fade-up flex flex-col items-center text-center p-6 rounded-2xl bg-white border border-gray-100 border-b-4 ${c.border} shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 ease-out`}>
-                  <div className={`w-14 h-14 rounded-xl ${c.bg} text-white flex items-center justify-center mb-4`}>
-                    <w.icon size={24} />
+                  <div className={`w-12 h-12 rounded-xl ${c.bg} text-white flex items-center justify-center mb-3`}>
+                    <w.icon size={20} />
                   </div>
-                  <p className={`font-semibold ${c.text} text-xs uppercase tracking-wider mb-2`}>{w.title}</p>
+                  <p className={`font-semibold ${c.text} text-xs uppercase tracking-wider mb-1.5`}>{w.title}</p>
                   <div className={`w-8 h-0.5 ${c.bg} rounded-full mb-2`} />
                   <p className="text-gray-500 text-xs">{w.desc}</p>
                 </div>
@@ -331,17 +376,17 @@ export default function Home() {
       {/* ── Teachers ── */}
       <section className="section-padding bg-white">
         <div className="section-container">
-          <h2 className="text-3xl md:text-4xl font-bold font-heading text-center text-gray-900 mb-3">Our Teachers</h2>
-          <div className="w-16 h-1 bg-primary-600 rounded-full mx-auto mb-6" />
-          <p className="text-gray-500 text-center max-w-3xl mx-auto mb-12 leading-relaxed">Choose the teaching style that suits you best.</p>
+          <h2 className="text-2xl md:text-3xl font-bold font-heading text-center text-gray-900 mb-3">Our Teachers</h2>
+          <div className="w-16 h-1 bg-primary-600 rounded-full mx-auto mb-5" />
+          <p className="text-gray-500 text-sm text-center max-w-3xl mx-auto mb-10 leading-relaxed">Choose the teaching style that suits you best.</p>
           <div className="grid md:grid-cols-3 gap-6">
             {teacherCategories.map((cat, i) => (
               <div key={i} className="fade-up p-8 rounded-2xl border border-gray-100 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 ease-out bg-white text-center">
-                <div className="w-16 h-16 rounded-full bg-primary-100 text-primary-600 flex items-center justify-center mx-auto mb-4">
-                  <Users size={28} />
+                <div className="w-14 h-14 rounded-full bg-primary-100 text-primary-600 flex items-center justify-center mx-auto mb-3">
+                  <Users size={24} />
                 </div>
-                <p className="text-lg font-bold text-gray-900 mb-2">{cat.title}</p>
-                <p className="text-gray-500 text-sm leading-relaxed mb-4">{cat.desc}</p>
+                <p className="text-base font-bold text-gray-900 mb-2">{cat.title}</p>
+                <p className="text-gray-500 text-xs leading-relaxed mb-4">{cat.desc}</p>
                 <Link href="/teachers" className="text-primary-600 hover:text-primary-700 text-sm font-semibold inline-flex items-center gap-1 transition-colors duration-150">
                   Learn More <ArrowRight size={14} />
                 </Link>
@@ -356,9 +401,9 @@ export default function Home() {
       {/* ── How It Works ── */}
       <section className="section-padding bg-gray-50/80">
         <div className="section-container px-4 sm:px-6">
-          <h2 className="text-3xl md:text-4xl font-bold font-heading text-center text-gray-900 mb-3">Steps to Learn Quran with Us</h2>
-          <div className="w-16 h-1 bg-primary-600 rounded-full mx-auto mb-6" />
-          <p className="text-gray-500 text-center max-w-3xl mx-auto mb-12 leading-relaxed">
+          <h2 className="text-2xl md:text-3xl font-bold font-heading text-center text-gray-900 mb-3">Steps to Learn Quran with Us</h2>
+          <div className="w-16 h-1 bg-primary-600 rounded-full mx-auto mb-5" />
+          <p className="text-gray-500 text-sm text-center max-w-3xl mx-auto mb-10 leading-relaxed">
             Learn the Quran online with the world&apos;s best Male/Female Quran tutors through our comprehensive step-by-step approach
           </p>
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
@@ -367,8 +412,8 @@ export default function Home() {
                 {/* Step badge */}
                 <span className={`absolute -top-3 -right-3 w-8 h-8 ${s.badgeBg} text-white text-sm font-bold rounded-full flex items-center justify-center shadow-sm`}>{s.step}</span>
                 {/* Icon */}
-                <div className={`w-12 h-12 rounded-xl ${s.iconBg} flex items-center justify-center mb-5`}>
-                  <s.icon size={22} />
+                <div className={`w-11 h-11 rounded-xl ${s.iconBg} flex items-center justify-center mb-4`}>
+                  <s.icon size={20} />
                 </div>
                 {/* Title */}
                 <p className={`font-bold ${s.titleColor} text-sm mb-1`}>{s.title}</p>
@@ -387,36 +432,36 @@ export default function Home() {
       {/* ── Fees and Pricing ── */}
       <section className="section-padding bg-white">
         <div className="max-w-4xl mx-auto px-4 sm:px-6">
-          <h2 className="text-3xl md:text-4xl font-bold font-heading text-center text-gray-900 mb-3">Fees and Pricing</h2>
-          <div className="w-16 h-1 bg-primary-600 rounded-full mx-auto mb-6" />
-          <p className="text-lg font-semibold text-gray-800 text-center mb-3">Affordable and Flexible Pricing Plans</p>
-          <p className="text-gray-500 text-center text-sm max-w-3xl mx-auto mb-10 leading-relaxed">
+          <h2 className="text-2xl md:text-3xl font-bold font-heading text-center text-gray-900 mb-3">Fees and Pricing</h2>
+          <div className="w-16 h-1 bg-primary-600 rounded-full mx-auto mb-5" />
+          <p className="text-base font-semibold text-gray-800 text-center mb-2">Affordable and Flexible Pricing Plans</p>
+          <p className="text-gray-500 text-center text-xs max-w-3xl mx-auto mb-10 leading-relaxed">
             We offer competitive pricing for all our courses to ensure that quality Islamic education is accessible to everyone. Our flexible payment options make it easy to start your learning journey.
           </p>
 
           {/* Pricing highlights */}
           <div className="grid sm:grid-cols-3 gap-4 mb-8">
-            <div className="flex items-center gap-4 p-5 rounded-xl bg-teal-50 border border-teal-100">
-              <div className="w-12 h-12 rounded-xl bg-teal-500 text-white flex items-center justify-center shrink-0">
-                <Percent size={22} />
+            <div className="flex items-center gap-3.5 p-4 rounded-xl bg-teal-50 border border-teal-100">
+              <div className="w-10 h-10 rounded-lg bg-teal-500 text-white flex items-center justify-center shrink-0">
+                <Percent size={18} />
               </div>
               <div>
                 <p className="font-semibold text-teal-700 text-sm">Competitive Rates</p>
                 <p className="text-gray-500 text-xs">Best value pricing</p>
               </div>
             </div>
-            <div className="flex items-center gap-4 p-5 rounded-xl bg-blue-50 border border-blue-100">
-              <div className="w-12 h-12 rounded-xl bg-blue-500 text-white flex items-center justify-center shrink-0">
-                <LayoutGrid size={22} />
+            <div className="flex items-center gap-3.5 p-4 rounded-xl bg-blue-50 border border-blue-100">
+              <div className="w-10 h-10 rounded-lg bg-blue-500 text-white flex items-center justify-center shrink-0">
+                <LayoutGrid size={18} />
               </div>
               <div>
                 <p className="font-semibold text-blue-700 text-sm">Flexible Plans</p>
                 <p className="text-gray-500 text-xs">Multiple options</p>
               </div>
             </div>
-            <div className="flex items-center gap-4 p-5 rounded-xl bg-amber-50 border border-amber-100">
-              <div className="w-12 h-12 rounded-xl bg-amber-500 text-white flex items-center justify-center shrink-0">
-                <Star size={22} />
+            <div className="flex items-center gap-3.5 p-4 rounded-xl bg-amber-50 border border-amber-100">
+              <div className="w-10 h-10 rounded-lg bg-amber-500 text-white flex items-center justify-center shrink-0">
+                <Star size={18} />
               </div>
               <div>
                 <p className="font-semibold text-amber-700 text-sm">Quality Education</p>
@@ -444,10 +489,10 @@ export default function Home() {
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {fees.map((f, i) => (
               <div key={i} className="fade-up rounded-2xl border border-gray-100 shadow-sm hover:shadow-md hover:-translate-y-0.5 hover:border-primary-200 transition-all duration-200 ease-out bg-white p-6 text-center">
-                <span className="text-4xl mb-3 block">{f.flag}</span>
-                <p className="text-lg font-bold text-gray-900 mb-1">{f.country}</p>
-                <div className="text-4xl font-bold text-primary-600 mb-1">{f.price}</div>
-                <p className="text-gray-400 text-sm">per month</p>
+                <span className="text-3xl mb-2 block">{f.flag}</span>
+                <p className="text-base font-bold text-gray-900 mb-1">{f.country}</p>
+                <div className="text-3xl font-bold text-primary-600 mb-1">{f.price}</div>
+                <p className="text-gray-400 text-xs">per month</p>
               </div>
             ))}
           </div>
@@ -478,9 +523,9 @@ export default function Home() {
       {/* ── Testimonials ── */}
       <section className="section-padding bg-gray-50/80">
         <div className="section-container px-4 sm:px-6">
-          <h2 className="text-3xl md:text-4xl font-bold font-heading text-center text-gray-900 mb-3">What Our Students Say</h2>
-          <div className="w-16 h-1 bg-primary-600 rounded-full mx-auto mb-6" />
-          <p className="text-gray-500 text-center max-w-3xl mx-auto mb-12 leading-relaxed">Hear from families who have experienced our classes firsthand.</p>
+          <h2 className="text-2xl md:text-3xl font-bold font-heading text-center text-gray-900 mb-3">What Our Students Say</h2>
+          <div className="w-16 h-1 bg-primary-600 rounded-full mx-auto mb-5" />
+          <p className="text-gray-500 text-sm text-center max-w-3xl mx-auto mb-10 leading-relaxed">Hear from families who have experienced our classes firsthand.</p>
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {testimonials.map((t, i) => (
               <div key={i} className="fade-up p-7 rounded-2xl bg-white border border-gray-100 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 ease-out">
@@ -501,15 +546,15 @@ export default function Home() {
       </section>
 
       {/* ── CTA ── */}
-      <section className="relative py-24 bg-gradient-to-br from-primary-600 via-primary-700 to-primary-800 text-white overflow-hidden">
+      <section className="relative py-16 bg-gradient-to-br from-primary-600 via-primary-700 to-primary-800 text-white overflow-hidden">
         <div className="absolute inset-0 pattern-overlay" />
         <div className="hero-blob w-[600px] h-[600px] bg-primary-400 -top-64 -right-64 opacity-15" />
         <div className="hero-blob w-[400px] h-[400px] bg-gold-400 -bottom-48 -left-48 opacity-10" />
         <div className="relative max-w-3xl mx-auto px-4 sm:px-6 text-center">
-          <h2 className="text-3xl md:text-4xl font-bold font-heading mb-3">Begin Your Quran Journey Today</h2>
-          <div className="w-16 h-1 bg-white/40 rounded-full mx-auto mb-6" />
-          <p className="text-white/70 text-lg mb-8 max-w-xl mx-auto">Sign up for a free 3-day trial and experience the quality of our teaching firsthand. No commitment required.</p>
-          <Link href="/register" className="inline-flex items-center justify-center px-10 py-4 bg-white text-primary-700 font-bold rounded-xl hover:bg-gray-50 hover:scale-[1.02] active:scale-[0.98] transition-all duration-200 ease-out shadow-md hover:shadow-lg text-lg">
+          <h2 className="text-2xl md:text-3xl font-bold font-heading mb-3">Begin Your Quran Journey Today</h2>
+          <div className="w-16 h-1 bg-white/40 rounded-full mx-auto mb-5" />
+          <p className="text-white/70 text-sm mb-7 max-w-xl mx-auto">Sign up for a free 3-day trial and experience the quality of our teaching firsthand. No commitment required.</p>
+          <Link href="/register" className="inline-flex items-center justify-center px-8 py-3.5 bg-white text-primary-700 font-bold rounded-xl hover:bg-gray-50 hover:scale-[1.02] active:scale-[0.98] transition-all duration-200 ease-out shadow-md hover:shadow-lg">
             Register Now — It&apos;s Free <ArrowRight className="ml-2" size={20} />
           </Link>
         </div>

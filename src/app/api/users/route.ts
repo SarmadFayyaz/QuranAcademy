@@ -57,6 +57,7 @@ export async function GET(request: Request) {
     total: count || 0,
     page,
     limit,
+    callerRole: profile.role,
   });
 }
 
@@ -86,10 +87,19 @@ export async function POST(request: Request) {
     );
   }
 
-  if (!["student", "teacher"].includes(role)) {
+  const validRoles = ["student", "teacher", "supervisor"];
+  if (!validRoles.includes(role)) {
     return NextResponse.json(
-      { error: "role must be student or teacher" },
+      { error: "role must be student, teacher, or supervisor" },
       { status: 400 }
+    );
+  }
+
+  // Only managers can create supervisors
+  if (role === "supervisor" && profile.role !== "manager") {
+    return NextResponse.json(
+      { error: "Only managers can create supervisors" },
+      { status: 403 }
     );
   }
 

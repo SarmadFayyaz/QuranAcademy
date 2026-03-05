@@ -1,16 +1,18 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
-import { Pencil, Trash2 } from "lucide-react";
+import { Pencil, Trash2, KeyRound, AlertTriangle, X } from "lucide-react";
 import Pagination from "./Pagination";
 import { useToast } from "./Toast";
-import type { Profile } from "@/lib/supabase/types";
+import type { Profile, UserRole } from "@/lib/supabase/types";
 
 interface UserTableProps {
   roleFilter?: string;
   showActions?: boolean;
   onRefreshKey?: number;
   onEdit?: (user: Profile) => void;
+  onChangePassword?: (user: Profile) => void;
+  onCallerRole?: (role: UserRole) => void;
 }
 
 export default function UserTable({
@@ -18,12 +20,17 @@ export default function UserTable({
   showActions = false,
   onRefreshKey = 0,
   onEdit,
+  onChangePassword,
+  onCallerRole,
 }: UserTableProps) {
   const toast = useToast();
   const [users, setUsers] = useState<Profile[]>([]);
   const [total, setTotal] = useState(0);
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(true);
+  const [myRole, setMyRole] = useState<UserRole>("manager");
+  const [deleteTarget, setDeleteTarget] = useState<{ id: string; name: string } | null>(null);
+  const [deleting, setDeleting] = useState(false);
   const limit = 10;
 
   const fetchUsers = useCallback(async () => {
@@ -40,6 +47,10 @@ export default function UserTable({
     if (res.ok) {
       setUsers(json.data);
       setTotal(json.total);
+      if (json.callerRole) {
+        setMyRole(json.callerRole);
+        if (onCallerRole) onCallerRole(json.callerRole);
+      }
     }
     setLoading(false);
   }, [page, roleFilter]);
@@ -49,18 +60,20 @@ export default function UserTable({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [page, roleFilter, onRefreshKey]);
 
-  const handleDelete = async (id: string, name: string | null) => {
-    if (!confirm(`Delete user "${name || "unnamed"}"? This cannot be undone.`))
-      return;
+  const confirmDelete = async () => {
+    if (!deleteTarget) return;
+    setDeleting(true);
 
-    const res = await fetch(`/api/users/${id}`, { method: "DELETE" });
+    const res = await fetch(`/api/users/${deleteTarget.id}`, { method: "DELETE" });
     if (res.ok) {
-      toast.success(`User "${name || "unnamed"}" deleted`);
+      toast.success(`User "${deleteTarget.name}" deleted`);
+      setDeleteTarget(null);
       fetchUsers();
     } else {
       const json = await res.json();
       toast.error(json.error || "Failed to delete user");
     }
+    setDeleting(false);
   };
 
   const totalPages = Math.ceil(total / limit);
@@ -127,8 +140,10 @@ export default function UserTable({
                   <td className="px-6 py-4">
                     <span
                       className={`inline-block px-2.5 py-0.5 rounded-full text-xs font-medium capitalize ${
-                        u.role === "manager" || u.role === "supervisor"
+                        u.role === "manager"
                           ? "bg-purple-100 text-purple-700"
+                          : u.role === "supervisor"
+                          ? "bg-indigo-100 text-indigo-700"
                           : u.role === "teacher"
                           ? "bg-blue-100 text-blue-700"
                           : "bg-green-100 text-green-700"
@@ -155,13 +170,24 @@ export default function UserTable({
                             <Pencil size={16} />
                           </button>
                         )}
-                        <button
-                          onClick={() => handleDelete(u.id, u.full_name)}
-                          className="p-1.5 rounded-lg hover:bg-red-50 text-gray-400 hover:text-red-600 transition"
-                          title="Delete user"
-                        >
-                          <Trash2 size={16} />
-                        </button>
+                        {onChangePassword && (
+                          <button
+                            onClick={() => onChangePassword(u)}
+                            className="p-1.5 rounded-lg hover:bg-amber-50 text-gray-400 hover:text-amber-600 transition"
+                            title="Change password"
+                          >
+                            <KeyRound size={16} />
+                          </button>
+                        )}
+                        {myRole === "manager" && (
+                          <button
+                            onClick={() => setDeleteTarget({ id: u.id, name: u.full_name || "unnamed" })}
+                            className="p-1.5 rounded-lg hover:bg-red-50 text-gray-400 hover:text-red-600 transition"
+                            title="Delete user"
+                          >
+                            <Trash2 size={16} />
+                          </button>
+                        )}
                       </div>
                     </td>
                   )}
@@ -185,6 +211,60 @@ export default function UserTable({
       <div className="px-6 py-3 border-t border-gray-100 text-xs text-gray-400">
         Showing {users.length} of {total} users
       </div>
+
+      {/* Delete Confirmation Modal */}
+      {deleteTarget && (
+        <div
+          role="dialog"
+          aria-modal="true"
+          className="fixed inset-0 z-[60] flex items-center justify-center p-4"
+          onKeyDown={(e) => { if (e.key === "Escape" && !deleting) setDeleteTarget(null); }}
+        >
+          <div className="absolute inset-0 bg-black/50" onClick={() => !deleting && setDeleteTarget(null)} />
+          <div className="relative bg-white rounded-2xl shadow-2xl w-full max-w-sm p-6">
+            <button
+              onClick={() => setDeleteTarget(null)}
+              disabled={deleting}
+              className="absolute top-4 right-4 p-1.5 rounded-lg hover:bg-gray-100 transition text-gray-400"
+            >
+              <X size={18} />
+            </button>
+
+            <div className="flex items-center gap-3 mb-4">
+              <div className="w-10 h-10 rounded-full bg-red-100 flex items-center justify-center shrink-0">
+                <AlertTriangle size={20} className="text-red-600" />
+              </div>
+              <h3 className="text-lg font-bold text-gray-900 font-heading">
+                Delete User
+              </h3>
+            </div>
+
+            <p className="text-sm text-gray-600 mb-1">
+              Are you sure you want to delete <span className="font-semibold text-gray-900">&quot;{deleteTarget.name}&quot;</span>?
+            </p>
+            <p className="text-xs text-red-500 mb-6">
+              This action cannot be undone. The user account and all associated data will be permanently removed.
+            </p>
+
+            <div className="flex gap-3">
+              <button
+                onClick={() => setDeleteTarget(null)}
+                disabled={deleting}
+                className="flex-1 px-4 py-2.5 rounded-xl border border-gray-200 text-sm font-medium text-gray-700 hover:bg-gray-50 transition disabled:opacity-50"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={confirmDelete}
+                disabled={deleting}
+                className="flex-1 px-4 py-2.5 rounded-xl bg-red-600 text-white text-sm font-semibold hover:bg-red-700 transition disabled:opacity-50"
+              >
+                {deleting ? "Deleting..." : "Delete"}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

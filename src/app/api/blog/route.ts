@@ -27,7 +27,7 @@ export async function GET(request: Request) {
     const { data: { user } } = await supabase.auth.getUser();
     if (!user) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     const profile = await getManagerProfile(supabase, user.id);
-    if (!profile || !["manager", "supervisor"].includes(profile.role)) {
+    if (!profile || profile.role !== "manager") {
       return NextResponse.json({ error: "Forbidden" }, { status: 403 });
     }
   }
@@ -58,7 +58,7 @@ export async function POST(request: Request) {
   if (!user) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
   const profile = await getManagerProfile(supabase, user.id);
-  if (!profile || !["manager", "supervisor"].includes(profile.role)) {
+  if (!profile || profile.role !== "manager") {
     return NextResponse.json({ error: "Forbidden" }, { status: 403 });
   }
 

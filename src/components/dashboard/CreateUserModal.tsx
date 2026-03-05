@@ -6,6 +6,7 @@ import { useToast } from "./Toast";
 import { passwordRules } from "@/lib/validation";
 import CountryPhoneFields from "@/components/CountryPhoneFields";
 import { findCountryByCode } from "@/lib/countries";
+import type { UserRole } from "@/lib/supabase/types";
 
 interface DefaultValues {
   full_name?: string;
@@ -20,13 +21,14 @@ interface CreateUserModalProps {
   onCreated: () => void;
   defaultValues?: DefaultValues;
   invite?: boolean;
+  callerRole?: UserRole;
 }
 
 const emptyForm = {
   full_name: "",
   email: "",
   password: "",
-  role: "student" as "student" | "teacher",
+  role: "student" as "student" | "teacher" | "supervisor",
   phone: "",
   countryCode: "",
 };
@@ -37,6 +39,7 @@ export default function CreateUserModal({
   onCreated,
   defaultValues,
   invite = false,
+  callerRole = "manager",
 }: CreateUserModalProps) {
   const toast = useToast();
   const [form, setForm] = useState(emptyForm);
@@ -248,13 +251,16 @@ export default function CreateUserModal({
               onChange={(e) =>
                 setForm({
                   ...form,
-                  role: e.target.value as "student" | "teacher",
+                  role: e.target.value as "student" | "teacher" | "supervisor",
                 })
               }
               className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 outline-none transition text-sm"
             >
               <option value="student">Student</option>
               <option value="teacher">Teacher</option>
+              {callerRole === "manager" && (
+                <option value="supervisor">Supervisor</option>
+              )}
             </select>
           </div>
 
