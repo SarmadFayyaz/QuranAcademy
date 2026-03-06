@@ -29,16 +29,8 @@ export default function Footer() {
                   height={112}
                   className="w-[150px] h-[120px] object-contain bg-white rounded-lg p-2"
                 />
-                <span className="text-[9px] text-gold-400 font-semibold mt-1 tracking-wide">
+                <span className="text-[11px] text-gold-400 font-bold mt-1 tracking-wide">
                   Run by Dr. Farhat Hashmi Students
-                </span>
-              </div>
-              <div>
-                <span className="text-lg font-bold text-white font-heading">
-                  Hasnain
-                </span>
-                <span className="block text-[10px] text-gold-400 font-medium -mt-0.5 uppercase tracking-wider">
-                  Online Quran Academy
                 </span>
               </div>
             </Link>

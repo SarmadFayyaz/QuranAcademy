@@ -55,7 +55,7 @@ export default function EditUserModal({
 
   if (!isOpen || !user) return null;
 
-  const isTeacherLike = ["teacher", "manager", "supervisor"].includes(form.role);
+  const isTeacherLike = ["teacher", "supervisor"].includes(form.role);
   const roleChanged = form.role !== user.role;
   const roleLevel: Record<string, number> = { student: 0, teacher: 1, supervisor: 2, manager: 3 };
   const isPromotion = roleChanged && roleLevel[form.role] > roleLevel[user.role];
@@ -245,14 +245,14 @@ export default function EditUserModal({
             <>
               <div className="pt-2 border-t border-gray-100">
                 <h3 className="text-sm font-bold text-gray-900 mb-3">
-                  Teacher Profile
+                  {form.role === "supervisor" ? "Supervisor Profile" : "Teacher Profile"}
                 </h3>
               </div>
 
               {/* Teacher Type */}
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1.5">
-                  Teacher Type
+                  {form.role === "supervisor" ? "Supervisor Type" : "Teacher Type"}
                 </label>
                 <div className="relative">
                   <BookOpen

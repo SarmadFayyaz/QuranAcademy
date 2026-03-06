@@ -498,7 +498,7 @@ export default function Home() {
             ))}
           </div>
 
-          <p className="text-center text-xs text-gray-500 mt-4">
+          <p className="text-center text-sm font-medium text-gray-500 mt-4">
             * These fees are for Quran &amp; Islamic courses only.
           </p>
 
@@ -527,22 +527,30 @@ export default function Home() {
 
       {/* ── Sample Classes ── */}
       <section className="section-padding bg-white">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6">
           <h2 className="text-2xl md:text-3xl font-bold font-heading text-center text-gray-900 mb-3">Sample Classes</h2>
           <div className="w-16 h-1 bg-primary-600 rounded-full mx-auto mb-5" />
           <p className="text-gray-500 text-sm text-center max-w-3xl mx-auto mb-10 leading-relaxed">
             Watch sample recordings from our live classes to see how our teachers engage with students.
           </p>
-          <div className="grid sm:grid-cols-2 gap-6">
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
             <VideoCard
               src="/assets/videos/Quran_Class.mp4"
               title="Quran Class"
               description="A sample session of our Quran recitation and Tajweed class with a certified instructor."
+              poster="/assets/videos/Quran.png"
+            />
+            <VideoCard
+              src="/assets/videos/Urdu_Class.mp4"
+              title="Urdu Class"
+              description="A sample session of our Urdu language class helping students read and write fluently."
+              poster="/assets/videos/urdu.png"
             />
             <VideoCard
               src="/assets/videos/Math_class.mp4"
               title="Mathematics Class"
               description="A sample session of our interactive Mathematics class for students."
+              poster="/assets/videos/math.png"
             />
           </div>
         </div>

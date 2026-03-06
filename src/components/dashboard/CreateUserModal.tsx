@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { X, Mail, Lock, User } from "lucide-react";
+import { X, Mail, Lock, User, BookOpen, FileText, Eye } from "lucide-react";
 import { useToast } from "./Toast";
 import { passwordRules } from "@/lib/validation";
 import CountryPhoneFields from "@/components/CountryPhoneFields";
@@ -28,9 +28,13 @@ const emptyForm = {
   full_name: "",
   email: "",
   password: "",
-  role: "student" as "student" | "teacher" | "supervisor",
+  role: "student" as "student" | "teacher" | "supervisor" | "manager",
   phone: "",
   countryCode: "",
+  teacher_type: "" as "" | "quran" | "subject",
+  subjects: "",
+  bio: "",
+  is_public: false,
 };
 
 export default function CreateUserModal({
@@ -61,6 +65,8 @@ export default function CreateUserModal({
 
   if (!isOpen) return null;
 
+  const isTeacherLike = ["teacher", "supervisor"].includes(form.role);
+
   const rules = passwordRules.map((r) => ({
     label: r.label,
     met: r.test(form.password),
@@ -90,6 +96,13 @@ export default function CreateUserModal({
       body.invite = true;
     } else {
       body.password = form.password;
+    }
+
+    if (isTeacherLike) {
+      body.teacher_type = form.teacher_type || null;
+      body.subjects = form.teacher_type === "subject" ? form.subjects || null : null;
+      body.bio = form.bio || null;
+      body.is_public = form.is_public;
     }
 
     const res = await fetch("/api/users", {
@@ -251,7 +264,7 @@ export default function CreateUserModal({
               onChange={(e) =>
                 setForm({
                   ...form,
-                  role: e.target.value as "student" | "teacher" | "supervisor",
+                  role: e.target.value as "student" | "teacher" | "supervisor" | "manager",
                 })
               }
               className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 outline-none transition text-sm"
@@ -259,7 +272,10 @@ export default function CreateUserModal({
               <option value="student">Student</option>
               <option value="teacher">Teacher</option>
               {callerRole === "manager" && (
-                <option value="supervisor">Supervisor</option>
+                <>
+                  <option value="supervisor">Supervisor</option>
+                  <option value="manager">Manager</option>
+                </>
               )}
             </select>
           </div>
@@ -278,6 +294,100 @@ export default function CreateUserModal({
               />
             </div>
           </div>
+
+          {/* Teacher/Supervisor-specific fields */}
+          {isTeacherLike && (
+            <>
+              <div className="pt-2 border-t border-gray-100">
+                <h3 className="text-sm font-bold text-gray-900 mb-3">
+                  {form.role === "supervisor" ? "Supervisor Profile" : "Teacher Profile"}
+                </h3>
+              </div>
+
+              {/* Teacher Type */}
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1.5">
+                  {form.role === "supervisor" ? "Supervisor Type" : "Teacher Type"}
+                </label>
+                <div className="relative">
+                  <BookOpen
+                    size={18}
+                    className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"
+                  />
+                  <select
+                    value={form.teacher_type}
+                    onChange={(e) =>
+                      setForm({
+                        ...form,
+                        teacher_type: e.target.value as "" | "quran" | "subject",
+                      })
+                    }
+                    className={inputClass}
+                  >
+                    <option value="">Not set</option>
+                    <option value="quran">Quran Teacher</option>
+                    <option value="subject">Subject Teacher</option>
+                  </select>
+                </div>
+              </div>
+
+              {/* Subjects (only for subject teachers) */}
+              {form.teacher_type === "subject" && (
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1.5">
+                    Subjects
+                  </label>
+                  <div className="relative">
+                    <BookOpen
+                      size={18}
+                      className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"
+                    />
+                    <input
+                      type="text"
+                      value={form.subjects}
+                      onChange={(e) => setForm({ ...form, subjects: e.target.value })}
+                      placeholder="e.g. Maths, English, Urdu"
+                      className={inputClass}
+                    />
+                  </div>
+                </div>
+              )}
+
+              {/* Bio */}
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1.5">
+                  Bio
+                </label>
+                <div className="relative">
+                  <FileText
+                    size={18}
+                    className="absolute left-3 top-4 text-gray-400"
+                  />
+                  <textarea
+                    value={form.bio}
+                    onChange={(e) => setForm({ ...form, bio: e.target.value })}
+                    rows={3}
+                    placeholder="Short bio about this teacher..."
+                    className="w-full pl-10 pr-4 py-3 rounded-xl border border-gray-200 focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 outline-none transition text-sm resize-none"
+                  />
+                </div>
+              </div>
+
+              {/* Is Public */}
+              <label className="flex items-center gap-3 p-3 rounded-xl bg-gray-50 border border-gray-100 cursor-pointer hover:bg-gray-100 transition">
+                <input
+                  type="checkbox"
+                  checked={form.is_public}
+                  onChange={(e) => setForm({ ...form, is_public: e.target.checked })}
+                  className="w-4 h-4 rounded border-gray-300 text-primary-600 focus:ring-primary-500"
+                />
+                <Eye size={18} className="text-gray-400" />
+                <span className="text-sm text-gray-700">
+                  Show on public Teachers page
+                </span>
+              </label>
+            </>
+          )}
 
           <button
             type="submit"

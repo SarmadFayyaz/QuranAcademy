@@ -78,7 +78,7 @@ export default function Navbar() {
                 height={96}
                 className="w-[100px] h-[82px] object-contain"
               />
-              <span className="text-[9px] text-primary-700 font-semibold -mt-1 tracking-wide">
+              <span className="text-[11px] text-primary-700 font-bold mt-0 tracking-wider">
                 Run by Dr. Farhat Hashmi Students
               </span>
             </div>

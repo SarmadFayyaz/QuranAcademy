@@ -83,12 +83,24 @@ export default function RegisterPage() {
         source: "register",
       });
 
-      // 2. Send WhatsApp notification to admin
+      // 2. Send email notification
       await fetch("/api/whatsapp", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ ...form, country: countryName, source: "register" }),
       });
+
+      // 3. Open WhatsApp with form content
+      const lines = [
+        `*New Free Trial Request*`,
+        `*Name:* ${form.name}`,
+        `*Email:* ${form.email}`,
+        form.phone ? `*Phone:* ${form.phone}` : "",
+        countryName ? `*Country:* ${countryName}` : "",
+        form.message ? `*Message:* ${form.message}` : "",
+      ].filter(Boolean);
+      const waUrl = `https://wa.me/${WHATSAPP_PK.number}?text=${encodeURIComponent(lines.join("\n"))}`;
+      window.open(waUrl, "_blank");
 
       setLoading(false);
       setSubmitted(true);
@@ -112,7 +124,7 @@ export default function RegisterPage() {
               alt="Hasnain Online Quran Academy"
               width={80}
               height={80}
-              className="rounded-full shadow-lg shrink-0"
+              className="shrink-0"
             />
             <div>
               <p className="text-2xl font-bold text-gray-900 font-heading mb-1">

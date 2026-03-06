@@ -5,6 +5,7 @@ import { User, Mail, MessageCircle, CheckCircle } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
 import CountryPhoneFields from "@/components/CountryPhoneFields";
 import { findCountryByCode } from "@/lib/countries";
+import { WHATSAPP_PK } from "@/lib/constants";
 
 export default function HeroContactForm() {
   const [submitted, setSubmitted] = useState(false);
@@ -46,6 +47,18 @@ export default function HeroContactForm() {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ ...form, country: countryName, source: "hero" }),
     });
+
+    // Open WhatsApp with form content
+    const lines = [
+      `*New Free Trial Request*`,
+      `*Name:* ${form.name}`,
+      `*Email:* ${form.email}`,
+      form.phone ? `*Phone:* ${form.phone}` : "",
+      countryName ? `*Country:* ${countryName}` : "",
+      form.message ? `*Message:* ${form.message}` : "",
+    ].filter(Boolean);
+    const waUrl = `https://wa.me/${WHATSAPP_PK.number}?text=${encodeURIComponent(lines.join("\n"))}`;
+    window.open(waUrl, "_blank");
 
     setSubmitted(true);
   };

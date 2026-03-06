@@ -77,7 +77,7 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "Forbidden" }, { status: 403 });
   }
 
-  const { email, password, full_name, role, phone, country, invite } =
+  const { email, password, full_name, role, phone, country, invite, teacher_type, subjects, bio, is_public } =
     await request.json();
 
   if (!email || !full_name || !role) {
@@ -87,18 +87,18 @@ export async function POST(request: Request) {
     );
   }
 
-  const validRoles = ["student", "teacher", "supervisor"];
+  const validRoles = ["student", "teacher", "supervisor", "manager"];
   if (!validRoles.includes(role)) {
     return NextResponse.json(
-      { error: "role must be student, teacher, or supervisor" },
+      { error: "role must be student, teacher, supervisor, or manager" },
       { status: 400 }
     );
   }
 
-  // Only managers can create supervisors
-  if (role === "supervisor" && profile.role !== "manager") {
+  // Only managers can create supervisors or managers
+  if (["supervisor", "manager"].includes(role) && profile.role !== "manager") {
     return NextResponse.json(
-      { error: "Only managers can create supervisors" },
+      { error: "Only managers can create supervisors or managers" },
       { status: 403 }
     );
   }
@@ -125,14 +125,21 @@ export async function POST(request: Request) {
     }
 
     // Create profile row directly (no trigger dependency)
-    const { error: profileError } = await admin.from("profiles").upsert({
+    const inviteProfile: Record<string, unknown> = {
       id: newInviteUser.user.id,
       email,
       full_name,
       role,
       phone: phone || null,
       country: country || null,
-    });
+    };
+    if (["teacher", "supervisor"].includes(role)) {
+      inviteProfile.teacher_type = teacher_type || null;
+      inviteProfile.subjects = teacher_type === "subject" ? subjects || null : null;
+      inviteProfile.bio = bio || null;
+      inviteProfile.is_public = is_public || false;
+    }
+    const { error: profileError } = await admin.from("profiles").upsert(inviteProfile);
 
     if (profileError) {
       // Auth user was created but profile failed — clean up
@@ -178,14 +185,21 @@ export async function POST(request: Request) {
   }
 
   // Create profile row directly (no trigger dependency)
-  const { error: profileError } = await admin.from("profiles").upsert({
+  const newProfile: Record<string, unknown> = {
     id: newUser.user.id,
     email,
     full_name,
     role,
     phone: phone || null,
     country: country || null,
-  });
+  };
+  if (["teacher", "supervisor"].includes(role)) {
+    newProfile.teacher_type = teacher_type || null;
+    newProfile.subjects = teacher_type === "subject" ? subjects || null : null;
+    newProfile.bio = bio || null;
+    newProfile.is_public = is_public || false;
+  }
+  const { error: profileError } = await admin.from("profiles").upsert(newProfile);
 
   if (profileError) {
     await admin.auth.admin.deleteUser(newUser.user.id);
