@@ -65,7 +65,7 @@ export default function CreateUserModal({
 
   if (!isOpen) return null;
 
-  const isTeacherLike = ["teacher", "supervisor"].includes(form.role);
+  const isTeacherLike = ["teacher", "supervisor", "manager"].includes(form.role);
 
   const rules = passwordRules.map((r) => ({
     label: r.label,
@@ -300,14 +300,14 @@ export default function CreateUserModal({
             <>
               <div className="pt-2 border-t border-gray-100">
                 <h3 className="text-sm font-bold text-gray-900 mb-3">
-                  {form.role === "supervisor" ? "Supervisor Profile" : "Teacher Profile"}
+                  {form.role === "manager" ? "Manager Profile" : form.role === "supervisor" ? "Supervisor Profile" : "Teacher Profile"}
                 </h3>
               </div>
 
               {/* Teacher Type */}
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1.5">
-                  {form.role === "supervisor" ? "Supervisor Type" : "Teacher Type"}
+                  {form.role === "manager" ? "Manager Type" : form.role === "supervisor" ? "Supervisor Type" : "Teacher Type"}
                 </label>
                 <div className="relative">
                   <BookOpen

@@ -82,7 +82,7 @@ const contactMethods = [
     desc: "Chat with us instantly for quick support.",
     value: WHATSAPP_PK.display,
     href: WHATSAPP_PK.href,
-    color: "bg-green-100 text-green-600",
+    color: "bg-green-600 text-white",
   },
   {
     icon: MessageCircle,
@@ -90,7 +90,7 @@ const contactMethods = [
     desc: "Chat with us on our UK number.",
     value: WHATSAPP_UK.display,
     href: WHATSAPP_UK.href,
-    color: "bg-green-100 text-green-600",
+    color: "bg-green-600 text-white",
   },
   {
     icon: Mail,
@@ -98,7 +98,7 @@ const contactMethods = [
     desc: "Send us a detailed message.",
     value: CONTACT_EMAIL,
     href: `mailto:${CONTACT_EMAIL}`,
-    color: "bg-gold-100 text-gold-600",
+    color: "bg-gold-600 text-white",
   },
 ];
 
@@ -110,12 +110,12 @@ const bonusFeatures = [
 ];
 
 const whyUs = [
-  { icon: Shield, title: "Safe & Secure", desc: "Safe online learning environment with vetted, certified teachers." },
-  { icon: Clock, title: "24/7 Availability", desc: "Classes available around the clock to fit any timezone worldwide." },
-  { icon: CreditCard, title: "Affordable Pricing", desc: "Quality education at competitive prices with flexible payment options." },
-  { icon: Monitor, title: "One-on-One Classes", desc: "Personalized attention with dedicated one-on-one live sessions." },
-  { icon: Headphones, title: "Dedicated Support", desc: "Our support team is always available to help with any questions." },
-  { icon: Globe, title: "Global Reach", desc: "Serving students in 100+ countries with teachers from around the world." },
+  { icon: Shield, title: "Safe & Secure", desc: "Safe online learning environment with vetted, certified teachers.", iconBg: "bg-teal-500" },
+  { icon: Clock, title: "24/7 Availability", desc: "Classes available around the clock to fit any timezone worldwide.", iconBg: "bg-blue-500" },
+  { icon: CreditCard, title: "Affordable Pricing", desc: "Quality education at competitive prices with flexible payment options.", iconBg: "bg-amber-500" },
+  { icon: Monitor, title: "One-on-One Classes", desc: "Personalized attention with dedicated one-on-one live sessions.", iconBg: "bg-rose-500" },
+  { icon: Headphones, title: "Dedicated Support", desc: "Our support team is always available to help with any questions.", iconBg: "bg-purple-500" },
+  { icon: Globe, title: "Global Reach", desc: "Serving students in 100+ countries with teachers from around the world.", iconBg: "bg-orange-500" },
 ];
 
 const faqSchema = {
@@ -172,8 +172,8 @@ export default function HelpSupportPage() {
             <div>
               <div className="fade-up p-7 rounded-2xl bg-gradient-to-br from-primary-50 to-white border border-primary-100 shadow-sm">
                 <div className="flex items-center gap-3 mb-4">
-                  <div className="w-12 h-12 rounded-xl bg-primary-100 flex items-center justify-center">
-                    <Star className="text-primary-600" size={24} />
+                  <div className="w-12 h-12 rounded-xl bg-amber-500 flex items-center justify-center">
+                    <Star className="text-white" size={24} />
                   </div>
                   <h2 className="!text-xl font-bold text-gray-900 font-heading">Bonus Islamic Learning in Every Session</h2>
                 </div>
@@ -226,8 +226,8 @@ export default function HelpSupportPage() {
               <div className="grid sm:grid-cols-2 gap-4">
                 {whyUs.map((item, i) => (
                   <div key={i} className="fade-up flex items-start gap-4 p-5 rounded-2xl bg-gray-50 border border-gray-100 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 ease-out">
-                    <div className="w-10 h-10 rounded-lg bg-primary-50 flex items-center justify-center shrink-0">
-                      <item.icon className="text-primary-600" size={20} />
+                    <div className={`w-10 h-10 rounded-lg ${item.iconBg} flex items-center justify-center shrink-0`}>
+                      <item.icon className="text-white" size={20} />
                     </div>
                     <div>
                       <p className="font-bold text-gray-900 mb-1 text-sm">{item.title}</p>

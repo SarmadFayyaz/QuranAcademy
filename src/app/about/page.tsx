@@ -17,11 +17,11 @@ export const metadata: Metadata = {
 };
 
 const whyChoose = [
-  { icon: GraduationCap, title: "Expert Tutors", desc: "Highly qualified and experienced Ijazah-certified instructors who bring years of teaching expertise to every lesson." },
-  { icon: Clock, title: "Flexible Learning", desc: "Online classes that fit your schedule, allowing you to learn at your own pace from anywhere in the world." },
-  { icon: BookOpen, title: "Comprehensive Curriculum", desc: "A wide range of courses covering various aspects of Quranic and Islamic studies for all levels." },
-  { icon: Monitor, title: "Interactive Learning", desc: "Engaging one-on-one live sessions with multimedia resources for the best learning outcomes." },
-  { icon: Users, title: "Community Support", desc: "Join a supportive community of learners and educators dedicated to your spiritual growth." },
+  { icon: GraduationCap, title: "Expert Tutors", desc: "Highly qualified and experienced Ijazah-certified instructors who bring years of teaching expertise to every lesson.", iconBg: "bg-teal-500" },
+  { icon: Clock, title: "Flexible Learning", desc: "Online classes that fit your schedule, allowing you to learn at your own pace from anywhere in the world.", iconBg: "bg-blue-500" },
+  { icon: BookOpen, title: "Comprehensive Curriculum", desc: "A wide range of courses covering various aspects of Quranic and Islamic studies for all levels.", iconBg: "bg-amber-500" },
+  { icon: Monitor, title: "Interactive Learning", desc: "Engaging one-on-one live sessions with multimedia resources for the best learning outcomes.", iconBg: "bg-rose-500" },
+  { icon: Users, title: "Community Support", desc: "Join a supportive community of learners and educators dedicated to your spiritual growth.", iconBg: "bg-purple-500" },
 ];
 
 const regularCourses = [
@@ -111,8 +111,8 @@ export default function AboutPage() {
               <p className="text-gray-500 mb-8">Guided by faith, driven by purpose.</p>
               <div className="grid sm:grid-cols-2 gap-6">
                 <div className="fade-up p-7 rounded-2xl bg-gradient-to-br from-primary-50 to-white border border-primary-100 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 ease-out">
-                  <div className="w-12 h-12 rounded-xl bg-primary-100 flex items-center justify-center mb-4">
-                    <Target className="text-primary-600" size={24} />
+                  <div className="w-12 h-12 rounded-xl bg-teal-500 flex items-center justify-center mb-4">
+                    <Target className="text-white" size={24} />
                   </div>
                   <p className="text-lg font-bold text-gray-900 mb-2">Our Mission</p>
                   <p className="text-gray-600 text-sm leading-relaxed">
@@ -120,8 +120,8 @@ export default function AboutPage() {
                   </p>
                 </div>
                 <div className="fade-up p-7 rounded-2xl bg-gradient-to-br from-gold-50 to-white border border-gold-100 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 ease-out">
-                  <div className="w-12 h-12 rounded-xl bg-gold-100 flex items-center justify-center mb-4">
-                    <Eye className="text-gold-600" size={24} />
+                  <div className="w-12 h-12 rounded-xl bg-amber-500 flex items-center justify-center mb-4">
+                    <Eye className="text-white" size={24} />
                   </div>
                   <p className="text-lg font-bold text-gray-900 mb-2">Our Vision</p>
                   <p className="text-gray-600 text-sm leading-relaxed">
@@ -138,8 +138,8 @@ export default function AboutPage() {
               <div className="space-y-4">
                 {whyChoose.map((item, i) => (
                   <div key={i} className="fade-up flex gap-5 p-5 rounded-2xl bg-gray-50 border border-gray-100 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 ease-out">
-                    <div className="w-12 h-12 rounded-xl bg-primary-50 flex items-center justify-center shrink-0">
-                      <item.icon className="text-primary-600" size={24} />
+                    <div className={`w-12 h-12 rounded-xl ${item.iconBg} flex items-center justify-center shrink-0`}>
+                      <item.icon className="text-white" size={24} />
                     </div>
                     <div>
                       <p className="font-bold text-gray-900 mb-1">{item.title}</p>
@@ -191,8 +191,8 @@ export default function AboutPage() {
               <h2 className="font-heading text-gray-900 mb-2">Our <span className="text-primary-600">Approach</span></h2>
               <p className="text-gray-500 mb-8">How we deliver the best Islamic education online.</p>
               <div className="fade-up bg-gray-50 p-7 rounded-2xl border border-gray-100">
-                <div className="w-14 h-14 rounded-full bg-primary-50 flex items-center justify-center mb-5">
-                  <Heart className="text-primary-600" size={26} />
+                <div className="w-14 h-14 rounded-xl bg-rose-500 flex items-center justify-center mb-5">
+                  <Heart className="text-white" size={26} />
                 </div>
                 <p className="text-gray-600 leading-relaxed mb-4">
                   We believe in a holistic approach to Islamic education. Our courses are designed to provide a comprehensive understanding of Islamic teachings, blending traditional knowledge with modern educational methods.

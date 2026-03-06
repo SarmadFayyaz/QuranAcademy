@@ -64,47 +64,47 @@ export default function HeroContactForm() {
   };
 
   return (
-    <div className="bg-white rounded-2xl shadow-xl border border-gray-100 p-8">
-      <p className="text-2xl font-bold text-gray-900 text-center mb-8 font-heading">Free Trial Class</p>
+    <div className="bg-white rounded-2xl shadow-xl border border-gray-100 p-6">
+      <p className="text-xl font-bold text-gray-900 text-center mb-6 font-heading">Free Trial Class</p>
       {submitted ? (
         <div className="text-center py-8">
-          <div className="w-16 h-16 rounded-full bg-primary-100 text-primary-600 flex items-center justify-center mx-auto mb-4">
+          <div className="w-16 h-16 rounded-full bg-primary-600 text-white flex items-center justify-center mx-auto mb-4">
             <CheckCircle size={32} />
           </div>
           <p className="text-xl font-bold text-gray-900 mb-2">Thank You!</p>
           <p className="text-gray-500">We&apos;ll contact you within 24 hours to schedule your free trial.</p>
         </div>
       ) : (
-        <form onSubmit={handleSubmit} className="space-y-4">
+        <form onSubmit={handleSubmit} className="space-y-3">
           {formError && (
-            <div className="p-3 rounded-xl bg-red-50 border border-red-200 text-red-600 text-sm">
+            <div className="p-2.5 rounded-xl bg-red-50 border border-red-200 text-red-600 text-sm">
               {formError}
             </div>
           )}
-          <div className="grid sm:grid-cols-2 gap-4">
+          <div className="grid sm:grid-cols-2 gap-3">
             <div className="relative">
-              <User size={18} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-primary-400" />
-              <input type="text" name="name" value={form.name} onChange={handleChange} required placeholder="Enter your name" className="w-full pl-11 pr-4 py-3.5 rounded-2xl border border-gray-200 focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 outline-none transition text-sm" />
+              <User size={16} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-primary-400" />
+              <input type="text" name="name" value={form.name} onChange={handleChange} required placeholder="Enter your name" className="w-full pl-10 pr-4 py-3 rounded-xl border border-gray-200 focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 outline-none transition text-sm" />
             </div>
             <div className="relative">
-              <Mail size={18} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-primary-400" />
-              <input type="email" name="email" value={form.email} onChange={handleChange} required placeholder="Enter your email" className="w-full pl-11 pr-4 py-3.5 rounded-2xl border border-gray-200 focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 outline-none transition text-sm" />
+              <Mail size={16} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-primary-400" />
+              <input type="email" name="email" value={form.email} onChange={handleChange} required placeholder="Enter your email" className="w-full pl-10 pr-4 py-3 rounded-xl border border-gray-200 focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 outline-none transition text-sm" />
             </div>
           </div>
-          <div className="grid sm:grid-cols-2 gap-4">
+          <div className="grid sm:grid-cols-2 gap-3">
             <CountryPhoneFields
               country={form.countryCode}
               phone={form.phone}
               onChange={(code, ph) => setForm({ ...form, countryCode: code, phone: ph })}
-              inputClass="w-full pl-11 pr-4 py-3.5 rounded-2xl border border-gray-200 focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 outline-none transition text-sm"
+              inputClass="w-full pl-10 pr-4 py-3 rounded-xl border border-gray-200 focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 outline-none transition text-sm"
               iconClass="absolute left-3.5 top-1/2 -translate-y-1/2 text-primary-400"
             />
           </div>
           <div className="relative">
-            <MessageCircle size={18} className="absolute left-3.5 top-4 text-primary-400" />
-            <textarea name="message" value={form.message} onChange={handleChange} rows={3} placeholder="Enter your message" className="w-full pl-11 pr-4 py-3.5 rounded-2xl border border-gray-200 focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 outline-none transition text-sm resize-none" />
+            <MessageCircle size={16} className="absolute left-3.5 top-3.5 text-primary-400" />
+            <textarea name="message" value={form.message} onChange={handleChange} rows={2} placeholder="Enter your message" className="w-full pl-10 pr-4 py-3 rounded-xl border border-gray-200 focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 outline-none transition text-sm resize-none" />
           </div>
-          <button type="submit" className="w-full py-4 bg-primary-600 hover:bg-primary-700 hover:scale-[1.01] active:scale-[0.99] text-white font-bold rounded-2xl transition-all duration-200 ease-out shadow-md hover:shadow-lg text-base">
+          <button type="submit" className="w-full py-3.5 bg-primary-600 hover:bg-primary-700 hover:scale-[1.01] active:scale-[0.99] text-white font-bold rounded-2xl transition-all duration-200 ease-out shadow-md hover:shadow-lg text-sm">
             Send Message
           </button>
         </form>

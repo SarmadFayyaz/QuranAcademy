@@ -133,7 +133,7 @@ export async function POST(request: Request) {
       phone: phone || null,
       country: country || null,
     };
-    if (["teacher", "supervisor"].includes(role)) {
+    if (["teacher", "supervisor", "manager"].includes(role)) {
       inviteProfile.teacher_type = teacher_type || null;
       inviteProfile.subjects = teacher_type === "subject" ? subjects || null : null;
       inviteProfile.bio = bio || null;
@@ -193,7 +193,7 @@ export async function POST(request: Request) {
     phone: phone || null,
     country: country || null,
   };
-  if (["teacher", "supervisor"].includes(role)) {
+  if (["teacher", "supervisor", "manager"].includes(role)) {
     newProfile.teacher_type = teacher_type || null;
     newProfile.subjects = teacher_type === "subject" ? subjects || null : null;
     newProfile.bio = bio || null;

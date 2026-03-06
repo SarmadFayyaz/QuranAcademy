@@ -17,10 +17,10 @@ export const metadata: Metadata = {
 };
 
 const qualifications = [
-  { icon: Award, title: "Ijazah Certified", desc: "All teachers hold authentic Ijazah in Quran recitation with connected chains." },
-  { icon: BookOpen, title: "University Educated", desc: "Graduates from Al-Azhar, Islamic University of Madinah, and other prestigious institutions." },
-  { icon: Globe, title: "Multilingual", desc: "Fluent in English, Arabic, Urdu, and other languages to serve global students." },
-  { icon: Star, title: "Experienced", desc: "Minimum 5 years of online and in-person Quran teaching experience." },
+  { icon: Award, title: "Ijazah Certified", desc: "All teachers hold authentic Ijazah in Quran recitation with connected chains.", iconBg: "bg-teal-500" },
+  { icon: BookOpen, title: "University Educated", desc: "Graduates from Al-Azhar, Islamic University of Madinah, and other prestigious institutions.", iconBg: "bg-blue-500" },
+  { icon: Globe, title: "Multilingual", desc: "Fluent in English, Arabic, Urdu, and other languages to serve global students.", iconBg: "bg-amber-500" },
+  { icon: Star, title: "Experienced", desc: "Minimum 5 years of online and in-person Quran teaching experience.", iconBg: "bg-rose-500" },
 ];
 
 const teacherCategories = [
@@ -29,18 +29,21 @@ const teacherCategories = [
     desc: "Our general teaching team comprises highly qualified scholars with Ijazah certifications, bringing years of experience in Quran education to students of all ages and levels.",
     features: ["Ijazah Certified", "All Age Groups", "Multiple Languages", "Tajweed Experts"],
     icon: BookOpen,
+    iconBg: "bg-teal-500",
   },
   {
     title: "Male Quran Teachers",
     desc: "Experienced male instructors who provide professional and structured Quran lessons, ideal for male students and families who prefer male tutors.",
     features: ["Structured Curriculum", "Professional Approach", "Hafiz & Scholars", "Flexible Hours"],
     icon: Users,
+    iconBg: "bg-blue-500",
   },
   {
     title: "Female Quran Teachers",
     desc: "Dedicated female scholars offering personalized guidance in a comfortable learning environment, perfect for sisters and young girls.",
     features: ["Comfortable Environment", "Patient & Caring", "Experienced Mothers", "Cultural Sensitivity"],
     icon: Users,
+    iconBg: "bg-amber-500",
   },
 ];
 
@@ -108,8 +111,8 @@ export default async function TeachersPage() {
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
             {qualifications.map((q, i) => (
               <div key={i} className="fade-up text-center p-6 rounded-2xl border border-gray-100 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 ease-out">
-                <div className="w-14 h-14 rounded-xl bg-primary-50 flex items-center justify-center mx-auto mb-4">
-                  <q.icon className="text-primary-600" size={26} />
+                <div className={`w-14 h-14 rounded-xl ${q.iconBg} flex items-center justify-center mx-auto mb-4`}>
+                  <q.icon className="text-white" size={26} />
                 </div>
                 <p className="font-bold text-gray-900 mb-2">{q.title}</p>
                 <p className="text-gray-500 text-sm leading-relaxed">{q.desc}</p>
@@ -130,8 +133,8 @@ export default async function TeachersPage() {
             {teacherCategories.map((cat, i) => (
               <div key={i} className="fade-up bg-white rounded-2xl p-8 border border-gray-100 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 ease-out">
                 <div className="flex items-center gap-4 mb-5">
-                  <div className="w-14 h-14 rounded-xl bg-primary-50 flex items-center justify-center">
-                    <cat.icon className="text-primary-600" size={26} />
+                  <div className={`w-14 h-14 rounded-xl ${cat.iconBg} flex items-center justify-center`}>
+                    <cat.icon className="text-white" size={26} />
                   </div>
                   <div>
                     <p className="font-bold text-gray-900 text-lg">{cat.title}</p>

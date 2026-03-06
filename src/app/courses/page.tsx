@@ -24,26 +24,31 @@ const whyChoose = [
     icon: GraduationCap,
     title: "Expert Tutors",
     desc: "Ijazah-certified scholars with years of teaching experience.",
+    iconBg: "bg-teal-500",
   },
   {
     icon: Clock,
     title: "Flexible Learning",
     desc: "Schedule classes at your convenience from anywhere in the world.",
+    iconBg: "bg-blue-500",
   },
   {
     icon: BookOpen,
     title: "Comprehensive Curriculum",
     desc: "Structured courses covering Quran, Islamic studies, and academics.",
+    iconBg: "bg-amber-500",
   },
   {
     icon: Monitor,
     title: "Interactive Sessions",
     desc: "One-on-one live classes with multimedia tools and progress tracking.",
+    iconBg: "bg-rose-500",
   },
   {
     icon: Users,
     title: "Community Support",
     desc: "Join thousands of students in a supportive learning environment.",
+    iconBg: "bg-purple-500",
   },
 ];
 
@@ -101,7 +106,7 @@ export default function CoursesPage() {
                 key={i}
                 className="fade-up flex flex-col items-center text-center p-6 rounded-2xl bg-gray-50/80 border border-gray-100 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 ease-out"
               >
-                <div className="w-12 h-12 rounded-xl bg-primary-100 text-primary-600 flex items-center justify-center mb-4">
+                <div className={`w-12 h-12 rounded-xl ${item.iconBg} text-white flex items-center justify-center mb-4`}>
                   <item.icon size={22} />
                 </div>
                 <p className="font-bold text-gray-900 text-sm mb-1">{item.title}</p>

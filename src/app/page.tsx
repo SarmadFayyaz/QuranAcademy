@@ -102,9 +102,9 @@ const whyChooseColors = [
 ];
 
 const teacherCategories = [
-  { title: "Online Quran Teachers", desc: "Our general teaching team comprises highly qualified scholars with Ijazah certifications and years of experience." },
-  { title: "Male Quran Teachers", desc: "Experienced male instructors providing professional and structured Quran lessons for all ages." },
-  { title: "Female Quran Teachers", desc: "Dedicated female scholars offering personalized guidance in a comfortable learning environment." },
+  { title: "Online Quran Teachers", icon: BookOpen, iconBg: "bg-teal-500", titleColor: "text-teal-600", lineColor: "bg-teal-500", linkColor: "text-teal-600 hover:text-teal-700", borderColor: "border-b-teal-500", desc: "Experienced scholars dedicated to Quranic education with expertise in Tajweed and memorization." },
+  { title: "Male Quran Teachers", icon: User, iconBg: "bg-blue-500", titleColor: "text-blue-600", lineColor: "bg-blue-500", linkColor: "text-blue-600 hover:text-blue-700", borderColor: "border-b-blue-500", desc: "Qualified male instructors providing comprehensive learning for students of all ages and levels." },
+  { title: "Female Quran Teachers", icon: Users, iconBg: "bg-amber-500", titleColor: "text-amber-600", lineColor: "bg-amber-500", linkColor: "text-amber-600 hover:text-amber-700", borderColor: "border-b-amber-500", desc: "Dedicated female teachers offering personalized guidance in a comfortable learning environment." },
 ];
 
 const fees = [
@@ -127,22 +127,22 @@ const testimonials = [
 const steps = [
   {
     step: 1, title: "Register & Get Started", icon: UserPlus,
-    iconBg: "bg-teal-100 text-teal-600", badgeBg: "bg-green-500", titleColor: "text-teal-600", lineColor: "bg-teal-500",
+    iconBg: "bg-teal-500 text-white", badgeBg: "bg-green-500", titleColor: "text-teal-600", lineColor: "bg-teal-500",
     desc: "Create your account and join thousands of students beginning their sacred Quran learning journey with our expert tutors.",
   },
   {
     step: 2, title: "Choose Your Course", icon: BookOpen,
-    iconBg: "bg-blue-100 text-blue-600", badgeBg: "bg-blue-500", titleColor: "text-blue-600", lineColor: "bg-blue-500",
+    iconBg: "bg-blue-500 text-white", badgeBg: "bg-blue-500", titleColor: "text-blue-600", lineColor: "bg-blue-500",
     desc: "Select from our comprehensive range of Quran courses tailored for beginners to advanced learners with flexible schedules.",
   },
   {
     step: 3, title: "Start Interactive Learning", icon: Play,
-    iconBg: "bg-amber-100 text-amber-600", badgeBg: "bg-amber-500", titleColor: "text-amber-600", lineColor: "bg-amber-500",
+    iconBg: "bg-amber-500 text-white", badgeBg: "bg-amber-500", titleColor: "text-amber-600", lineColor: "bg-amber-500",
     desc: "Begin your personalized Quran learning experience with one-on-one sessions, interactive tools, and progress tracking.",
   },
   {
     step: 4, title: "Achieve Certification", icon: Target,
-    iconBg: "bg-rose-100 text-rose-600", badgeBg: "bg-rose-500", titleColor: "text-rose-600", lineColor: "bg-rose-500",
+    iconBg: "bg-rose-500 text-white", badgeBg: "bg-rose-500", titleColor: "text-rose-600", lineColor: "bg-rose-500",
     desc: "Complete your course and receive an official certificate recognizing your Quran learning achievement and dedication.",
   },
 ];
@@ -188,17 +188,17 @@ export default function Home() {
         <div className="relative section-container px-4 sm:px-6">
           <div className="grid lg:grid-cols-2 gap-12 items-start">
             <div className="pt-4">
-              <h1 className="text-gray-900 font-heading mb-3">
-                Welcome to <span className="text-primary-600">Hasnain Online</span> Quran Academy
+              <h1 className="text-2xl md:text-3xl font-bold text-gray-900 font-heading mb-3">
+                Welcome to <span className="text-primary-600">Husnain Online Quran Academy</span>
               </h1>
-              <div className="w-16 h-1 bg-primary-600 rounded-full mb-6" />
-              <p className="text-lg md:text-xl font-medium text-gray-700 mb-5">
+              <div className="w-14 h-1 bg-primary-600 rounded-full mb-5" />
+              <p className="text-base md:text-lg font-medium text-gray-700 mb-4">
                 Your Gateway to Comprehensive Islamic Education
               </p>
-              <p className="text-gray-500 text-sm leading-relaxed mb-7 max-w-lg">
-                Hasnain Online Quran Academy offers high-quality Islamic education globally, making Quran and Islamic studies accessible, convenient, and effective through our online courses.
+              <p className="text-gray-500 text-sm leading-relaxed mb-6 max-w-lg">
+                Husnain Online Quran Academy offers high-quality Islamic education globally, making Quran and Islamic studies accessible, convenient, and effective through our online courses.
               </p>
-              <Link href="/register" className="btn-primary !px-8 !py-3.5">
+              <Link href="/register" className="btn-primary !px-7 !py-3 !rounded-full">
                 Get Free Trial
               </Link>
             </div>
@@ -375,22 +375,27 @@ export default function Home() {
       <div className="section-line" />
 
       {/* ── Teachers ── */}
-      <section className="section-padding bg-white">
+      <section className="section-padding bg-gray-50/80">
         <div className="section-container">
-          <h2 className="text-2xl md:text-3xl font-bold font-heading text-center text-gray-900 mb-3">Our Teachers</h2>
+          <h2 className="text-2xl md:text-3xl font-bold font-heading text-center text-gray-900 mb-3">Meet Our Teachers</h2>
           <div className="w-16 h-1 bg-primary-600 rounded-full mx-auto mb-5" />
-          <p className="text-gray-500 text-sm text-center max-w-3xl mx-auto mb-10 leading-relaxed">Choose the teaching style that suits you best.</p>
+          <p className="text-gray-500 text-sm text-center max-w-3xl mx-auto mb-10 leading-relaxed">
+            Our dedicated Quran teachers provide personalized education with extensive knowledge and experience, guiding students on their spiritual journey.
+          </p>
           <div className="grid md:grid-cols-3 gap-6">
             {teacherCategories.map((cat, i) => (
-              <div key={i} className="fade-up p-8 rounded-2xl border border-gray-100 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 ease-out bg-white text-center">
-                <div className="w-14 h-14 rounded-full bg-primary-100 text-primary-600 flex items-center justify-center mx-auto mb-3">
-                  <Users size={24} />
+              <div key={i} className={`fade-up rounded-2xl border border-gray-100 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 ease-out bg-white text-center overflow-hidden border-b-4 ${cat.borderColor}`}>
+                <div className="pt-8 px-6 pb-6">
+                  <div className={`w-14 h-14 rounded-xl ${cat.iconBg} text-white flex items-center justify-center mx-auto mb-5`}>
+                    <cat.icon size={24} />
+                  </div>
+                  <p className={`text-base font-bold ${cat.titleColor} mb-2`}>{cat.title}</p>
+                  <div className={`w-10 h-0.5 ${cat.lineColor} rounded-full mx-auto mb-3`} />
+                  <p className="text-gray-500 text-xs leading-relaxed mb-5">{cat.desc}</p>
+                  <Link href="/teachers" className={`${cat.linkColor} text-sm font-semibold inline-flex items-center gap-1 transition-colors duration-150`}>
+                    Learn More <ArrowRight size={14} />
+                  </Link>
                 </div>
-                <p className="text-base font-bold text-gray-900 mb-2">{cat.title}</p>
-                <p className="text-gray-500 text-xs leading-relaxed mb-4">{cat.desc}</p>
-                <Link href="/teachers" className="text-primary-600 hover:text-primary-700 text-sm font-semibold inline-flex items-center gap-1 transition-colors duration-150">
-                  Learn More <ArrowRight size={14} />
-                </Link>
               </div>
             ))}
           </div>
@@ -542,8 +547,8 @@ export default function Home() {
             />
             <VideoCard
               src="/assets/videos/Urdu_Class.mp4"
-              title="Urdu Class"
-              description="A sample session of our Urdu language class helping students read and write fluently."
+              title="Noorani Qaida Class"
+              description="A sample session of our Noorani Qaida class helping students learn the basics of Quran reading."
               poster="/assets/videos/urdu.png"
             />
             <VideoCard

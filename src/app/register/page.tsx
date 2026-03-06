@@ -13,12 +13,12 @@ import { findCountryByCode } from "@/lib/countries";
 import { WHATSAPP_PK, WHATSAPP_UK } from "@/lib/constants";
 
 const features = [
-  { icon: Users, text: "Qualified Male & Female Teachers" },
-  { icon: Clock, text: "24/7 Flexible Scheduling" },
-  { icon: BookOpen, text: "Special Classes for Kids & Adults" },
-  { icon: Award, text: "Free 3-Day Trial — No Payment Required" },
-  { icon: Star, text: "One-on-One Live Sessions" },
-  { icon: CheckCircle, text: "Personalized Learning Plan" },
+  { icon: Users, text: "Qualified Male & Female Teachers", iconBg: "bg-teal-500" },
+  { icon: Clock, text: "24/7 Flexible Scheduling", iconBg: "bg-blue-500" },
+  { icon: BookOpen, text: "Special Classes for Kids & Adults", iconBg: "bg-amber-500" },
+  { icon: Award, text: "Free 3-Day Trial — No Payment Required", iconBg: "bg-rose-500" },
+  { icon: Star, text: "One-on-One Live Sessions", iconBg: "bg-purple-500" },
+  { icon: CheckCircle, text: "Personalized Learning Plan", iconBg: "bg-orange-500" },
 ];
 
 const testimonials = [
@@ -156,7 +156,7 @@ export default function RegisterPage() {
 
               {submitted ? (
                 <div className="p-10 rounded-2xl bg-white shadow-xl border border-gray-100 text-center">
-                  <div className="w-20 h-20 rounded-full bg-primary-100 text-primary-600 flex items-center justify-center mx-auto mb-5">
+                  <div className="w-20 h-20 rounded-full bg-primary-600 text-white flex items-center justify-center mx-auto mb-5">
                     <CheckCircle size={40} />
                   </div>
                   <p className="text-2xl font-bold text-gray-900 mb-3 font-heading">
@@ -223,7 +223,7 @@ export default function RegisterPage() {
                 <div className="bg-white rounded-2xl shadow-md border border-gray-100 p-6 space-y-0">
                   {features.map((f, i) => (
                     <div key={i} className={`flex items-center gap-3 py-3.5 ${i < features.length - 1 ? "border-b border-gray-100" : ""}`}>
-                      <div className="w-10 h-10 rounded-xl bg-primary-50 text-primary-600 flex items-center justify-center shrink-0">
+                      <div className={`w-10 h-10 rounded-xl ${f.iconBg} text-white flex items-center justify-center shrink-0`}>
                         <f.icon size={20} />
                       </div>
                       <span className="text-gray-700 font-medium text-sm">{f.text}</span>
