@@ -4,10 +4,24 @@ import { useState, useRef, useEffect, useMemo } from "react";
 import { Phone, Globe, ChevronDown } from "lucide-react";
 import { countries, findCountryByCode, applyPhoneMask, getDialDigits } from "@/lib/countries";
 import type { Country } from "@/lib/countries";
+import {
+  AF, AL, DZ, AU, AT, BH, BD, BE, BR, CA, CN, DK, EG, FI, FR, DE, GR,
+  IN, ID, IQ, IE, IT, JP, JO, KE, KW, LB, LY, MY, MA, NL, NZ, NG, NO,
+  OM, PK, PS, PH, PL, PT, QA, RU, SA, SG, SO, ZA, KR, ES, LK, SD, SE,
+  CH, SY, TN, TR, AE, UG, GB, US, YE,
+} from "country-flag-icons/react/3x2";
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const flagComponents: Record<string, React.ComponentType<any>> = {
+  AF, AL, DZ, AU, AT, BH, BD, BE, BR, CA, CN, DK, EG, FI, FR, DE, GR,
+  IN, ID, IQ, IE, IT, JP, JO, KE, KW, LB, LY, MY, MA, NL, NZ, NG, NO,
+  OM, PK, PS, PH, PL, PT, QA, RU, SA, SG, SO, ZA, KR, ES, LK, SD, SE,
+  CH, SY, TN, TR, AE, UG, GB, US, YE,
+};
 
-/** Convert ISO 3166-1 alpha-2 code to flag emoji (e.g. "US" → 🇺🇸) */
-function countryFlag(code: string) {
-  return [...code.toUpperCase()].map((c) => String.fromCodePoint(0x1f1e6 + c.charCodeAt(0) - 65)).join("");
+function CountryFlag({ code, size = 20 }: { code: string; size?: number }) {
+  const Flag = flagComponents[code.toUpperCase()];
+  if (!Flag) return <span className="text-xs font-bold text-gray-400">{code}</span>;
+  return <Flag width={size} height={Math.round(size * 2 / 3)} className="inline-block rounded-sm" style={{ verticalAlign: "middle" }} />;
 }
 
 interface CountryPhoneFieldsProps {
@@ -106,7 +120,7 @@ function CountrySelect({
   return (
     <div className="relative" ref={ref}>
       {selected ? (
-        <span className={`${iconClass} text-base leading-none`}>{countryFlag(selected.code)}</span>
+        <span className={`${iconClass} text-base leading-none`}><CountryFlag code={selected.code} size={18} /></span>
       ) : (
         <Globe size={18} className={iconClass} />
       )}
@@ -151,7 +165,7 @@ function CountrySelect({
                     : "text-gray-700"
                 }`}
               >
-                <span>{countryFlag(c.code)} {c.name}</span>
+                <span className="flex items-center gap-2"><CountryFlag code={c.code} size={18} /> {c.name}</span>
                 <span className="text-gray-400 text-xs">{c.dial}</span>
               </button>
             ))

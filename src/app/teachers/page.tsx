@@ -3,6 +3,8 @@ import { Award, BookOpen, Star, Users, Globe, CheckCircle, ArrowRight } from "lu
 import Link from "next/link";
 import { createAdminClient } from "@/lib/supabase/admin";
 
+export const dynamic = "force-dynamic";
+
 export const metadata: Metadata = {
   title: "Our Teachers",
   description:
@@ -74,7 +76,7 @@ export default async function TeachersPage() {
   };
 
   const allTeachers = (teachers || []) as PublicTeacher[];
-  const quranTeachers = allTeachers.filter((t) => t.teacher_type === "quran").sort(sortByRole);
+  const quranTeachers = allTeachers.filter((t) => t.teacher_type === "quran" || !t.teacher_type).sort(sortByRole);
   const subjectTeachers = allTeachers.filter((t) => t.teacher_type === "subject").sort(sortByRole);
 
   return (
